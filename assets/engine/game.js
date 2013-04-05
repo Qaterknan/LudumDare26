@@ -2,6 +2,8 @@ function Game(){
 	this.objects = {};
 	this.canvas = {};
 	this.ctx = {};
+	// Přidávání game objektů
+	this.gui = new GUI();
 };
 Game.prototype.init = function (canv){
 	this.canvas = canv;
