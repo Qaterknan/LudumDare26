@@ -126,7 +126,7 @@ Eventhandler.prototype.mousehandler = function(e) {
 		}
 	}
 	else{
-		console.log([which,type])
+		// console.log([which,type])
 	}
 };
 Eventhandler.prototype.updateMouseXY = function(x,y) {
