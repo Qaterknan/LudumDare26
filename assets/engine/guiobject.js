@@ -86,3 +86,13 @@ GUIObject.prototype.erease = function (){
 		delete this;
 	}
 };
+GUIObject.prototype.mouseHandle = function (x,y){
+	this.mouseCollision(x,y);
+	for(var i in this.objects){
+		this.objects[i].mouseCollision(x+this.x,y+this.y);
+		this.objects[i].mouseHandle(x+this.x,y+this.y);
+	};
+};
+GUIObject.prototype.mouseCollision = function (x,y){
+	return false;
+};

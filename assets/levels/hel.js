@@ -1,8 +1,10 @@
 new function level(){
-	this.textures = {};
+	this.textures = {
+		"troll" : "assets/textures/troll.png",
+	};
 	this.sounds = {};
 	this.scripts = {
-		"BLAH" : "assets/engine/blah.js",
+		"BLAH" : "assets/levels/blah.js",
 	};
 	this.afterLoad = function (){
 		return true;
