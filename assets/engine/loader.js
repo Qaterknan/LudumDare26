@@ -15,9 +15,9 @@ Loader.prototype.load = function (type,src,callback){
 		var obj = new Image();
 		obj.src = src;
 		obj.onload = function (){
+			_this.textures[src] = this;
 			_this.toLoad--;
 			_this.checkLoad();
-			_this.textures[src] = this;
 		};
 		return true;
 	}
@@ -26,18 +26,18 @@ Loader.prototype.load = function (type,src,callback){
 		var obj = new Audio();
 		obj.src = src;
 		obj.oncanplaythrough = function (){
+			_this.sounds[src] = this;
 			_this.toLoad--;
 			_this.checkLoad();
-			_this.sounds[src] = this;
 		};
 		return true;
 	}
 	if(type == "script"){
 		if(this.scripts[src] !== undefined) return true;
 		$.getScript(src,function (data){
+			_this.scripts[src] = eval("(function (){return "+data+";})();");
 			_this.toLoad--;
 			_this.checkLoad();
-			_this.scripts[src] = eval("(function (){return "+data+";})();");
 		});
 		return true;
 	}
