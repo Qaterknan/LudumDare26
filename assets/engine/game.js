@@ -13,7 +13,7 @@ function Game(){
 Game.prototype.init = function (){
 	document.body.appendChild(this.canvas);
 	var _this = this;
-	this.interval = setInterval(function (){game.tick();},1000/60);
+	this.interval = setInterval(function (){_this.tick();},1000/60);
 };
 Game.prototype.tick = function (){
 	console.log("engine running");
