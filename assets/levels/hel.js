@@ -7,6 +7,12 @@ new function level(){
 		"BLAH" : "assets/levels/blah.js",
 	};
 	this.afterLoad = function (){
-		return true;
+		var obj = new Object2({
+			position: new Vector2(100,100),
+			texture: new Texture(this.textures.troll,{}),
+			width: 100,
+			height: 100,
+		});
+		game.add(obj, "troll");
 	};
 };

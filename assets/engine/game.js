@@ -8,6 +8,7 @@ function Game(){
 	this.eventhandler = new Eventhandler(this.canvas);
 	this.loader = new Loader();
 	this.camera = new Vector2();
+	this.nonLinked = 0;
 };
 Game.prototype.init = function (){
 	document.body.appendChild(this.canvas);
@@ -17,10 +18,16 @@ Game.prototype.init = function (){
 Game.prototype.tick = function (){
 	console.log("engine running");
 	this.eventhandler.loop();
+	for(var i in this.objects){
+		this.objects[i].tick();
+	};
 	this.render(this.ctx);
 };
 Game.prototype.render = function (ctx){
 	this.gui.render(ctx);
+	for(var i in this.objects){
+		this.objects[i].render(ctx);
+	};
 	return true;
 };
 Game.prototype.levelLoad = function (src){
@@ -33,4 +40,16 @@ Game.prototype.levelLoad = function (src){
 			_this.level.afterLoad();
 		})
 	});
+};
+Game.prototype.checkCollision = function (obj){
+	return false;
+};
+Game.prototype.add = function (obj,id){
+	if(id === undefined){
+		this.objects[this.nonLinked] = obj;
+		this.nonLinked++;
+	}
+	else{
+		this.objects[id] = obj;
+	}
 };
