@@ -17,12 +17,12 @@ GUITexture.prototype.render = function(ctx){
 			ctx.scale(this.scale, this.scale);
 		}
 		ctx.fillStyle = ctx.createPattern(this.image.image, "repeat");
-		ctx.fillRect(this.x, this.y, this.width, this.height);
+		ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
 		if(this.scale !== 1){
 			ctx.restore();
 		}
 	}
 	else {
-		this.image.draw(ctx, this.x, this.y, this.width, this.height);
+		this.image.draw(ctx, this.position.x, this.position.y, this.width, this.height);
 	}
 }
