@@ -1,7 +1,8 @@
 new function level(){
 	this.textures = {
 		"troll" : "assets/textures/troll.png",
-		"marine" : "assets/textures/pixel.jpg"
+		"marine" : "assets/textures/pixel.jpg",
+		"genestealer" : "assets/textures/genestealer.png"
 	};
 	this.sounds = {
 		"sisters" : "assets/sounds/sisters.mp3"
@@ -42,5 +43,25 @@ new function level(){
 		b.add(t, "napis");
 		b.add(a, "marine");
 		game.gui.add(b, "tlacitko");
+		
+		var gsTexture = new Texture(this.textures.genestealer,{
+			totalFrames: 3,
+			currentAnimation: "walking",
+			animations: {
+				walking: {
+					start: 0,
+					end: 2,
+					speed: 7
+				},
+			}
+		});
+		
+		var genestealer = new Genestealer({
+			position: new Vector2(20,20),
+			width: 50,
+			height: 50,
+			texture: gsTexture
+		});
+		game.add(genestealer, "gs");
 	};
 };
