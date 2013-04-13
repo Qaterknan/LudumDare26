@@ -25,11 +25,11 @@ Loader.prototype.load = function (type,src,callback){
 		if(this.sounds[src] !== undefined) return true;
 		var obj = new Audio();
 		obj.src = src;
-		obj.oncanplaythrough = function (){
+		$(obj).on("loadeddata",function (){
 			_this.sounds[src] = this;
 			_this.toLoad--;
 			_this.checkLoad();
-		};
+		});
 		return true;
 	}
 	if(type == "script"){

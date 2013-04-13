@@ -2,5 +2,7 @@ function init(){
 	
 	game = new Game();
 	
-	game.init(canvas);
+	game.init();
+	
+	onStart( game ); // Předání startu mimo engine
 };

@@ -2,11 +2,14 @@ function Game(){
 	this.objects = {};
 	this.level = {};
 	this.canvas = document.createElement("canvas");
+	this.canvas.offsetLeft = this.canvas.offsetTop = 0;
 	this.ctx = this.canvas.getContext("2d");
 	// Přidávání game objektů
-	this.gui = new GUI();
+	this.gui = new GUI( this.canvas.width,this.canvas.height );
 	this.eventhandler = new Eventhandler(this.canvas);
 	this.loader = new Loader();
+	this.jukebox = new Jukebox();
+	
 	this.camera = new Vector2();
 	this.nonLinked = 0;
 };
@@ -16,18 +19,22 @@ Game.prototype.init = function (){
 	this.interval = setInterval(function (){_this.tick();},1000/60);
 };
 Game.prototype.tick = function (){
-	console.log("engine running");
+	//~ console.log("engine running");
 	this.eventhandler.loop();
 	for(var i in this.objects){
 		this.objects[i].tick();
 	};
+	game.gui.tick();
 	this.render(this.ctx);
 };
 Game.prototype.render = function (ctx){
-	this.gui.render(ctx);
+	ctx.fillStyle = "#ffffff";
+	ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+	// GUI je na hře
 	for(var i in this.objects){
 		this.objects[i].render(ctx);
 	};
+	this.gui.render(ctx);
 	return true;
 };
 Game.prototype.levelLoad = function (src){

@@ -78,7 +78,7 @@ Particle.prototype.tick = function() {}
 // };
 
 function ParticleSystem(options){
-	Object2D.call(this, options);
+	Object2.call(this, options);
 	this.collidable = false;
 	this.opaque = false;
 
@@ -86,7 +86,7 @@ function ParticleSystem(options){
 
 	this.particleCap = 500;
 };
-ParticleSystem.prototype = new Object2D();
+ParticleSystem.prototype = new Object2();
 ParticleSystem.prototype.render = function(ctx) {
 	var now = new Date().getTime();
 

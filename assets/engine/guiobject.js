@@ -1,4 +1,6 @@
 function GUIObject( options ){
+	var options = options === undefined ? {} : options;
+	
 	this.position = options.position === undefined ? new Vector2(0,0) : options.position;
 	this.rotaion = options.rotation === undefined ? new Vector2(0,0) : options.rotation;
 	this.width = options.width === undefined ? 0 : options.width;
@@ -25,7 +27,7 @@ GUIObject.prototype.tick = function (){
 GUIObject.prototype.tickObjects = function (){
 	for(var i in this.objects){
 		this.objects[i].tick();
-		this.objects[i].tickChildren();
+		this.objects[i].tickObjects();
 	};
 	return true;
 };
@@ -86,13 +88,12 @@ GUIObject.prototype.erease = function (){
 		delete this;
 	}
 };
-GUIObject.prototype.mouseHandle = function (x,y){
-	this.mouseCollision(x,y);
+GUIObject.prototype.mouseHandle = function (x,y,type){
+	this.mouseCollision(x,y,type);
 	for(var i in this.objects){
-		this.objects[i].mouseCollision(x+this.x,y+this.y);
-		this.objects[i].mouseHandle(x+this.x,y+this.y);
+		this.objects[i].mouseHandle(x+this.position.x,y+this.position.y,type);
 	};
 };
-GUIObject.prototype.mouseCollision = function (x,y){
+GUIObject.prototype.mouseCollision = function (x,y,type){
 	return false;
 };
