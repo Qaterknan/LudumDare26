@@ -1,0 +1,35 @@
+body, html {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	background-color: #222222;
+}
+
+canvas {
+	position: absolute;
+
+	box-shadow: 0 0 7px 3px #151515;
+}
+
+footer {
+	font: bold 24pt Arial;
+	color: #191919;
+	text-align: center;
+	text-shadow: 0 1px 1px #333;
+	
+	width: 100%;
+	position:absolute;
+	bottom:0;
+}
+
+@media (max-width: 800px) {
+	footer {
+		display:none;
+	}
+	canvas {
+		position: static;
+		width:100%;
+	}
+}
