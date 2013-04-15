@@ -5,6 +5,7 @@ function Game(){
 	this.canvas = document.createElement("canvas");
 	this.ctx = this.canvas.getContext("2d");
 
+	this.clearColor = "#FFFFFF";
 	this.width = 800;
 	this.height = 480;
 
@@ -15,13 +16,16 @@ function Game(){
 	
 	this.camera = new Vector2();
 	this.nonLinked = 0;
+
+	this.interval = false;
 };
 
 Game.prototype.init = function (){
 	document.body.appendChild(this.canvas);
 
 	var _this = this;
-	this.interval = setInterval(function (){_this.tick();},1000/60);
+
+	this.tick();
 
 	$(window).resize(function() {
 		_this.adjustCanvas();
@@ -48,18 +52,30 @@ Game.prototype.disableInterpolation = function() {
 };
 
 Game.prototype.tick = function (){
-	//~ console.log("engine running");
+	stats.begin();
+
+	var _this = this;
+	this.interval = requestAnimationFrame(function(){
+		_this.tick()
+	});
+
 	this.eventhandler.loop();
+
 	for(var i in this.objects){
 		this.objects[i].tick();
 	};
+
 	game.gui.tick();
+
 	this.render(this.ctx);
+
+	stats.end();
 };
 
 Game.prototype.render = function (ctx){
-	ctx.fillStyle = "#ffffff";
-	ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
+	ctx.fillStyle = this.clearColor;
+	ctx.fillRect(0,0,this.width,this.height);
+
 	// GUI je na hře
 	for(var i in this.objects){
 		this.objects[i].render(ctx);
