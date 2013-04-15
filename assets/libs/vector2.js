@@ -25,6 +25,47 @@ Vector2.prototype = {
 
 	},
 
+	setX: function ( x ) {
+
+		this.x = x;
+
+		return this;
+
+	},
+
+	setY: function ( y ) {
+
+		this.y = y;
+
+		return this;
+
+	},
+
+
+	setComponent: function ( index, value ) {
+
+		switch ( index ) {
+
+			case 0: this.x = value; break;
+			case 1: this.y = value; break;
+			default: throw new Error( "index is out of range: " + index );
+
+		}
+
+	},
+
+	getComponent: function ( index ) {
+
+		switch ( index ) {
+
+			case 0: return this.x;
+			case 1: return this.y;
+			default: throw new Error( "index is out of range: " + index );
+
+		}
+
+	},
+
 	copy: function ( v ) {
 
 		this.x = v.x;
@@ -34,16 +75,7 @@ Vector2.prototype = {
 
 	},
 
-	add: function ( a, b ) {
-
-		this.x = a.x + b.x;
-		this.y = a.y + b.y;
-
-		return this;
-
-	},
-
-	addSelf: function ( v ) {
+	add: function ( v ) {
 
 		this.x += v.x;
 		this.y += v.y;
@@ -52,19 +84,37 @@ Vector2.prototype = {
 
 	},
 
-	sub: function ( a, b ) {
+	addVectors: function ( a, b ) {
 
-		this.x = a.x - b.x;
-		this.y = a.y - b.y;
+		this.x = a.x + b.x;
+		this.y = a.y + b.y;
 
 		return this;
 
 	},
 
-	subSelf: function ( v ) {
+	addScalar: function ( s ) {
+
+		this.x += s;
+		this.y += s;
+
+		return this;
+
+	},
+
+	sub: function ( v ) {
 
 		this.x -= v.x;
 		this.y -= v.y;
+
+		return this;
+
+	},
+
+	subVectors: function ( a, b ) {
+
+		this.x = a.x - b.x;
+		this.y = a.y - b.y;
 
 		return this;
 
@@ -81,7 +131,7 @@ Vector2.prototype = {
 
 	divideScalar: function ( s ) {
 
-		if ( s ) {
+		if ( s !== 0 ) {
 
 			this.x /= s;
 			this.y /= s;
@@ -89,6 +139,70 @@ Vector2.prototype = {
 		} else {
 
 			this.set( 0, 0 );
+
+		}
+
+		return this;
+
+	},
+
+	min: function ( v ) {
+
+		if ( this.x > v.x ) {
+
+			this.x = v.x;
+
+		}
+
+		if ( this.y > v.y ) {
+
+			this.y = v.y;
+
+		}
+
+		return this;
+
+	},
+
+	max: function ( v ) {
+
+		if ( this.x < v.x ) {
+
+			this.x = v.x;
+
+		}
+
+		if ( this.y < v.y ) {
+
+			this.y = v.y;
+
+		}
+
+		return this;
+
+	},
+
+	clamp: function ( min, max ) {
+
+		// This function assumes min < max, if this assumption isn't true it will not operate correctly
+
+		if ( this.x < min.x ) {
+
+			this.x = min.x;
+
+		} else if ( this.x > max.x ) {
+
+			this.x = max.x;
+
+		}
+
+		if ( this.y < min.y ) {
+
+			this.y = min.y;
+
+		} else if ( this.y > max.y ) {
+
+			this.y = max.y;
 
 		}
 
@@ -116,7 +230,7 @@ Vector2.prototype = {
 
 	length: function () {
 
-		return Math.sqrt( this.lengthSq() );
+		return Math.sqrt( this.x * this.x + this.y * this.y );
 
 	},
 
@@ -141,11 +255,18 @@ Vector2.prototype = {
 
 	setLength: function ( l ) {
 
-		return this.normalize().multiplyScalar( l );
+		var oldLength = this.length();
+
+		if ( oldLength !== 0 && l !== oldLength ) {
+
+			this.multiplyScalar( l / oldLength );
+		}
+
+		return this;
 
 	},
 
-	lerpSelf: function ( v, alpha ) {
+	lerp: function ( v, alpha ) {
 
 		this.x += ( v.x - this.x ) * alpha;
 		this.y += ( v.y - this.y ) * alpha;
@@ -160,9 +281,9 @@ Vector2.prototype = {
 
 	},
 
-	isZero: function () {
+	toArray: function () {
 
-		return ( this.lengthSq() < 0.0001 /* almostZero */ );
+		return [ this.x, this.y ];
 
 	},
 
