@@ -17,6 +17,8 @@ function Texture(image, options){
 	this.scale = options.scale === undefined ? new Vector2(1,1) : options.scale;
 
 	this.alpha = options.alpha === undefined ? 1 : options.alpha;
+
+	this.repeat = options.repeat === undefined ? false : options.repeat;
 	
 	this.animated = !!options.animations;
 	if(this.animated){
@@ -38,10 +40,11 @@ Texture.prototype.switchAnimation = function(name) {
 	}
 };
 
-Texture.prototype.draw = function(ctx, x, y, width, height) {
+Texture.prototype.draw = function(ctx, width, height) {
 	width = width === undefined ? this.frameWidth : width;
 	height = height === undefined ? this.height : height;
 	ctx.save();
+	ctx.scale(this.scale.x, this.scale.y);
 	var addX = addY = 0;
 	if(this.flip){
 		if(this.flip == "x"){
@@ -76,7 +79,13 @@ Texture.prototype.draw = function(ctx, x, y, width, height) {
 		}
 	}
 	else {
-		ctx.drawImage(this.image, this.clip.x, this.clip.y, this.clip.width, this.clip.height, x, y, width, height);
+		if(this.repeat){
+			ctx.fillStyle = ctx.createPattern(this.image, "repeat");
+			ctx.fillRect(0, 0, width/this.scale.x, height/this.scale.y);
+		}
+		else {
+			ctx.drawImage(this.image, this.clip.x, this.clip.y, this.clip.width, this.clip.height, 0, 0, width, height);
+		}
 	}
 	ctx.restore();
 };

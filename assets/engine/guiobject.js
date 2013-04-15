@@ -1,48 +1,57 @@
-function GUIObject( options ){
+function GUIObject(options){
 	var options = options === undefined ? {} : options;
 	
 	this.position = options.position === undefined ? new Vector2(0,0) : options.position;
-	this.rotaion = options.rotation === undefined ? new Vector2(0,0) : options.rotation;
+	this.rotation = options.rotation === undefined ? 0 : options.rotation;
 	this.width = options.width === undefined ? 0 : options.width;
 	this.height = options.height === undefined ? 0 : options.height;
-	this.texture = options.texture === undefined ? false : options.texture;
-	this.renderable = options.renderable === undefined ? true : options.renderable;
+
+	this.visible = options.visible === undefined ? true : options.visible;
 	
-	this.objects = {};
+	this.children = {};
 	this.parent = undefined;
-	this.nonLinked = 0;
-	
-	this.id = options.id;
 	
 	this.timeEvents = [];
-	
-	this.triggers = [];
+
+	this.mouseIn = false;
+	this.mouseover = options.mouseover === undefined ? undefined : options.mouseover;
+	this.mouseout = options.mouseout === undefined ? undefined : options.mouseout;
+	this.mousedown = options.mousedown === undefined ? undefined : options.mousedown;
+	this.mouseup = options.mouseup === undefined ? undefined : options.mouseup;
 };
+
 GUIObject.prototype.render = function (ctx){
 	return true;
 };
+
 GUIObject.prototype.tick = function (){
 	return true;
 };
-GUIObject.prototype.tickObjects = function (){
-	for(var i in this.objects){
-		this.objects[i].tick();
-		this.objects[i].tickObjects();
+
+GUIObject.prototype.tickChildren = function (){
+	if(this.mouseIn && this.mouseover){
+		this.mouseover();
+	}
+
+	for(var i in this.children){
+		this.children[i].tick();
+		this.children[i].tickChildren();
 	};
-	return true;
 };
-GUIObject.prototype.renderObjects = function (ctx){
+
+GUIObject.prototype.renderChildren = function (ctx){
 	ctx.save();
 	ctx.translate(this.position.x,this.position.y);
 	ctx.rotate(this.rotation);
-	for(var i in this.objects){
-		if(!this.objects[i].renderable) continue;
-		this.objects[i].render(ctx);
-		this.objects[i].renderObjects(ctx);
+	for(var i in this.children){
+		if(this.children[i].visible){
+			this.children[i].render(ctx);
+			this.children[i].renderChildren(ctx);
+		}
 	};
 	ctx.restore();
-	return true;
 };
+
 GUIObject.prototype.checkTimeEvents = function (){
 	var len = this.timeEvents.length;
 	var cas = new Date().getTime();
@@ -52,48 +61,57 @@ GUIObject.prototype.checkTimeEvents = function (){
 		}
 	};
 };
+
 GUIObject.prototype.addTimeEvent = function (cas,akce){
 	var ted = new Date().getTime();
 	this.timeEvents.push([cas+ted,akce]);
 	return true;
 };
+
 GUIObject.prototype.add = function (obj, id){
 	obj.parent = this;
 	if(id === undefined){
-		this.objects[this.nonLinked] = obj;
-		obj.id = this.nonLinked;
-		this.nonLinked++;
+		var length = Object.keys(this.children).length;
+		this.children[length] = obj;
 	}
 	else{
-		this.objects[id] = obj;
-		obj.id = id;
+		this.children[id] = obj;
 	}
 	return true;
 };
-GUIObject.prototype.addMore = function (objs){
-	for(var i in objs){
-		this.objects[i] = objs[i];
-		objs[i].id = i;
-		objs[i].parent = this;
+
+GUIObject.prototype.remove = function (obj){
+	for (var i in this.children) {
+		if(this.children[i] == obj)
+			delete this.children[i];
 	};
-	return true;
 };
-GUIObject.prototype.erease = function (){
-	if(this.parent !== undefined){
-		delete this.parent.objects[this.id];
-		delete this;
-		return true;
-	}
-	else{
-		delete this;
-	}
-};
+
 GUIObject.prototype.mouseHandle = function (x,y,type){
-	this.mouseCollision(x,y,type);
-	for(var i in this.objects){
-		this.objects[i].mouseHandle(x+this.position.x,y+this.position.y,type);
+	for(var i in this.children){
+		this.children[i].mouseHandle(x+this.position.x,y+this.position.y,type);
 	};
+
+	this.mouseIn = false;
+	if((this[type] || (type == "mousemove" && (this.mouseover || this.mouseout))) && !(this instanceof GUI)){
+		if(this.mouseCollision(x,y)){
+			if(type != "mousemove"){
+				this[type]();
+			}
+			else if(this.mouseover){
+				this.mouseIn = true;
+				// samotná funkce se vykoná v ticku
+			}
+		}
+		else if(this.mouseout){
+			this.mouseout();
+		}
+	}
+	for (var i = 0; i < this.children.length; i++){
+		this.children[i].mousehandler(x-this.x,y-this.y,type);
+	}
 };
-GUIObject.prototype.mouseCollision = function (x,y,type){
-	return false;
+
+GUIObject.prototype.mouseCollision = function (x, y){
+	return x >= this.position.x && x <= this.position.x + this.width && y >= this.position.y && y <= this.position.y + this.height;
 };

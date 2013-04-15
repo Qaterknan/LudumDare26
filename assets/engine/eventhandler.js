@@ -53,7 +53,7 @@ Mouse.prototype.exec = function(type, x, y){
 	if (this[type].length === 0)
 		return
 	for(var i in this[type]){
-		this[type][i](x, y);
+		this[type][i](x, y, type);
 	}
 };
 
@@ -126,14 +126,16 @@ Eventhandler.prototype.mousehandler = function(e) {
 		}
 	}
 	else{
-		//~ console.log([which,type])
+		// console.log([which,type]);
 	}
 };
 Eventhandler.prototype.updateMouseXY = function(x,y) {
 	this.mouse.x = x;
 	this.mouse.y = y;
 
-	this.mouse.projected.add(this.mouse, game.camera);
+	this.mouse.clamp(0, game.width);
+
+	this.mouse.projected.addVectors(this.mouse, game.camera);
 };
 Eventhandler.prototype.loop = function() {
 	for(var k in this.keyboardControls){

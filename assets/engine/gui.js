@@ -1,17 +1,29 @@
-function GUI (width,height){
-	GUIObject.call(this);
-	
-	this.width = width;
-	this.height = height;
+function GUI(width, height){
+	GUIObject.call(this, {width: width, height: height});
 };
+
 GUI.prototype = Object.create( GUIObject.prototype );
-GUI.prototype.mouseInit = function (controls){
-	var _this = this;
-	controls.addMouseControl(1,function (){_this.mouseHandle(0,0)});
-};
+
 GUI.prototype.tick = function (){
-	this.tickObjects();
+	this.tickChildren();
 };
+
 GUI.prototype.render = function (ctx){
-	this.renderObjects(ctx);
+	this.renderChildren(ctx);
+};
+
+GUI.prototype.addControls = function() {
+	var _this = this;
+	game.eventhandler.addMouseControl(0,
+		function (x,y,type){
+			_this.mouseHandle(x,y,"mousemove");
+		});
+	game.eventhandler.addMouseControl(1,
+		function (x,y,type){
+			_this.mouseHandle(x,y,"mousedown");
+		},
+		function (x,y,type){
+			_this.mouseHandle(x,y,"mouseup");
+		}
+	);
 };
