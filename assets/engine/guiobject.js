@@ -21,11 +21,11 @@ function GUIObject(options){
 };
 
 GUIObject.prototype.render = function (ctx){
-	return true;
+	return;
 };
 
 GUIObject.prototype.tick = function (){
-	return true;
+	return;
 };
 
 GUIObject.prototype.tickChildren = function (){
@@ -65,7 +65,6 @@ GUIObject.prototype.checkTimeEvents = function (){
 GUIObject.prototype.addTimeEvent = function (cas,akce){
 	var ted = new Date().getTime();
 	this.timeEvents.push([cas+ted,akce]);
-	return true;
 };
 
 GUIObject.prototype.add = function (obj, id){
@@ -77,7 +76,6 @@ GUIObject.prototype.add = function (obj, id){
 	else{
 		this.children[id] = obj;
 	}
-	return true;
 };
 
 GUIObject.prototype.remove = function (obj){

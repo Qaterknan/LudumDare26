@@ -3,7 +3,7 @@ function Text(options){
 
 	this.value = options.value === undefined ? " " : options.value;
 	this.text = options.text === undefined ? [] : options.text;
-	this.color = options.color === undefined ? new Color() : options.color;
+	this.color = options.color === undefined ? "#000000" : options.color;
 	this.blink = options.blink === undefined ? false : options.blink;
 	this.size = options.size === undefined ? 16 : options.size;
 	this.lineSpacing = options.lineSpacing === undefined ? 1 : options.lineSpacing;
@@ -100,12 +100,12 @@ Text.prototype.render = function(ctx) {
 
 	if(this.blink){
 		if(game.ticks % 10 > 0 && game.ticks % 10 < 5) 
-			ctx.fillStyle = this.color.getRGB();
+			ctx.fillStyle = this.color;
 		else
 			ctx.fillStyle = this.blink;
 	}
 	else
-		ctx.fillStyle = this.color.getRGB();
+		ctx.fillStyle = this.color;
 
 	var spacing = 0;
 	for(var i = 0; i < this.text.length; i++){

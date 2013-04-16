@@ -24,33 +24,33 @@ new function level(){
 		}));
 
 		var pozadi = new Object2({
-			// position: new Vector2(300,150),
+			position: new Vector2(300,150),
 			width: 600,
 			height: 300,
 			texture: new Texture(this.textures.pozadi),
 		});
 
-		game.add(pozadi, "background");
+		game.add(pozadi);
 		
-		var gsTexture = new Texture(this.textures.genestealer,{
+		var gsTexture = new Texture(this.textures.genestealer, {
 			totalFrames: 3,
 			currentAnimation: "walking",
 			animations: {
 				walking: {
 					start: 0,
 					end: 2,
-					speed: 7
-				},
+					speed: 60
+				}
 			}
 		});
 		
 		var genestealer = new Genestealer({
-			// position: new Vector2(300,150),
+			position: new Vector2(300,150),
 			width: 50,
 			height: 50,
 			texture: gsTexture
 		});
 
-		game.add(genestealer, "gs");
+		game.add(genestealer);
 	};
 };

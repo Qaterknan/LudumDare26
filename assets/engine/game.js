@@ -1,5 +1,5 @@
 function Game(){
-	this.objects = {};
+	this.children = {};
 	this.level = {};
 
 	this.canvas = document.createElement("canvas");
@@ -15,7 +15,6 @@ function Game(){
 	this.jukebox = new Jukebox();
 	
 	this.camera = new Vector2();
-	this.nonLinked = 0;
 
 	this.interval = false;
 };
@@ -61,8 +60,8 @@ Game.prototype.tick = function (){
 
 	this.eventhandler.loop();
 
-	for(var i in this.objects){
-		this.objects[i].tick();
+	for(var i in this.children){
+		this.children[i].tick();
 	};
 
 	game.gui.tick();
@@ -77,8 +76,8 @@ Game.prototype.render = function (ctx){
 	ctx.fillRect(0,0,this.width,this.height);
 
 	// GUI je na hře
-	for(var i in this.objects){
-		this.objects[i].render(ctx);
+	for(var i in this.children){
+		this.children[i].render(ctx);
 	};
 	this.gui.render(ctx);
 	return true;
@@ -100,12 +99,13 @@ Game.prototype.checkCollision = function (obj){
 	return false;
 };
 
-Game.prototype.add = function (obj,id){
+Game.prototype.add = function (obj, id){
+	obj.parent = this;
 	if(id === undefined){
-		this.objects[this.nonLinked] = obj;
-		this.nonLinked++;
+		var length = Object.keys(this.children).length;
+		this.children[length] = obj;
 	}
 	else{
-		this.objects[id] = obj;
+		this.children[id] = obj;
 	}
 };

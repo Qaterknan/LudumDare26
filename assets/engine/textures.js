@@ -89,35 +89,3 @@ Texture.prototype.draw = function(ctx, width, height) {
 	}
 	ctx.restore();
 };
-
-function Textures(){
-	this.textures = {};
-}
-Textures.prototype.get = function(name, options) {
-	return new Texture( this.textures[name], options );
-};
-Textures.prototype.loadTextures = function(src_object, callback) {
-	var _this = this;
-	this.textures_src = src_object;
-
-	this.texturesToLoad = Object.keys(this.textures_src).length;
-
-	if(this.texturesToLoad <= 0){
-		callback();
-		return;
-	}
-
-	for(var name in this.textures_src){
-		(function(name, callback){
-			var image = new Image();
-
-			image.onload = function(){
-				_this.textures[name] = image;
-				if( --_this.texturesToLoad <= 0 )
-					callback();
-			}
-
-			image.src = _this.textures_src[name] + "?_="+Math.random();
-		}(name, callback))
-	};
-};
