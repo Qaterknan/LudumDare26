@@ -4,6 +4,9 @@ function onStart( game ){
 		do argumentu je vrácen objekt game
 	*/
 	
+	game.canvas.width = 600;
+	game.canvas.height = 300;
+	
 	game.eventhandler.addMouseControl(0,function (x,y){game.gui.mouseHandle(x-game.canvas.offsetLeft,y-game.canvas.offsetTop,"mousemove");});
 	game.eventhandler.addMouseControl(1,
 		function (x,y){game.gui.mouseHandle(x-game.canvas.offsetLeft,y-game.canvas.offsetTop,"mousedown")},
