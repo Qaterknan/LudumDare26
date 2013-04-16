@@ -65,7 +65,7 @@ Texture.prototype.draw = function(ctx, width, height) {
 		ctx.drawImage(this.image,
 			Math.floor(this.frame)*this.frameWidth, 0,
 			this.frameWidth, this.height,
-			x + addX, y + addY,
+			addX, addY,
 			width, height
 			);
 		if(this.frame + 1/this.currentAnimation.speed < this.currentAnimation.end){
