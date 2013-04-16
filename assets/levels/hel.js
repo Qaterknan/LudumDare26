@@ -29,29 +29,16 @@ new function level(){
 		// 	position: new Vector2(100,30)
 		// });
 		
-		var t = new Text({
-			value: "Hello, world!",
-			color: new Color("#FF0000"),
-			width: 90,
-			position : new Vector2(0,0)
-		});
-		
-		var a = new Rectangle({
-			texture: new Texture(this.textures.marine,{
-				repeat: true,
-				scale: new Vector2(0.1,0.1)
-			}),
+		game.gui.add(new Button({
 			position: new Vector2(100,100),
-			// rotation: 1,
-			width: 90,
-			height: 60,
+			value: "Hello world", 
+			texture: new Texture(this.textures.marine),
+			width: 100,
+			height: 50,
 			mousedown: function(){
-				console.log(game.eventhandler.mouse.x,game.eventhandler.mouse.y)
-			},
-		});
-		a.add(t, "napis");
-		// b.add(a, "marine");
-		game.gui.add(a, "tlacitko");
+				console.log("ahoj");
+			}
+		}));
 		
 		// var gsTexture = new Texture(this.textures.genestealer,{
 		// 	totalFrames: 3,

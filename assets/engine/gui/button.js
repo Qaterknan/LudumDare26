@@ -1,45 +1,34 @@
 function Button(options){
+	var options = options === undefined ? {} : options;
 	GUIObject.call(this, options);
-	
-	this.color = options.color === undefined ? new Color() : options.color;
 
-	if(options.texture){
-		this.add(options.texture);
+	if(options.rectangle !== false){
+		options.rectangle = options.rectangle === undefined ? {} : options.rectangle;
+		
+		var inheritedKeys = ["width", "height", "texture"];
+		for(var i in inheritedKeys){
+			var key = inheritedKeys[i];
+			if(options.rectangle[key] === undefined){
+				options.rectangle[key] = options[key];
+			}
+		}
+		
+		this.add(new Rectangle(options.rectangle));
 	}
 
-	this.onMouseDown = options.onMouseDown;
-	this.onMouseUp = options.onMouseUp;
-	this.onMouseIn = options.onMouseIn;
-	this.onMouseOut = options.onMouseOut;
-	this.mouseIn = false;
+	if(options.text !== false){
+		options.text = options.text === undefined ? {} : options.text;
 
-	return this;
+		var inheritedKeys = ["width", "height", "value"];
+		for(var i in inheritedKeys){
+			var key = inheritedKeys[i];
+			if(options.text[key] === undefined){
+				options.text[key] = options[key];
+			}
+		}
+
+		this.add(new Text(options.text));
+	}
 };
+
 Button.prototype = Object.create( GUIObject.prototype );
-Button.prototype.render = function(ctx) {
-	if(this.renderable){
-		ctx.fillStyle = this.color.getRGB();
-		ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
-	}
-};
-Button.prototype.mouseCollision = function (x,y,type){
-	var inX = x < this.position.x+this.width && x > this.position.x;
-	var inY = y < this.position.y+this.height && y > this.position.y;
-	if(inX && inY){
-		if(type == "mousemove" && !this.mouseIn && this.onMouseIn){
-			this.onMouseIn();
-			this.mouseIn = true;
-		}
-		if(type == "mousedown" && this.onMouseDown){
-			this.onMouseDown();
-		}
-		if(type == "mouseup" && this.onMouseUp)
-			this.onMouseUp();
-	}
-	else{
-		if(type == "mousemove" && this.mouseIn && this.onMouseOut){
-			this.onMouseOut();
-			this.mouseIn = false;
-		}
-	}
-};

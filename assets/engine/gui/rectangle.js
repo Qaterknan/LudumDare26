@@ -5,7 +5,7 @@ function Rectangle(options){
 	GUIObject.call(this, options);
 
 	this.texture = options.texture === undefined ? false : options.texture;
-	this.color = options.color === undefined ? "#000000" : options.color;
+	this.color = options.color === undefined ? "#AAAAAA" : options.color;
 }
 Rectangle.prototype = new GUIObject();
 Rectangle.prototype.render = function(ctx){
