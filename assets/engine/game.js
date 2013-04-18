@@ -1,5 +1,6 @@
 function Game(){
-	this.children = {};
+	Object2.call(this, {});
+	
 	this.level = {};
 
 	this.canvas = document.createElement("canvas");
@@ -14,11 +15,11 @@ function Game(){
 	this.loader = new Loader();
 	this.jukebox = new Jukebox();
 	
-	this.camera = new Vector2();
+	this.camera = new Camera();
 
 	this.interval = false;
 };
-
+Game.prototype = Object.create( Object2.prototype );
 Game.prototype.init = function (){
 	document.body.appendChild(this.canvas);
 
@@ -65,7 +66,7 @@ Game.prototype.tick = function (){
 	};
 
 	game.gui.tick();
-
+	this.camera.update();
 	this.render(this.ctx);
 
 	stats.end();
@@ -74,11 +75,14 @@ Game.prototype.tick = function (){
 Game.prototype.render = function (ctx){
 	ctx.fillStyle = this.clearColor;
 	ctx.fillRect(0,0,this.width,this.height);
-
+	
 	// GUI je na hře
+	ctx.save();
+	ctx.translate(-this.camera.x,-this.camera.y);
 	for(var i in this.children){
 		this.children[i].render(ctx);
 	};
+	ctx.restore();
 	this.gui.render(ctx);
 	return true;
 };
@@ -97,15 +101,4 @@ Game.prototype.levelLoad = function (src){
 
 Game.prototype.checkCollision = function (obj){
 	return false;
-};
-
-Game.prototype.add = function (obj, id){
-	obj.parent = this;
-	if(id === undefined){
-		var length = Object.keys(this.children).length;
-		this.children[length] = obj;
-	}
-	else{
-		this.children[id] = obj;
-	}
 };

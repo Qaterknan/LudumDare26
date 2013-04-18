@@ -80,6 +80,6 @@ new function level(){
 		
 		game.add(ps, "ps");
 		
-		game.eventhandler.addKeyboardControl(70,undefined,function (){ps.emiting = false;},function (){ps.emiting = true;});
+		game.eventhandler.addKeyboardControl(70,undefined,function (){ps.emiting = false;game.camera.stopShaking();},function (){ps.emiting = true;game.camera.shake({x:0,y:1},0.3)});
 	};
 };
