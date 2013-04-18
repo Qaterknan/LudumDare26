@@ -39,7 +39,7 @@ Particle.prototype.render = function(ctx) {
 	ctx.translate(-this.width/2, -this.height/2);
 	ctx.globalAlpha = this.alpha;
 	if(this.textured){
-		this.texture.draw(ctx,0,0,this.width,this.height);
+		this.texture.draw(ctx,this.width,this.height);
 	}
 	else{
 		ctx.fillStyle = this.color.getRGB();
@@ -77,12 +77,17 @@ Particle.prototype.tick = function() {}
 // 	}
 // };
 
-function ParticleSystem(options){
+function ParticleSystem(options,particle,emit){
 	Object2.call(this, options);
 	this.collidable = false;
 	this.opaque = false;
+	
+	this.particleOptions = particle === undefined ? {} : particle;
+	this.emitOptions = emit === undefined ? {} : emit;
+	this.emiting = emit.emiting === undefined ? false : emit.emiting;
 
 	this.particles = [];
+	this.toSpawn = 0;
 
 	this.particleCap = 500;
 };
@@ -114,22 +119,36 @@ ParticleSystem.prototype.render = function(ctx) {
 	ctx.restore();
 };
 
-ParticleSystem.prototype.emit = function(constructor, amount, options, randomize) {
-	var randomize = randomize === undefined ? {} : randomize;
+ParticleSystem.prototype.emit = function(amount) {
+	var amount = amount === undefined ? 1 : amount;
+	var randomize = this.emitOptions.randomize === undefined ? {} : this.emitOptions.randomize;
+	var options = this.particleOptions === undefined ? {} : this.particleOptions;
 	for (var y = 0; y < amount; y++){
 		for(var i in randomize){
 			if( randomize[i].min !== undefined && randomize[i].max !== undefined )
 				options[i] = random(randomize[i].max, randomize[i].min);
-			else if( randomize[i].x !== undefined && randomize[i].y !== undefined ){
-				options[i] = new Vector2( random(randomize[i].x.min, randomize[i].x.max), random(randomize[i].y.min, randomize[i].y.max) )
+			else if( randomize[i].x !== undefined || randomize[i].y !== undefined ){
+				if(randomize[i].x !== undefined)
+					options[i].x = random(randomize[i].x.min, randomize[i].x.max);
+				if(randomize[i].y !== undefined)
+					options[i].y = random(randomize[i].y.min,randomize[i].y.max);
 			}
 			else if( i == "color" ){
 				options[i] = randomize[i][ Math.floor(randomize[i].length * Math.random()) ];
 			}
 		}
-		var particle = new constructor(options)
+		var particle = new Particle(options);
 		this.particles.push( particle );
 	};
+};
+ParticleSystem.prototype.tick = function (){
+	if(this.emiting){
+		this.toSpawn += this.emitOptions.amount;
+	}
+	if(this.toSpawn > 1 && this.emiting){
+		this.emit(Math.floor(this.toSpawn));
+		this.toSpawn -= Math.floor(this.toSpawn);
+	}
 };
 
 function random(min, max){

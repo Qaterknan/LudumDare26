@@ -1,6 +1,6 @@
 function Texture(image, options){
 	var _this = this;
-	options = options === undefined ? {} : options;
+	var options = options === undefined ? {} : options;
 
 	this.image = image;
 

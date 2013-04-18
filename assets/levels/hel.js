@@ -4,6 +4,7 @@ new function level(){
 		"marine" : "assets/textures/pixel.jpg",
 		"genestealer" : "assets/textures/genestealer.png",
 		"pozadi" : "assets/textures/pozadí.png",
+		"kulka" : "assets/textures/kulka.png",
 	};
 	this.sounds = {
 		"sisters" : "assets/sounds/sisters.mp3"
@@ -19,7 +20,7 @@ new function level(){
 			width: 100,
 			height: 50,
 			mousedown: function(){
-				game.children.ps.emit(Particle, 100, {gravity: new Vector2(0,0), size: 2}, {velocity: {x:{min:-1,max:1},y:{min:-1,max:1}}});
+				return;
 			}
 		}));
 
@@ -54,10 +55,31 @@ new function level(){
 		game.add(genestealer);
 		
 		var ps = new ParticleSystem({
-			position: new Vector2(100,100)
+			position: new Vector2(200,200),
+		},
+		{
+			velocity: new Vector2(10,0),
+			life : 1500,
+			textured : true,
+			texture : new Texture(this.textures.kulka),
+			width : 15,
+			height : 6,
+		},
+		{
+			randomize:{
+				velocity : {
+					y : {
+						min: -0.1,
+						max : 0.1
+					}
+				}
+			},
+			amount : 0.1,
+			emiting : false
 		});
 		
 		game.add(ps, "ps");
 		
+		game.eventhandler.addKeyboardControl(70,undefined,function (){ps.emiting = false;},function (){ps.emiting = true;});
 	};
 };
