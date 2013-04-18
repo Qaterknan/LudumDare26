@@ -19,7 +19,7 @@ new function level(){
 			width: 100,
 			height: 50,
 			mousedown: function(){
-				console.log("ahoj");
+				game.children.ps.emit(Particle, 100, {gravity: new Vector2(0,0), size: 2}, {velocity: {x:{min:-1,max:1},y:{min:-1,max:1}}});
 			}
 		}));
 
@@ -52,5 +52,12 @@ new function level(){
 		});
 
 		game.add(genestealer);
+		
+		var ps = new ParticleSystem({
+			position: new Vector2(100,100)
+		});
+		
+		game.add(ps, "ps");
+		
 	};
 };

@@ -14,11 +14,11 @@ function Sound(audio, options){
 Sound.prototype.play = function (){
 	this.element.volume = this.volume;
 	if(this.loop) this.element.loop = true;
-	if(this.borders){
+	/* if(this.borders){
 		var _this = this;
 		this.element.currentTime = this.borders[0];
 		this.willStop = setTimeout(this.borders[1],function (){_this.stop();if(_this.loop) _this.play();});
-	}
+	} */
 	this.element.play();
 };
 Sound.prototype.stop = function (){

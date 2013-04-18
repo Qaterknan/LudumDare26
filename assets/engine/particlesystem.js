@@ -8,7 +8,7 @@ function Particle(options){
 	this.origin = new Vector2().copy(this.position);
 
 	this.color = options.color === undefined ? new Color(0x000000) : options.color;
-	this.texture = options.texture === undefined ? game.textures.get("basicParticle") : options.texture;
+	this.texture = options.texture === undefined ? false : options.texture;
 	this.textured = options.textured === undefined ? false : options.textured;
 
 	// velikost
@@ -53,8 +53,8 @@ Particle.prototype.update = function(){
 	this.velocity.x *= this.friction.x;
 	this.velocity.y *= this.friction.y;
 
-	this.velocity.addSelf( this.gravity );
-	this.position.addSelf( this.velocity );
+	this.velocity.add( this.gravity );
+	this.position.add( this.velocity );
 	
 	this.size *= this.shrink;
 
