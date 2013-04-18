@@ -25,9 +25,9 @@ new function level(){
 		}));
 
 		var pozadi = new Object2({
-			position: new Vector2(300,150),
-			width: 600,
-			height: 300,
+			position: new Vector2(420,270),
+			width: 860,
+			height: 560,
 			texture: new Texture(this.textures.pozadi),
 		});
 
@@ -55,10 +55,10 @@ new function level(){
 		game.add(genestealer);
 		
 		var ps = new ParticleSystem({
-			position: new Vector2(200,200),
+			position: new Vector2(200,400),
 		},
 		{
-			velocity: new Vector2(10,0),
+			velocity: new Vector2(20,0),
 			life : 1500,
 			textured : true,
 			texture : new Texture(this.textures.kulka),
@@ -74,12 +74,20 @@ new function level(){
 					}
 				}
 			},
-			amount : 0.1,
+			amount : 0.2,
 			emiting : false
 		});
 		
 		game.add(ps, "ps");
 		
-		game.eventhandler.addKeyboardControl(70,undefined,function (){ps.emiting = false;game.camera.stopShaking();},function (){ps.emiting = true;game.camera.shake({x:0,y:1},0.3)});
+		game.eventhandler.addKeyboardControl(70,undefined,
+			function (){
+				ps.emiting = false;
+				game.camera.stopShaking();
+			},
+			function (){
+				ps.emiting = true;
+				game.camera.shake({x:1,y:1},0.3);
+			});
 	};
 };
