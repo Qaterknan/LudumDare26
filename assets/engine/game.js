@@ -63,6 +63,7 @@ Game.prototype.tick = function (){
 
 	for(var i in this.children){
 		this.children[i].tick();
+		this.children[i].tickChildren();
 	};
 
 	game.gui.tick();
@@ -81,6 +82,7 @@ Game.prototype.render = function (ctx){
 	ctx.translate(-this.camera.x,-this.camera.y);
 	for(var i in this.children){
 		this.children[i].render(ctx);
+		this.children[i].renderChildren(ctx);
 	};
 	ctx.restore();
 	this.gui.render(ctx);

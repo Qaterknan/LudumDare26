@@ -5,6 +5,7 @@ new function level(){
 		"genestealer" : "assets/textures/genestealer.png",
 		"pozadi" : "assets/textures/pozadí.png",
 		"kulka" : "assets/textures/kulka.png",
+		"player" : "assets/textures/terminator.png",
 	};
 	this.sounds = {
 		"sisters" : "assets/sounds/sisters.mp3"
@@ -55,7 +56,7 @@ new function level(){
 		game.add(genestealer);
 		
 		var ps = new ParticleSystem({
-			position: new Vector2(200,400),
+			position: new Vector2(0,0),
 		},
 		{
 			velocity: new Vector2(20,0),
@@ -78,7 +79,30 @@ new function level(){
 			emiting : false
 		});
 		
-		game.add(ps, "ps");
+		var player = new Object2({
+			position: new Vector2(200,400),
+			width: 64,
+			height: 70,
+			texture : new Texture(this.textures.player,{
+				totalFrames : 5,
+				currentAnimation : "standing",
+				animations : {
+					standing : {
+						start : 0,
+						end : 0,
+						speed : 1
+					},
+					walking : {
+						start : 1,
+						end : 4,
+						speed : 7
+					}
+				},
+			}),
+		});
+		
+		player.add(ps);
+		game.add(player, "player");
 		
 		game.eventhandler.addKeyboardControl(70,undefined,
 			function (){
@@ -87,7 +111,27 @@ new function level(){
 			},
 			function (){
 				ps.emiting = true;
-				game.camera.shake({x:1,y:1},0.3);
-			});
+				game.camera.shake({x:2,y:2},0.1);
+			}
+		);
+		game.eventhandler.addKeyboardControl(68, undefined,
+			function (){
+				player.texture.switchAnimation("standing");
+			}, 
+			function (){
+				player.position.x += 0.6;
+				player.texture.switchAnimation("walking");
+				player.texture.flip = false;
+		});
+		game.eventhandler.addKeyboardControl(65, undefined, 
+			function (){
+				player.texture.switchAnimation("standing");
+			},
+			function (){
+				player.position.x -= 0.6;
+				player.texture.switchAnimation("walking");
+				player.texture.flip = "x";
+			}
+		);
 	};
 };

@@ -126,7 +126,7 @@ Object2.prototype.sortChildren = function() {
 	}
 };
 Object2.prototype.tickChildren = function() {
-	for (var i = 0, len = this.children.length; i < len; i++){
+	for (var i in this.children){
 		this.children[i].tick();
 		if(this.children[i].tickChildren)
 			this.children[i].tickChildren();
@@ -141,7 +141,7 @@ Object2.prototype.renderChildren = function(ctx) {
 
 	ctx.save();
 	ctx.translate(this.position.x, this.position.y);
-	for (var i = 0, len = this.children.length; i < len; i++){
+	for (var i in this.children){
 		if(this.children[i].rendering)
 			this.children[i].render(ctx);
 		if(this.children[i].renderChildren)
