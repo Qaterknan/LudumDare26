@@ -6,12 +6,14 @@ new function level(){
 		"pozadi" : "assets/textures/pozadí.png",
 		"kulka" : "assets/textures/kulka.png",
 		"player" : "assets/textures/terminator.png",
+		"heavy_bolter" : "assets/textures/heavy_bolter.png",
 	};
 	this.sounds = {
 		"sisters" : "assets/sounds/sisters.mp3"
 	};
 	this.scripts = {
 		"BLAH" : "assets/levels/blah.js",
+		"bolter_options" : "assets/levels/bolterOptions.js",
 	};
 	this.afterLoad = function (){
 		game.gui.add(new Button({
@@ -32,7 +34,7 @@ new function level(){
 			texture: new Texture(this.textures.pozadi),
 		});
 
-		game.add(pozadi);
+		game.add(pozadi, "background");
 		
 		var gsTexture = new Texture(this.textures.genestealer, {
 			totalFrames: 3,
@@ -53,36 +55,13 @@ new function level(){
 			texture: gsTexture
 		});
 
-		game.add(genestealer);
+		game.add(genestealer, "genestealer");
 		
-		var ps = new ParticleSystem({
-			position: new Vector2(0,0),
-		},
-		{
-			velocity: new Vector2(20,0),
-			life : 1500,
-			textured : true,
-			texture : new Texture(this.textures.kulka),
-			width : 15,
-			height : 6,
-		},
-		{
-			randomize:{
-				velocity : {
-					y : {
-						min: -0.1,
-						max : 0.1
-					}
-				}
-			},
-			amount : 0.2,
-			emiting : false
-		});
 		
 		var player = new Object2({
 			position: new Vector2(200,400),
-			width: 64,
-			height: 70,
+			width: 96,
+			height: 105,
 			texture : new Texture(this.textures.player,{
 				totalFrames : 5,
 				currentAnimation : "standing",
@@ -95,42 +74,52 @@ new function level(){
 					walking : {
 						start : 1,
 						end : 4,
-						speed : 7
+						speed : 10
 					}
 				},
 			}),
 		});
 		
-		player.add(ps);
+		var bolter_options = this.scripts.bolter_options;
+		bolter_options.texture = new Texture(this.textures.heavy_bolter);
+		bolter_options.bulletOptions.texture = new Texture(this.textures.kulka);
+		
+		var zbran = new RangeredWeapon(bolter_options);
+		player.add(zbran, "weapon");
 		game.add(player, "player");
 		
 		game.eventhandler.addKeyboardControl(70,undefined,
 			function (){
-				ps.emiting = false;
+				player.children.weapon.emiter.emiting = false;
 				game.camera.stopShaking();
 			},
 			function (){
-				ps.emiting = true;
+				player.children.weapon.emiter.emiting = true;
 				game.camera.shake({x:2,y:2},0.1);
 			}
 		);
-		game.eventhandler.addKeyboardControl(68, undefined,
+		game.eventhandler.addKeyboardControl(68, function (){
+				player.texture.switchAnimation("walking");
+				player.texture.flip = false;
+				player.children.weapon.flip(false);
+			},
 			function (){
 				player.texture.switchAnimation("standing");
 			}, 
 			function (){
-				player.position.x += 0.6;
+				player.position.x += 1;
+			}
+		);
+		game.eventhandler.addKeyboardControl(65, function (){
 				player.texture.switchAnimation("walking");
-				player.texture.flip = false;
-		});
-		game.eventhandler.addKeyboardControl(65, undefined, 
+				player.texture.flip = "x";
+				player.children.weapon.flip("x");
+			}, 
 			function (){
 				player.texture.switchAnimation("standing");
 			},
 			function (){
-				player.position.x -= 0.6;
-				player.texture.switchAnimation("walking");
-				player.texture.flip = "x";
+				player.position.x -= 1;
 			}
 		);
 	};

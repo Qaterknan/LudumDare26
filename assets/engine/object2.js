@@ -13,7 +13,7 @@ function Object2( options ){
 	this.height = options.height === undefined ? 0 : options.height;
 
 	this.parent = undefined;
-	this.children = [];
+	this.children = {};
 
 	this.ticks = 0;
 
@@ -136,9 +136,9 @@ Object2.prototype.tickChildren = function() {
 Object2.prototype.renderChildren = function(ctx) {
 	if(this.children.length < 1)
 		return;
-
-	this.sortChildren();
-
+	//~ Zásadní problém, je potřeba vyřešit sortování objektu
+	//~ this.sortChildren();
+	
 	ctx.save();
 	ctx.translate(this.position.x, this.position.y);
 	for (var i in this.children){

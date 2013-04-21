@@ -34,7 +34,7 @@ Loader.prototype.load = function (type,src,callback){
 	}
 	if(type == "script"){
 		if(this.scripts[src] !== undefined) return true;
-		$.getScript(src,function (data){
+		$.get(src,function (data){
 			_this.scripts[src] = eval("(function (){return "+data+";})();");
 			_this.toLoad--;
 			_this.checkLoad();
