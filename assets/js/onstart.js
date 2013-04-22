@@ -8,5 +8,5 @@ function onStart( game ){
 	
 	game.gui.addControls();
 	
-	game.levelLoad("assets/levels/tyranid1.js");
+	game.levelLoad("assets/levels/menu.js");
 };

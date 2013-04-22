@@ -91,6 +91,7 @@ Game.prototype.render = function (ctx){
 
 Game.prototype.levelLoad = function (src){
 	var _this = this;
+	this.children = {};
 	$.get(src,function (data){
 		var json = eval(data);
 		_this.loader.loadAssets(json,function (lvl){

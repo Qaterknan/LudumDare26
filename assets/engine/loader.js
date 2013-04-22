@@ -11,10 +11,13 @@ Loader.prototype.load = function (type,src,callback){
 	this.callback = callback === undefined ? this.callback : callback;
 	this.toLoad++;
 	if(type == "texture"){
-		if(this.textures[src] !== undefined) return true; // Zajišťuje, aby se nenačítaly již načtené zdroje
+		if(this.textures[src] !== undefined){
+			this.toLoad--;
+			return true; // Zajišťuje, aby se nenačítaly již načtené zdroje
+		}
 		var obj = new Image();
 		obj.src = src;
-		obj.onload = function (){
+		obj.onload = function (){// console.log(src+ " loaded");
 			_this.textures[src] = this;
 			_this.toLoad--;
 			_this.checkLoad();
@@ -22,10 +25,13 @@ Loader.prototype.load = function (type,src,callback){
 		return true;
 	}
 	if(type == "sound"){
-		if(this.sounds[src] !== undefined) return true;
+		if(this.sounds[src] !== undefined){
+			this.toLoad--;
+			return true;
+		}
 		var obj = new Audio();
 		obj.src = src;
-		$(obj).on("loadeddata",function (){
+		$(obj).on("loadeddata",function (){// console.log(src+ " loaded");
 			_this.sounds[src] = this;
 			_this.toLoad--;
 			_this.checkLoad();
@@ -33,8 +39,11 @@ Loader.prototype.load = function (type,src,callback){
 		return true;
 	}
 	if(type == "script"){
-		if(this.scripts[src] !== undefined) return true;
-		$.get(src,function (data){
+		if(this.scripts[src] !== undefined){
+			this.toLoad--;
+			return true;
+		}
+		$.get(src,function (data){// console.log(src+ " loaded");
 			_this.scripts[src] = eval("(function (){return "+data+";})();");
 			_this.toLoad--;
 			_this.checkLoad();
@@ -56,11 +65,16 @@ Loader.prototype.loadAssets = function (json,callback){
 		var zpet = _this.nameAssets(json);
 		callback(zpet);
 	};
+	var jsouKNacteni = false;
 	for(var i in json){
 		for(var j in json[i]){
 			this.load(i.substr(0,i.length-1),json[i][j]);
+			jsouKNacteni = true;
 		};
 	};
+	if(!jsouKNacteni){
+		this.checkLoad();
+	}
 };
 Loader.prototype.nameAssets = function (json){
 	var zpet = {
