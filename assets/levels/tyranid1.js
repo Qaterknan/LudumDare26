@@ -12,8 +12,7 @@ new function level(){
 		"sisters" : "assets/sounds/sisters.mp3"
 	};
 	this.scripts = {
-		"BLAH" : "assets/levels/blah.js",
-		"bolter_options" : "assets/levels/bolterOptions.js",
+		"bolter_options" : "assets/js/weapons/bolterOptions.js",
 	};
 	this.afterLoad = function (){
 		game.gui.add(new Button({
@@ -49,9 +48,9 @@ new function level(){
 			}
 		});
 		
-		var genestealer = new Genestealer({
+		var genestealer = new Creature({
 			position: new Vector2(400,400),
-			width: 100,
+			width: 75,
 			height: 100,
 			texture: gsTexture
 		});

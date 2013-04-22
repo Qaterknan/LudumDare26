@@ -5,6 +5,7 @@
 	frequency : 0.2,
 	range : 500,
 	inaccuracy : 1,
+	damage : 5,
 	bulletSource : new Vector2(40,-5),
 	bulletOptions : {
 		speed : 20,

@@ -17,10 +17,12 @@ function RangeredWeapon( options ){
 			var vec = game.children[i];
 			if(!vec.damagable) continue;
 			var posun = this.parent.getGlobalTranslate().add(this.parent.position);
+			var y = this.position.y+posun.y-vec.position.y;
 			if((Math.abs(this.position.x + posun.x - vec.position.x) * 2 < vec.width) && 
-			(Math.abs(this.position.y + posun.y - vec.position.y) * 2 < vec.height)){
-				console.log("zásah");
-				this.life = -1;
+			(Math.abs(y) * 2 < vec.height)){
+				if(!_this.bullet.through)
+					this.life = -1;
+				vec.damageDeal(_this.damage,y);
 			}
 		};
 	};
