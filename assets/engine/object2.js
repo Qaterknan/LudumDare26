@@ -96,6 +96,17 @@ Object2.prototype.add = function(obj, id) {
 	}
 };
 
+Object2.prototype.getGlobalTranslate = function (){
+	if(this.parent){
+		var globalTranslate = this.parent.position.clone();
+		globalTranslate.add(this.parent.getGlobalTranslate());
+		return globalTranslate;
+	}
+	else{
+		return new Vector2();
+	}
+};
+
 Object2.prototype.remove = function(obj){
 	for (var i in this.children) {
 		if(this.children[i] == obj)
@@ -149,7 +160,6 @@ Object2.prototype.renderChildren = function(ctx) {
 	};
 	ctx.restore();
 };
-
 
 Object2.prototype.tick = function() {
 };

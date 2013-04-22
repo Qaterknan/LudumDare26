@@ -3,7 +3,7 @@
 	width: 100,
 	height: 40,
 	frequency : 0.2,
-	range : 100,
+	range : 500,
 	inaccuracy : 1,
 	bulletSource : new Vector2(40,-5),
 	bulletOptions : {

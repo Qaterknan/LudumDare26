@@ -32,6 +32,7 @@ new function level(){
 			width: 860,
 			height: 560,
 			texture: new Texture(this.textures.pozadi),
+			collidable : false,
 		});
 
 		game.add(pozadi, "background");
@@ -49,9 +50,9 @@ new function level(){
 		});
 		
 		var genestealer = new Genestealer({
-			position: new Vector2(300,150),
-			width: 50,
-			height: 50,
+			position: new Vector2(400,400),
+			width: 100,
+			height: 100,
 			texture: gsTexture
 		});
 

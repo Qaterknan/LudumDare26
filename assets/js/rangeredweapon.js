@@ -5,12 +5,26 @@ function RangeredWeapon( options ){
 	bulletOptions.velocity = bulletOptions.speed === undefined ? new Vector2(20,0) : new Vector2(bulletOptions.speed,0);
 	bulletOptions.textured = bulletOptions.texture === undefined ? false : true;
 	bulletOptions.texture = bulletOptions.texture;
-	bulletOptions.life = this.range*1000/(this.bulletSpeed*60);
+	bulletOptions.life = this.range*1000/(bulletOptions.velocity.x*60);
 	bulletOptions.width = bulletOptions.width === undefined ? 1 : bulletOptions.width;
 	bulletOptions.height = bulletOptions.height === undefined ? 1 : bulletOptions.height;
 	bulletOptions.through = bulletOptions.through === undefined ? false : bulletOptions.through;
 	//~ Poté, co se zkontrolovala platnost všech atruíbutů jsou přiřazeny oficiálně zbrani
 	this.bullet = bulletOptions;
+	var _this = this;
+	this.bullet.tick = function (){
+		for(var i  in game.children){
+			var vec = game.children[i];
+			if(!vec.damagable) continue;
+			var posun = this.parent.getGlobalTranslate().add(this.parent.position);
+			if((Math.abs(this.position.x + posun.x - vec.position.x) * 2 < vec.width) && 
+			(Math.abs(this.position.y + posun.y - vec.position.y) * 2 < vec.height)){
+				console.log("zásah");
+				this.life = -1;
+			}
+		};
+	};
+	
 	this.inaccuracy = options.inaccuracy === undefined ? {y: {min: 0, max: 0}} : {y: {min: -options.inaccuracy, max: options.inaccuracy}};
 	this.bulletSource = options.bulletSource === undefined ? new Vector2(0,0) : options.bulletSource;
 	

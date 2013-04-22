@@ -100,7 +100,3 @@ Game.prototype.levelLoad = function (src){
 		})
 	});
 };
-
-Game.prototype.checkCollision = function (obj){
-	return false;
-};

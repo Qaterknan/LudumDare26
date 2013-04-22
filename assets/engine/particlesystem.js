@@ -3,9 +3,11 @@ function Particle(options){
 
 	this.creationTime = new Date().getTime();
 	this.life = options.life === undefined ? 1000 : options.life;
+	this.tick = options.tick === undefined ? function (){} : options.tick;
 
 	this.position = options.position === undefined ? new Vector2() : new Vector2().copy(options.position);
 	this.origin = new Vector2().copy(this.position);
+	this.parent = false;
 
 	this.color = options.color === undefined ? new Color(0x000000) : options.color;
 	this.texture = options.texture === undefined ? false : options.texture;
@@ -66,7 +68,6 @@ Particle.prototype.update = function(){
 	
 	this.rotation += this.spin;
 }
-Particle.prototype.tick = function() {}
 // NA OHEŇ
 // Particle.prototype.tick = function() {
 // 	if(this.origin.x < this.position.x){
@@ -138,6 +139,7 @@ ParticleSystem.prototype.emit = function(amount) {
 			}
 		}
 		var particle = new Particle(options);
+		particle.parent = this;
 		this.particles.push( particle );
 	};
 };
