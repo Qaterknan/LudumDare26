@@ -88,6 +88,8 @@ Eventhandler.prototype.keyboardhandler = function(e) {
 	var keycode = e.keyCode,
 		type = e.type;
 	if( this.keyboardControls[ keycode ]){
+		if( type == "keydown" && this.keyboardControls[ keycode ].down )
+			return;
 		this.keyboardControls[ keycode ].down = (type == "keydown");
 		this.keyboardControls[ keycode ].exec(type);
 	}
@@ -135,7 +137,7 @@ Eventhandler.prototype.updateMouseXY = function(x,y) {
 
 	this.mouse.clamp(0, game.width);
 
-	this.mouse.projected.addVectors(this.mouse, game.camera);
+	this.mouse.projected.addVectors(this.mouse, game.camera.position);
 };
 Eventhandler.prototype.loop = function() {
 	for(var k in this.keyboardControls){

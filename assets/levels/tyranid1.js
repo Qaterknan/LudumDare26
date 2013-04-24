@@ -88,14 +88,16 @@ new function level(){
 		player.add(zbran, "weapon");
 		game.add(player, "player");
 		
-		game.eventhandler.addKeyboardControl(70,undefined,
+		game.eventhandler.addKeyboardControl(70,
+			function (){
+				game.camera.shake({x:2,y:2},0.5);
+			},
 			function (){
 				player.children.weapon.emiter.emiting = false;
 				game.camera.stopShaking();
 			},
 			function (){
 				player.children.weapon.emiter.emiting = true;
-				game.camera.shake({x:2,y:2},0.1);
 			}
 		);
 		game.eventhandler.addKeyboardControl(68, function (){

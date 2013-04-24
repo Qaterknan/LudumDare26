@@ -79,7 +79,7 @@ Game.prototype.render = function (ctx){
 	
 	// GUI je na hře
 	ctx.save();
-	ctx.translate(-this.camera.x,-this.camera.y);
+	ctx.translate(-this.camera.position.x,-this.camera.position.y);
 	for(var i in this.children){
 		this.children[i].render(ctx);
 		this.children[i].renderChildren(ctx);

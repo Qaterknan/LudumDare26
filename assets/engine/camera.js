@@ -1,35 +1,40 @@
-function Camera(x,y){
-	Vector2.call(this, x,y);
-	
+function Camera(){
+	this.position = new Vector2();
 	this.velocity = new Vector2();
-	this.origin = new Vector2(x,y);
+	this.origin = new Vector2();
+
+	this.shaking = false;
 };
-Camera.prototype = Object.create( Vector2.prototype );
-Camera.prototype.shake = function (amp,decrease){
-	var amp = amp === undefined ? {x:10,y:10} : amp;
+
+Camera.prototype.moveTo = function(x,y) {
+	this.origin.set(x,y)
+};
+
+Camera.prototype.shake = function (amplitude, decrease){
+	console.log("asdf")
+	var amplitude = amplitude === undefined ? new Vector2() : amplitude;
 	this.decrease = decrease === undefined ? 1 : decrease;
-	this.velocity = new Vector2(random(-amp.x,amp.x),random(-amp.y,amp.y));
-	if(!this.shaking)
-		this.origin.set(this.x,this.y);
+	this.velocity.set(random(-amplitude.x,amplitude.x),random(-amplitude.y,amplitude.y));
+	if(!this.shaking){
+		this.origin.set(this.position.x,this.position.y);
+	}
 	this.shaking = true;
 };
+
 Camera.prototype.stabilize = function (){
-	if(this.velocity.x != 0){
-		this.velocity.x += (this.origin.x-this.x)*this.decrease;
-	}
-	if(this.velocity.y != 0){
-		this.velocity.y += (this.origin.y-this.y)*this.decrease;
-	}
-	if(this.velocity.length() < 0.1){ // Těžko říct jak jinak
-		this.stopShaking();
+	if(this.shaking){
+		this.velocity.x += (this.origin.x-this.position.x)*this.decrease;
+		this.velocity.y += (this.origin.y-this.position.y)*this.decrease;
 	}
 };
+
 Camera.prototype.update = function (){
 	this.stabilize();
-	this.add(this.velocity);
+	this.position.add(this.velocity);
 };
+
 Camera.prototype.stopShaking = function (){
 	this.velocity.set(0,0);
-	this.set(this.origin.x,this.origin.y);
+	this.position.copy(this.origin);
 	this.shaking = false;
 };
