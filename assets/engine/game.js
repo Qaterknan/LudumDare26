@@ -61,13 +61,11 @@ Game.prototype.tick = function (){
 
 	this.eventhandler.loop();
 
-	for(var i in this.children){
-		this.children[i].tick();
-		this.children[i].tickChildren();
-	};
+	this.tickChildren();
 
 	game.gui.tick();
 	this.camera.update();
+	
 	this.render(this.ctx);
 
 	stats.end();
@@ -80,10 +78,7 @@ Game.prototype.render = function (ctx){
 	// GUI je na hře
 	ctx.save();
 	ctx.translate(-this.camera.position.x,-this.camera.position.y);
-	for(var i in this.children){
-		this.children[i].render(ctx);
-		this.children[i].renderChildren(ctx);
-	};
+	this.renderChildren(ctx);
 	ctx.restore();
 	this.gui.render(ctx);
 	return true;
@@ -91,7 +86,7 @@ Game.prototype.render = function (ctx){
 
 Game.prototype.levelLoad = function (src){
 	var _this = this;
-	this.children = {};
+	this.children = [];
 	$.get(src,function (data){
 		var json = eval(data);
 		_this.loader.loadAssets(json,function (lvl){

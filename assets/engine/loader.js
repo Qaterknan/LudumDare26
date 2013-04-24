@@ -43,7 +43,7 @@ Loader.prototype.load = function (type,src,callback){
 			this.toLoad--;
 			return true;
 		}
-		$.get(src,function (data){// console.log(src+ " loaded");
+		$.get(src+"?="+Math.random(),function (data){// console.log(src+ " loaded");
 			_this.scripts[src] = eval("(function (){return "+data+";})();");
 			_this.toLoad--;
 			_this.checkLoad();

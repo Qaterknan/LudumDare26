@@ -10,14 +10,15 @@ Camera.prototype.moveTo = function(x,y) {
 	this.origin.set(x,y)
 };
 
+Camera.prototype.follow = function(vec) {
+	this.origin = vec;
+	console.log(vec);
+};
+
 Camera.prototype.shake = function (amplitude, decrease){
-	console.log("asdf")
 	var amplitude = amplitude === undefined ? new Vector2() : amplitude;
 	this.decrease = decrease === undefined ? 1 : decrease;
 	this.velocity.set(random(-amplitude.x,amplitude.x),random(-amplitude.y,amplitude.y));
-	if(!this.shaking){
-		this.origin.set(this.position.x,this.position.y);
-	}
 	this.shaking = true;
 };
 

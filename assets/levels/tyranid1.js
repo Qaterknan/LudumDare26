@@ -34,7 +34,7 @@ new function level(){
 			collidable : false,
 		});
 
-		game.add(pozadi, "background");
+		game.add(pozadi);
 		
 		var gsTexture = new Texture(this.textures.genestealer, {
 			totalFrames: 3,
@@ -49,16 +49,18 @@ new function level(){
 		});
 		
 		var genestealer = new Creature({
+			zIndex: 20,
 			position: new Vector2(400,400),
 			width: 75,
 			height: 100,
 			texture: gsTexture
 		});
 
-		game.add(genestealer, "genestealer");
+		game.add(genestealer);
 		
 		
 		var player = new Object2({
+			id: "player",
 			position: new Vector2(200,400),
 			width: 96,
 			height: 105,
@@ -85,25 +87,29 @@ new function level(){
 		bolter_options.bulletOptions.texture = new Texture(this.textures.kulka);
 		
 		var zbran = new RangeredWeapon(bolter_options);
-		player.add(zbran, "weapon");
-		game.add(player, "player");
+		zbran.id = "weapon";
+
+		player.add(zbran);
+		game.add(player);
+
+		// game.camera.follow(player.position);
 		
 		game.eventhandler.addKeyboardControl(70,
 			function (){
 				game.camera.shake({x:2,y:2},0.5);
 			},
 			function (){
-				player.children.weapon.emiter.emiting = false;
+				player.getChild("weapon").emiter.emiting = false;
 				game.camera.stopShaking();
 			},
 			function (){
-				player.children.weapon.emiter.emiting = true;
+				player.getChild("weapon").emiter.emiting = true;
 			}
 		);
 		game.eventhandler.addKeyboardControl(68, function (){
 				player.texture.switchAnimation("walking");
 				player.texture.flip = false;
-				player.children.weapon.flip(false);
+				player.getChild("weapon").flip(false);
 			},
 			function (){
 				player.texture.switchAnimation("standing");
@@ -115,7 +121,7 @@ new function level(){
 		game.eventhandler.addKeyboardControl(65, function (){
 				player.texture.switchAnimation("walking");
 				player.texture.flip = "x";
-				player.children.weapon.flip("x");
+				player.getChild("weapon").flip("x");
 			}, 
 			function (){
 				player.texture.switchAnimation("standing");

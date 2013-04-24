@@ -3,6 +3,8 @@ function Object2( options ){
 
 	options = options === undefined ? {} : options;
 
+	this.id = options.id === undefined ? "" : options.id;
+
 	this.creationTime = new Date().getTime();
 
 	this.position = options.position === undefined ? new Vector2() : options.position;
@@ -13,7 +15,7 @@ function Object2( options ){
 	this.height = options.height === undefined ? 0 : options.height;
 
 	this.parent = undefined;
-	this.children = {};
+	this.children = [];
 
 	this.ticks = 0;
 
@@ -85,15 +87,25 @@ Object2.prototype.inObject = function(vec) {
 };
 
 // funkce práce s dětmi
-Object2.prototype.add = function(obj, id) {
+Object2.prototype.add = function(obj) {
 	obj.parent = this;
-	if(id === undefined){
-		var length = Object.keys(this.children).length;
-		this.children[length] = obj;
+	this.children.push(obj);
+};
+
+Object2.prototype.getChild = function(id, recursive) {
+	for(var i in this.children){
+		var child = this.children[i];
+		if(child.id == id){
+			return child;
+		}
+		if(recursive === true){
+			child = child.getChild(id, recursive);
+			if ( child !== undefined ) {
+				return child;
+			}
+		}
 	}
-	else {
-		this.children[id] = obj;
-	}
+	return undefined;
 };
 
 Object2.prototype.getGlobalTranslate = function (){
@@ -116,15 +128,15 @@ Object2.prototype.remove = function(obj){
 
 Object2.prototype.getSortedChildrenHash = function(){
 	var hash = [];
-	for (var i = 0, len = this.children.length; i < len; i++){
+	for(var i in this.children){
 		hash.push(this.children[i].zIndex)
 	};
-	return hash.join("");
+	return hash.join(".");
 }
 
 Object2.prototype.sortChildren = function() {
-	if(this.children.length)
-		return this.children;
+	// if(this.children.length)
+	// 	return this.children;
 	if( this.sortedChildrenHash !== this.getSortedChildrenHash() ){
 		this.children.sort(function(a,b){
 			return a.zIndex - b.zIndex;
@@ -137,7 +149,7 @@ Object2.prototype.sortChildren = function() {
 	}
 };
 Object2.prototype.tickChildren = function() {
-	for (var i in this.children){
+	for(var i in this.children){
 		this.children[i].tick();
 		if(this.children[i].tickChildren)
 			this.children[i].tickChildren();
@@ -147,12 +159,11 @@ Object2.prototype.tickChildren = function() {
 Object2.prototype.renderChildren = function(ctx) {
 	if(this.children.length < 1)
 		return;
-	//~ Zásadní problém, je potřeba vyřešit sortování objektu
-	//~ this.sortChildren();
+	this.sortChildren();
 	
 	ctx.save();
 	ctx.translate(this.position.x, this.position.y);
-	for (var i in this.children){
+	for(var i in this.children){
 		if(this.children[i].rendering)
 			this.children[i].render(ctx);
 		if(this.children[i].renderChildren)
