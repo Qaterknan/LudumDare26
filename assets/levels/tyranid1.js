@@ -95,6 +95,7 @@ new function level(){
 				game.camera.stopShaking();
 			},
 			function (){
+				//~ game.camera.shake({x:2,y:2},0.5);
 				player.getChild("weapon").emiter.emiting = true;
 			}
 		);
