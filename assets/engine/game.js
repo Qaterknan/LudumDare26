@@ -1,7 +1,5 @@
 function Game(){
 	Object2.call(this, {});
-	
-	this.level = {};
 
 	this.canvas = document.createElement("canvas");
 	this.ctx = this.canvas.getContext("2d");
@@ -20,6 +18,7 @@ function Game(){
 	this.interval = false;
 };
 Game.prototype = Object.create( Object2.prototype );
+
 Game.prototype.init = function (){
 	document.body.appendChild(this.canvas);
 
@@ -89,10 +88,9 @@ Game.prototype.levelLoad = function (src){
 	this.children = [];
 	$.get(src,function (data){
 		var json = eval(data);
-		_this.loader.loadAssets(json,function (lvl){
-			_this.level = lvl;
-			_this.level.afterLoad = json.afterLoad;
-			_this.level.afterLoad();
+		_this.loader.loadAssets(json, function (lvl){
+			lvl.afterLoad = json.afterLoad;
+			lvl.afterLoad();
 		})
 	});
 };
