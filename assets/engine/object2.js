@@ -16,6 +16,7 @@ function Object2( options ){
 
 	this.parent = undefined;
 	this.children = [];
+	this.childrenCache = {};
 
 	this.ticks = 0;
 
@@ -93,9 +94,13 @@ Object2.prototype.add = function(obj) {
 };
 
 Object2.prototype.getChild = function(id, recursive) {
+	if(this.childrenCache[id] !== undefined){
+		return this.childrenCache[id];
+	}
 	for(var i in this.children){
 		var child = this.children[i];
 		if(child.id == id){
+			this.childrenCache[id] = child;
 			return child;
 		}
 		if(recursive === true){
