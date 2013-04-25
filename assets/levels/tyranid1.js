@@ -6,6 +6,7 @@ new function level(){
 		"pozadi" : "assets/textures/pozadí.png",
 		"kulka" : "assets/textures/kulka.png",
 		"player" : "assets/textures/terminator.png",
+		"player_powerfist" : "assets/textures/powerfist.png",
 		"heavy_bolter" : "assets/textures/heavy_bolter.png",
 	};
 	this.sounds = {
@@ -56,8 +57,24 @@ new function level(){
 			position: new Vector2(200,400),
 			width: 96,
 			height: 105,
-			texture : new Texture(this.textures.player,{
-				totalFrames : 5,
+			// texture : new Texture(this.textures.player,{
+			// 	totalFrames : 5,
+			// 	currentAnimation : "standing",
+			// 	animations : {
+			// 		standing : {
+			// 			start : 0,
+			// 			end : 0,
+			// 			speed : 1
+			// 		},
+			// 		walking : {
+			// 			start : 1,
+			// 			end : 4,
+			// 			speed : 10
+			// 		}
+			// 	},
+			// }),
+			texture : new Texture(this.textures.player_powerfist,{
+				totalFrames : 8,
 				currentAnimation : "standing",
 				animations : {
 					standing : {
@@ -69,7 +86,12 @@ new function level(){
 						start : 1,
 						end : 4,
 						speed : 10
-					}
+					},
+					punch : {
+						start : 5,
+						end : 7,
+						speed : 10
+					},
 				},
 			}),
 		});
@@ -85,10 +107,25 @@ new function level(){
 		game.add(player);
 
 		// game.camera.follow(player.position);
-		
-		game.eventhandler.addKeyboardControl(70,
+
+		game.eventhandler.addKeyboardControl("R",
 			function (){
-				game.camera.shake({x:2,y:2},0.5);
+				game.camera.shake({x:3,y:3},0.3);
+				player.texture.switchAnimation("punch");
+				player.getChild("weapon").rendering = false;
+			},
+			function (){
+				game.camera.stopShaking();
+				player.texture.switchAnimation("standing");
+				// player.getChild("weapon").emiter.emiting = false;
+				
+			}
+		);
+		
+		game.eventhandler.addKeyboardControl("F",
+			function (){
+				player.getChild("weapon").rendering = true;
+				game.camera.shake({x:4,y:2},0.5);
 			},
 			function (){
 				player.getChild("weapon").emiter.emiting = false;
@@ -99,7 +136,7 @@ new function level(){
 				player.getChild("weapon").emiter.emiting = true;
 			}
 		);
-		game.eventhandler.addKeyboardControl(68, function (){
+		game.eventhandler.addKeyboardControl("D", function (){
 				player.texture.switchAnimation("walking");
 				player.texture.flip = false;
 				player.getChild("weapon").flip(false);
@@ -111,7 +148,7 @@ new function level(){
 				player.position.x += 1;
 			}
 		);
-		game.eventhandler.addKeyboardControl(65, function (){
+		game.eventhandler.addKeyboardControl("A", function (){
 				player.texture.switchAnimation("walking");
 				player.texture.flip = "x";
 				player.getChild("weapon").flip("x");

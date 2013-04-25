@@ -32,7 +32,7 @@ Texture.prototype.switchAnimation = function(name) {
 	if(this.animations[name] && (this.currentAnimation != this.animations[name] || this.ended)){
 		this.currentAnimation = this.animations[name];
 		this.frame = this.currentAnimation.start;
-		this.frames = this.currentAnimation.end - this.currentAnimation.start;
+		this.frames = this.currentAnimation.end - this.currentAnimation.start + 1;
 
 		this.speed = this.currentAnimation.speed;
 		this.currentAnimation.cycle = this.currentAnimation.cycle === undefined ? true : this.currentAnimation.cycle;
