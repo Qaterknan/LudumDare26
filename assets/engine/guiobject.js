@@ -1,5 +1,7 @@
 function GUIObject(options){
 	var options = options === undefined ? {} : options;
+
+	this.id = options.id === undefined ? "" : options.id;
 	
 	this.position = options.position === undefined ? new Vector2(0,0) : options.position;
 	this.rotation = options.rotation === undefined ? 0 : options.rotation;
@@ -105,9 +107,9 @@ GUIObject.prototype.mouseHandle = function (x,y,type){
 			this.mouseout();
 		}
 	}
-	for (var i = 0; i < this.children.length; i++){
-		this.children[i].mousehandler(x-this.x,y-this.y,type);
-	}
+	// for (var i = 0; i < this.children.length; i++){
+	// 	this.children[i].mousehandler(x-this.x,y-this.y,type);
+	// }
 };
 
 GUIObject.prototype.mouseCollision = function (x, y){

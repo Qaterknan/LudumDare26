@@ -10,7 +10,7 @@ function Game(){
 	this.width = 800;
 	this.height = 480;
 
-	this.gui = new GUI(this.canvas.width, this.canvas.height);
+	this.gui = new GUI(this);
 	this.eventhandler = new Eventhandler(this.canvas);
 	this.loader = new Loader();
 	this.jukebox = new Jukebox();

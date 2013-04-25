@@ -1,9 +1,11 @@
 new function level(){
 	this.textures = {
+		// gui textury - nakopírovat všude:
 		"troll" : "assets/textures/troll.png",
 		"marine" : "assets/textures/pixel.jpg",
 		"genestealer" : "assets/textures/genestealer.png",
 		"pozadi" : "assets/textures/pozadí.png",
+		// konec
 		"kulka" : "assets/textures/kulka.png",
 		"player" : "assets/textures/terminator.png",
 		"heavy_bolter" : "assets/textures/heavy_bolter.png",
@@ -13,18 +15,10 @@ new function level(){
 	};
 	this.scripts = {
 		"bolter_options" : "assets/js/weapons/bolterOptions.js",
+		"ingame" : "assets/js/guis/ingame.js"
 	};
 	this.afterLoad = function (){
-		game.gui.add(new Button({
-			position: new Vector2(100,100),
-			value: "Hello world", 
-			texture: new Texture(this.textures.marine),
-			width: 100,
-			height: 50,
-			mousedown: function(){
-				return;
-			}
-		}));
+		game.gui.GUILoad(this.scripts.ingame);
 
 		var pozadi = new Object2({
 			position: new Vector2(420,270),

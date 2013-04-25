@@ -100,6 +100,7 @@ Object2.prototype.getChild = function(id, recursive) {
 	for(var i in this.children){
 		var child = this.children[i];
 		if(child.id == id){
+			this.childrenCache[id] = child;
 			return child;
 		}
 		if(recursive === true){

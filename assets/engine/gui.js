@@ -1,5 +1,6 @@
-function GUI(width, height){
-	GUIObject.call(this, {width: width, height: height});
+function GUI(game){
+	GUIObject.call(this, {});
+	this.parent = game;
 };
 
 GUI.prototype = Object.create( GUIObject.prototype );
@@ -10,6 +11,14 @@ GUI.prototype.tick = function (){
 
 GUI.prototype.render = function (ctx){
 	this.renderChildren(ctx);
+};
+
+GUI.prototype.GUILoad = function(guiobject) {
+	console.log(guiobject)
+	this.children = [];
+	guiobject.preload(this.parent);
+	guiobject.objects(this.parent);
+	guiobject.afterload(this.parent);
 };
 
 GUI.prototype.addControls = function() {
