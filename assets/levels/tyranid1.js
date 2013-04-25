@@ -4,6 +4,7 @@ new function level(){
 		"marine" : "assets/textures/pixel.jpg",
 		"genestealer" : "assets/textures/genestealer.png",
 		"pozadi" : "assets/textures/pozadí.png",
+		"podlaha" : "assets/textures/podlaha.png",
 		"kulka" : "assets/textures/kulka.png",
 		"player" : "assets/textures/terminator.png",
 		"player_powerfist" : "assets/textures/powerfist.png",
@@ -28,6 +29,19 @@ new function level(){
 		});
 
 		game.add(pozadi);
+
+		var podlaha = new Object2({
+			position : new Vector2(450, 464),
+			zIndex : 10,
+			width : 1000,
+			height : 32,
+			texture: new Texture(this.textures.podlaha, {
+				repeat : true,
+				scale : new Vector2(2,2)
+			}),
+		});
+
+		game.add(podlaha);
 		
 		var gsTexture = new Texture(this.textures.genestealer, {
 			totalFrames: 3,
@@ -42,7 +56,6 @@ new function level(){
 		});
 		
 		var genestealer = new Creature({
-			zIndex: 20,
 			position: new Vector2(400,400),
 			width: 75,
 			height: 100,
@@ -110,7 +123,7 @@ new function level(){
 
 		game.eventhandler.addKeyboardControl("R",
 			function (){
-				game.camera.shake({x:3,y:3},0.3);
+				game.camera.shake({x:6,y:0},0.2);
 				player.texture.switchAnimation("punch");
 				player.getChild("weapon").rendering = false;
 			},
@@ -125,7 +138,7 @@ new function level(){
 		game.eventhandler.addKeyboardControl("F",
 			function (){
 				player.getChild("weapon").rendering = true;
-				game.camera.shake({x:4,y:2},0.5);
+				game.camera.shake({x:4,y:0},0.5);
 			},
 			function (){
 				player.getChild("weapon").emiter.emiting = false;
