@@ -31,13 +31,22 @@ function Texture(image, options){
 Texture.prototype.switchAnimation = function(name) {
 	if(this.animations[name] && (this.currentAnimation != this.animations[name] || this.ended)){
 		this.currentAnimation = this.animations[name];
-		this.frame = this.currentAnimation.start;
+
 		this.frames = this.currentAnimation.end - this.currentAnimation.start + 1;
 
-		this.speed = this.currentAnimation.speed;
+		this.animationStart = new Date().getTime();
+
 		this.currentAnimation.cycle = this.currentAnimation.cycle === undefined ? true : this.currentAnimation.cycle;
-		this.ended = false;
 	}
+};
+
+Texture.prototype.getCurrentFrame = function() {
+	var delta = new Date().getTime() - this.animationStart;
+	if(delta > this.frames * this.currentAnimation.speed && !this.currentAnimation.cycle){
+		return this.currentAnimation.end;
+	}
+
+	return this.currentAnimation.start + Math.floor(delta/this.currentAnimation.speed) % this.frames;
 };
 
 Texture.prototype.draw = function(ctx, width, height) {
@@ -60,23 +69,14 @@ Texture.prototype.draw = function(ctx, width, height) {
 	}
 	ctx.globalAlpha = this.alpha;
 	if(this.animated){
-		// ctx.fillStyle = "#000";
-		// ctx.fillText(Math.floor(this.frame), x + addX, y + addY)
+		ctx.fillStyle = "#000";
+		ctx.fillText(this.getCurrentFrame(), addX, addY);
 		ctx.drawImage(this.image,
-			Math.floor(this.frame)*this.frameWidth, 0,
+			this.getCurrentFrame()*this.frameWidth, 0,
 			this.frameWidth, this.height,
 			addX, addY,
 			width, height
 			);
-		if(this.frame + 1/this.currentAnimation.speed < this.currentAnimation.end){
-			this.frame += 1/this.currentAnimation.speed;
-		}
-		else if(this.currentAnimation.cycle){
-			this.frame = this.currentAnimation.start;
-		}
-		else {
-			this.ended = true;
-		}
 	}
 	else {
 		if(this.repeat){

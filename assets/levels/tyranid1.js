@@ -50,7 +50,7 @@ new function level(){
 				walking: {
 					start: 0,
 					end: 2,
-					speed: 60
+					speed: 120
 				}
 			}
 		});
@@ -67,9 +67,9 @@ new function level(){
 		
 		var player = new Object2({
 			id: "player",
-			position: new Vector2(200,400),
-			width: 96,
-			height: 105,
+			position: new Vector2(200,390),
+			width: 72*2,
+			height: 66*2,
 			// texture : new Texture(this.textures.player,{
 			// 	totalFrames : 5,
 			// 	currentAnimation : "standing",
@@ -98,12 +98,13 @@ new function level(){
 					walking : {
 						start : 1,
 						end : 4,
-						speed : 10
+						speed : 100
 					},
 					punch : {
 						start : 5,
 						end : 7,
-						speed : 10
+						speed : 200,
+						cycle : false
 					},
 				},
 			}),
@@ -153,6 +154,7 @@ new function level(){
 				player.texture.switchAnimation("walking");
 				player.texture.flip = false;
 				player.getChild("weapon").flip(false);
+				player.getChild("weapon").rendering = false;
 			},
 			function (){
 				player.texture.switchAnimation("standing");
@@ -165,6 +167,7 @@ new function level(){
 				player.texture.switchAnimation("walking");
 				player.texture.flip = "x";
 				player.getChild("weapon").flip("x");
+				player.getChild("weapon").rendering = false;
 			}, 
 			function (){
 				player.texture.switchAnimation("standing");
