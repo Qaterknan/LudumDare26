@@ -13,7 +13,7 @@ function RangeredWeapon( options ){
 	this.bullet = bulletOptions;
 	var _this = this;
 	this.bullet.tick = function (){
-		for(var i  in game.children){
+		for(var i in game.children){
 			var vec = game.children[i];
 			if(!vec.damagable) continue;
 			var posun = this.parent.getGlobalTranslate().add(this.parent.position);

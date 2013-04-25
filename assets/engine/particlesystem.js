@@ -30,6 +30,8 @@ function Particle(options){
 	// rotace
 	this.spin = options.spin === undefined ? 0 : options.spin;
 	this.rotation = options.rotation === undefined ? 0 : options.rotation;
+	// additionalTick
+	this.tick = options.tick === undefined ? function(){} : options.tick;
 }
 Particle.prototype.render = function(ctx) {
 	if(this.alpha <= 0 || this.size <= 0.5) return;
@@ -67,6 +69,8 @@ Particle.prototype.update = function(){
 	if(this.alpha<0) this.alpha = 0;
 	
 	this.rotation += this.spin;
+
+	this.tick();
 }
 // NA OHEŇ
 // Particle.prototype.tick = function() {
@@ -78,7 +82,7 @@ Particle.prototype.update = function(){
 // 	}
 // };
 
-function ParticleSystem(options,particle,emit){
+function ParticleSystem(options, particle, emit){
 	Object2.call(this, options);
 	this.collidable = false;
 	this.opaque = false;
@@ -115,7 +119,6 @@ ParticleSystem.prototype.render = function(ctx) {
 		}
 		this.particles[i].render(ctx);
 		this.particles[i].update();
-		this.particles[i].tick();
 	};
 	ctx.restore();
 };
@@ -138,7 +141,8 @@ ParticleSystem.prototype.emit = function(amount) {
 				options[i] = randomize[i][ Math.floor(randomize[i].length * Math.random()) ];
 			}
 		}
-		var particle = new Particle(options);
+		var constructor = this.particleOptions.type === undefined ? Particle : this.particleOptions.type;
+		var particle = new constructor(this.particleOptions);
 		particle.parent = this;
 		this.particles.push( particle );
 	};

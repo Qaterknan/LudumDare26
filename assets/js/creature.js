@@ -11,8 +11,16 @@ function Creature( options ){
 		velocity : new Vector2(10,0),
 		textured : false,
 		color : bloodColor,
-		life : 300,
+		life : 3000,
 		size : 5,
+		gravity : new Vector2(0,0.1),
+		tick : function(){
+			if(Math.random()<0.001) console.log(this.position.y)
+			if(this.position.y > 50 && this.velocity.y > 0){
+				this.velocity.y *= -1;
+				this.friction.y = 0.9;
+			}
+		}
 	};
 	this.bloodVelocity = {
 		x : {
@@ -29,7 +37,25 @@ function Creature( options ){
 	},
 	this.bloodDrop,{
 		randomize : {
+			// gravity : {
+			// 	x : {
+			// 		min : 0,
+			// 		max : 0.1
+			// 	},
+			// 	y : {
+			// 		min : 0.01,
+			// 		max : 0.02
+			// 	}
+			// },
 			velocity: this.bloodVelocity,
+			spin : {
+				min : -0.2,
+				max : 0.2
+			},
+			fade : {
+				min : 0.005,
+				max : 0.01
+			},
 		},
 		amount : 1,
 		emiting : false,

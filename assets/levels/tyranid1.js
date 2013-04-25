@@ -1,11 +1,9 @@
 new function level(){
 	this.textures = {
-		// gui textury - nakopírovat všude:
 		"troll" : "assets/textures/troll.png",
 		"marine" : "assets/textures/pixel.jpg",
 		"genestealer" : "assets/textures/genestealer.png",
 		"pozadi" : "assets/textures/pozadí.png",
-		// konec
 		"kulka" : "assets/textures/kulka.png",
 		"player" : "assets/textures/terminator.png",
 		"heavy_bolter" : "assets/textures/heavy_bolter.png",
