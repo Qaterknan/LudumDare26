@@ -2,7 +2,9 @@ function Lights(width, height){
 	this.width = width;
 	this.height = height;
 
-	this.init();	
+	this.init();
+
+	this.checks = 0;
 
 	this.shadowColor = new Color(0x000000, 0.8);
 }
@@ -87,9 +89,9 @@ Lights.prototype.cast = function(ctx) {
 };
 
 Lights.prototype.collision = function(x,y) {
-	if(Math.random()<0.1){
+	this.checks += 1;
+	if(this.checks%4==0){
 		col = this.cacheCanvas.ctx.getImageData(x, y, 1, 1).data[3];
-		// console.log(col)
 		this.switchASDF = col > 0;
 	}
 	return this.switchASDF;

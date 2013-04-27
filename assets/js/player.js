@@ -76,9 +76,13 @@ Player.prototype.move = function(angle) {
 	var newInfluence = [];
 	var collided = false;
 	for(var i in collisions){
-		if(collisions[i].id == "playerLight") continue;console.log(collisions[i]);
+		if(collisions[i].id == "playerLight")
+			continue;
 		if(collisions[i] instanceof PointLight){
-			newInfluence.push(collisions[i]);
+			// zřídka kdy mohou nastat problémy - když jedno světlo bude odstíněné a druhé bude zasahovat do jeho radiu. Pak se zaznamenají obě světla místo jednoho. Situace je ale natolik nepravděpodobná, že bug ignoruji.
+			if(game.lights.collision(this.position.x,this.position.y)){
+				newInfluence.push(collisions[i]);
+			}
 		}
 		this.onCollision(collisions[i]);
 		if(collisions[i].collidable && !collided){
@@ -88,7 +92,6 @@ Player.prototype.move = function(angle) {
 		}
 	};
 	this.compare( newInfluence );
-	console.log(game.lights.collision(this.position.x, this.position.y));
 };
 
 Player.prototype.render = function(ctx) {
