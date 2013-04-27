@@ -87,6 +87,14 @@ new function level(){
 			
 		var svetlo = new PointLight({color: "#0000ff", distance: 100});
 		svetlo.position.set(300,300);
+		svetlo.tick = function (){
+			if(this.testCollision(player)){
+				player.ghost = true;
+			}
+			else{
+				player.ghost = false;
+			}
+		};
 		svetlo.changeSound = new Sound(game.loader.assets.sounds.up);
 		game.add(svetlo);
 		
