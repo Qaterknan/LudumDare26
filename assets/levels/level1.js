@@ -86,6 +86,7 @@ new function level(){
 		
 		var pol3 = new Portal({
 			color: "rgba(0,0,255,0.5)",
+			ghostId: "port1",
 			points:[
 				new Vector2(300,75),
 				new Vector2(325,75),
@@ -120,6 +121,7 @@ new function level(){
 		var svetlo = new Tunneler({
 			color: "#0000ff",
 			distance: 100,
+			ghostId: "port1",
 			inSound: new Sound(game.loader.assets.sounds.up),
 			outSound: new Sound(game.loader.assets.sounds.down)
 		});
