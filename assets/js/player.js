@@ -52,7 +52,7 @@ Player.prototype.addControls = function(eventhandler) {
 	});
 	eventhandler.addKeyboardControl("S", undefined, undefined, function(){
 		_this.move(-PI/2);
-	})
+	});
 	eventhandler.addKeyboardControl("E", function (){
 		for(var i in game.children){
 			if(game.children[i] instanceof Trigger){
@@ -60,6 +60,10 @@ Player.prototype.addControls = function(eventhandler) {
 			}
 		}
 	});
+	eventhandler.addKeyboardControl("R", function (){
+		game.restartGame();
+	});
+	
 };
 
 Player.prototype.move = function(angle) {

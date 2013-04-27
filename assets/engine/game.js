@@ -92,11 +92,25 @@ Game.prototype.render = function (ctx){
 
 Game.prototype.levelLoad = function (src){
 	var _this = this;
+	this.levelSrc = src;
 	this.children = [];
 	this.childrenCache = {};
+
+	this.clearColor = "#FFFFFF";
+	this.gui.add(new Text({
+		position: new Vector2(_this.width/2-100, _this.height/2-30),
+		width: 200,
+		height: 60,
+		value: "Loading level",
+		size: 30,
+		color : "#ffffff",
+		font : "Arial",
+	}));
+
 	$.get(src,function (data){
 		var json = eval(data);
 		_this.loader.loadAssets(json, function (lvl){
+			_this.gui.resetGUI();
 			lvl.afterLoad = json.afterLoad;
 			lvl.afterLoad();
 		})
@@ -120,4 +134,8 @@ Game.prototype.checkCollisions = function(obj){
 	else {
 		return false;
 	}
+};
+
+Game.prototype.restartGame = function() {
+	this.levelLoad(this.levelSrc);
 };
