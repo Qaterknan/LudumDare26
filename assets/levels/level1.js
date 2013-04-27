@@ -16,21 +16,28 @@ new function level(){
 		player.id = "player";
 		game.add(player);
 
-		var polygon = new Polygon({
-			position : new Vector2(200, 200),
-			points : [
-				new Vector2(-10*2,-20*2),
-				new Vector2(10*2,-30*2),
-				new Vector2(20*2,10*2),
-				new Vector2(20*2,30*2),
-				new Vector2(-60*2,10*2),
-				new Vector2(-80*2,-10*2),
-				]
-			});
-		game.add(polygon);
+		game.clearColor = "#F0B9F0";
+
+		
+		for(var i=0;i<25;i++){
+			var polygon = new Polygon({
+				position : new Vector2(1000*Math.random(), 1000*Math.random()),
+				points : [
+					new Vector2(-10*Math.random(),-10*Math.random()),
+					new Vector2(10*Math.random(),-30*Math.random()),
+					new Vector2(30*Math.random(),10*Math.random()),
+					// new Vector2(40*Math.random(),30*Math.random()),
+					// new Vector2(-60*Math.random(),10*Math.random()),
+					// new Vector2(-80*Math.random(),-10*Math.random()),
+					],
+				color : "#E01BE0"
+				});
+			game.add(polygon);
+		}
 			
-		var svetlo = new PointLight({color: "#ff0000"});
-		svetlo.position.set(300,300);
+		var svetlo = new PointLight({color: "#ff4444"});
+		svetlo.position = player.position;
+		// svetlo.position.set(300,300);
 		game.add(svetlo);
 		
 		var tlacitko = new Trigger({radius: 20});

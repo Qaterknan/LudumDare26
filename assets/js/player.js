@@ -2,7 +2,7 @@ function Player(options){
 	Object2.call(this, options);
 
 	this.radius = 10;
-	this.speed = 1;
+	this.speed = 5;
 	this.color = "#1BE063";
 }
 Player.prototype = Object.create( Object2.prototype );

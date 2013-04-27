@@ -29,7 +29,7 @@ function Object2( options ){
 	this.hitbox = options.hitbox === undefined ? {x: 0, y: 0, width: _this.width, height: _this.height} : options.hitbox;
 
 	// světlo
-	this.opaque = options.opaque === undefined ? true : options.opaque;
+	this.opaque = options.opaque === undefined ? false : options.opaque;
 	this.diffuse =  options.diffuse === undefined ? 0.4 : options.diffuse; // jak moc se od jeho povrchu odráží světlo
 
 	this.velocity = new Vector2();

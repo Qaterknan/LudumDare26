@@ -12,6 +12,7 @@ function Game(){
 	this.eventhandler = new Eventhandler(this.canvas);
 	this.loader = new Loader();
 	this.jukebox = new Jukebox();
+	this.lights = new Lights(this.width, this.height);
 	
 	this.camera = new Camera();
 
@@ -39,8 +40,12 @@ Game.prototype.adjustCanvas = function(width, height) {
 	this.canvas.style.top = (window.innerHeight - this.height)/3 + "px";
 
 	this.eventhandler.offset = $(this.canvas).offset();
-	this.gui.width = this.width * this.scale;
-	this.gui.height = this.height * this.scale;
+	this.gui.width = this.width;
+	this.gui.height = this.height;
+
+	this.lights.width = this.width;
+	this.lights.height = this.height;
+	this.lights.init();
 
 	this.disableInterpolation();
 };
@@ -79,8 +84,10 @@ Game.prototype.render = function (ctx){
 	ctx.translate(-this.camera.position.x,-this.camera.position.y);
 	this.renderChildren(ctx);
 	ctx.restore();
+
+	this.lights.render(ctx);
+
 	this.gui.render(ctx);
-	return true;
 };
 
 Game.prototype.levelLoad = function (src){

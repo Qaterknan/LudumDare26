@@ -1,7 +1,8 @@
 function Polygon(options){
 	Object2.call(this, options);
 
-	this.color = "#E01BE0";
+	this.color = options.color === undefined ? "#000000" : options.color;
+	this.opaque = true;
 
 	this.points = options.points === undefined ? [] : options.points;
 }
@@ -10,15 +11,52 @@ Polygon.prototype = Object.create( Object2.prototype );
 Polygon.prototype.render = function(ctx) {
 	ctx.save();
 		ctx.translate(this.position.x, this.position.y);
-		ctx.beginPath();
-		ctx.fillStyle = this.color;
-		for(var i = 0, l = this.points.length; i < l; i++){
-			var a = this.points[i];
-			ctx.lineTo(a.x, a.y);
-		}
-		ctx.fill();
-		ctx.closePath();
+		this.fill(ctx, this.color);
 	ctx.restore();
+};
+
+Polygon.prototype.fill = function(ctx, color) {
+	ctx.beginPath();
+	ctx.fillStyle = color;
+	for(var i = 0, l = this.points.length; i < l; i++){
+		var a = this.points[i];
+		ctx.lineTo(a.x, a.y);
+	}
+	ctx.fill();
+	ctx.closePath();
+};
+
+Polygon.prototype.cast = function(ctx, origin, distance, color) {
+	var points = [];
+
+	ctx.fillStyle = color;
+
+	for(var i=0, len=this.points.length; i<len; i++){
+		var pointA = new Vector2().addVectors(this.points[i], this.position);
+		var pointB = new Vector2().addVectors(this.points[(i+1) % this.points.length], this.position);
+
+		var originToA = new Vector2().subVectors(pointA, origin);
+		var originToB = new Vector2().subVectors(pointB, origin);
+
+		// magic: (zkopírovaní z illuminated.js)
+		var aToB = new Vector2().subVectors(pointB, pointA);
+
+		var normal = new Vector2(aToB.y, -aToB.x);
+		if (normal.dot(originToA) > 0) {
+			var vzdalenyA = originToA.setLength(distance).add(origin);
+			var vzdalenyB = originToB.setLength(distance).add(origin);
+
+			ctx.beginPath();
+			ctx.lineWidth = 1.2;
+			ctx.moveTo(pointA.x, pointA.y);
+			ctx.lineTo(pointB.x, pointB.y);
+			ctx.lineTo(vzdalenyB.x, vzdalenyB.y);
+			ctx.lineTo(vzdalenyA.x, vzdalenyA.y);
+			ctx.fill();
+			ctx.stroke();
+			ctx.closePath();
+		}
+	}
 };
 
 Polygon.prototype.testCollision = function(obj) {
