@@ -11,7 +11,7 @@ function Player(options){
 	
 	this.particleOptions = {
 		size:3,
-		life: 750,
+		life: 500,
 		velocity: new Vector2(0,0),
 	};
 	this.colorAnouncer = new ParticleSystem({},

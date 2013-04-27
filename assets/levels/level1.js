@@ -104,39 +104,16 @@ new function level(){
 		});
 		game.add(pol5);
 			
-		var svetlo = new PointLight({color: "#0000ff", distance: 100});
+		var svetlo = new Anihilator({
+			color: "#0000ff",
+			distance: 100,
+			inSound: new Sound(game.loader.assets.sounds.up),
+			outSound: new Sound(game.loader.assets.sounds.down)
+		});
 		svetlo.position.set(300,300);
-		svetlo.tick = function (){
-			if(this.testCollision(player) && game.lights.collision(player.position.x, player.position.y)){
-				var obsahujeBarvu = false;
-				for(var i in player.colors){
-					if(player.colors[i].getRGB() == this.color.getRGB()) obsahujeBarvu = true;
-				};
-				if(!obsahujeBarvu){
-					player.colors.push(this.color);
-					this.inSound.play();
-				}
-				player.ghost = true;
-				player.color = this.color.getRGB();
-				player.colorAnouncer.toSpawn = 0;
-				player.colorAnouncer.emit(2);
-			}
-			else{
-				player.ghost = false;
-				player.color = "#1BE063";
-				for(var i in player.colors){
-					if(player.colors[i].getRGB() == this.color.getRGB()){
-						player.colors.splice(i,1);
-						this.outSound.play();
-					}
-				};
-			}
-		};
-		svetlo.inSound = new Sound(game.loader.assets.sounds.up);
-		svetlo.outSound = new Sound(game.loader.assets.sounds.down);
 		game.add(svetlo);
 		
-		var zmensovadlo = new PointLight({color: "#855E3E", distance: 100, intensity: 0.8});
+		var zmensovadlo = new Resizer({color: "#855E3E", distance: 100, intensity: 0.8, newSize: 20});
 		zmensovadlo.position.set(100,300);
 		game.add(zmensovadlo);
 		
