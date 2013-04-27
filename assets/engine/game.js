@@ -95,6 +95,8 @@ Game.prototype.levelLoad = function (src){
 	this.levelSrc = src;
 	this.children = [];
 	this.childrenCache = {};
+	this.eventhandler.resetControls();
+	this.gui.addControls();
 
 	this.clearColor = "#FFFFFF";
 	this.gui.add(new Text({

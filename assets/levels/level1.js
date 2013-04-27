@@ -138,6 +138,17 @@ new function level(){
 		zabijak.position.set(200,100);
 		game.add(zabijak);
 		
+		var urychlovac = new Accelerator({
+			color: "#25E6B9",
+			distance: 50,
+			intensity: 0.8,
+			bonus: 5,
+			inSound: new Sound(game.loader.assets.sounds.up),
+			outSound: new Sound(game.loader.assets.sounds.down),
+		});
+		urychlovac.position.set(400,200);
+		game.add(urychlovac);
+		
 		var svetlo2 = new PointLight({color: "#FFFB03", distance: 50, shadowCastDistance: 100, intensity: 0.2});
 		svetlo2.position.set(450,100);
 		svetlo.changeSound = new Sound(game.loader.assets.sounds.up);
