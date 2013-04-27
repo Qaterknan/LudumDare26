@@ -20,7 +20,7 @@ new function level(){
 		
 		var player = new Player({
 			id: "player",
-			position : new Vector2(100, 100),
+			position : new Vector2(150, 150),
 			zIndex : 10
 		});
 		player.addControls(game.eventhandler);
@@ -62,23 +62,45 @@ new function level(){
 			],
 		});
 		game.add(pol3);
+		
+		var pol4 = new Polygon({
+			color:"#9999ff",
+			points:[
+				new Vector2(25,75),
+				new Vector2(25,50),
+				new Vector2(500,50),
+				new Vector2(500,75),
+			],
+		});
+		game.add(pol4);
+		
+		var pol5 = new Polygon({
+			color:"#9999ff",
+			points:[
+				new Vector2(500,50),
+				new Vector2(525,50),
+				new Vector2(525,400),
+				new Vector2(500,400),
+			],
+		});
+		game.add(pol5);
 			
 		var svetlo = new PointLight({color: "#0000ff", distance: 100});
 		svetlo.position.set(300,300);
 		svetlo.changeSound = new Sound(game.loader.assets.sounds.up);
 		game.add(svetlo);
 		
-		//~ var svetlo2 = new PointLight({color: "#009900", distance: 200});
-		//~ svetlo2.position.set(400,300);
-		//~ svetlo.changeSound = new Sound(game.loader.assets.sounds.up);
-		//~ game.add(svetlo2);
+		var svetlo2 = new PointLight({color: "#FFFB03", distance: 50, intensity: 0.2});
+		svetlo2.position.set(450,100);
+		svetlo.changeSound = new Sound(game.loader.assets.sounds.up);
+		game.add(svetlo2);
 		
-		//~ var tlacitko = new Trigger({radius: 20});
-		//~ tlacitko.response = function (){
-			//~ console.log("olé");
-		//~ };
-		//~ tlacitko.position.set(100,100);
-		//~ game.add(tlacitko);
+		var tlacitko = new Trigger({radius: 20});
+		tlacitko.response = function (){
+			game.levelLoad("assets/levels/menu.js");
+		};
+		tlacitko.position.set(450,100);
+		game.add(tlacitko);
 		
 		/*var spotl = new SpotLight({color: "#00ff00"});
 		spotl.position.set(300,100);
