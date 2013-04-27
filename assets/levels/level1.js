@@ -1,6 +1,8 @@
 new function level(){
 	this.textures = {};
-	this.sounds = {};
+	this.sounds = {
+		"up" : "assets/audio/up.wav",
+	};
 	this.scripts = {
 		"menu" : "assets/js/guis/menu.js",
 		"ingame" : "assets/js/guis/ingame.js",
@@ -35,10 +37,21 @@ new function level(){
 			game.add(polygon);
 		}
 			
+<<<<<<< HEAD
 		var svetlo = new PointLight({color: "#ff4444"});
 		svetlo.position = player.position;
 		// svetlo.position.set(300,300);
+=======
+		var svetlo = new PointLight({color: "#ff0000"});
+		svetlo.position.set(300,300);
+		svetlo.changeSound = new Sound(game.loader.assets.sounds.up);
+>>>>>>> particles
 		game.add(svetlo);
+		
+		var svetlo2 = new PointLight({color: "#00ff00"});
+		svetlo2.position.set(400,300);
+		svetlo.changeSound = new Sound(game.loader.assets.sounds.up);
+		game.add(svetlo2);
 		
 		var tlacitko = new Trigger({radius: 20});
 		tlacitko.response = function (){
@@ -47,11 +60,6 @@ new function level(){
 		tlacitko.position.set(100,100);
 		game.add(tlacitko);
 		
-		game.eventhandler.addKeyboardControl("E",function (){for(var i in game.children){
-			if(game.children[i] instanceof Trigger){
-				if(game.children[i].inRange) game.children[i].response();
-			}
-		}});
 		/*var spotl = new SpotLight({color: "#00ff00"});
 		spotl.position.set(300,100);
 		game.add(spotl);

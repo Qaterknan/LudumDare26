@@ -109,6 +109,7 @@ Game.prototype.checkCollisions = function(obj){
 		if(child != obj){
 			if(child.testCollision(obj)){
 				colliding.push(child);
+				child.onCollision(obj);
 			}
 		}
 	}

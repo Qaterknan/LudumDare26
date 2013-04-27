@@ -201,3 +201,7 @@ Object2.prototype.testCollision = function(obj){
 	}
 	return false;
 }
+
+Object2.prototype.onCollision = function (){
+	return;
+};
