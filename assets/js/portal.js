@@ -9,7 +9,6 @@ Portal.prototype.tick = function (){
 	var player = game.getChild("player");
 	if(player.ghost){
 		this.collidable = false;
-		return;
 	}
-	this.collidable = true;
+	else	this.collidable = true;
 };

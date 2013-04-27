@@ -104,6 +104,12 @@ Player.prototype.render = function(ctx) {
 	ctx.arc(this.position.x, this.position.y, this.radius, 0, PI*2);
 	ctx.fill();
 	ctx.closePath();
+	if(this.ghost){
+		this.colors[0] = new Color("#0000ff",1);
+	}
+	else{
+		this.colors[0] =new Color("#ffffff",1);
+	}
 };
 Player.prototype.onCollision = function (obj){
 	return;
