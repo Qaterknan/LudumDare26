@@ -7,13 +7,11 @@ function Player(options){
 	this.ghost = false;
 
 	this.color = "#1BE063";
-	this.colors = [
-		new Color("#ffffff",1),
-	];
+	this.colors = [];
 	
 	this.particleOptions = {
 		size:3,
-		life: 700,
+		life: 500,
 		velocity: new Vector2(0,0),
 	};
 	this.colorAnouncer = new ParticleSystem({},
@@ -22,17 +20,17 @@ function Player(options){
 			randomize: {
 				velocity: {
 					x:{
-						min: -0.3,
-						max: 0.3,
+						min: -0.4,
+						max: 0.4,
 					},
 					y:{
-						min: -0.3,
-						max: 0.3,
+						min: -0.4,
+						max: 0.4,
 					},
 				},
 				color: _this.colors,
 			},
-			emiting : true,
+			emiting : false,
 			amount : 2,
 		});
 	this.add(this.colorAnouncer);
@@ -83,6 +81,7 @@ Player.prototype.move = function(angle) {
 
 Player.prototype.render = function(ctx) {
 	ctx.beginPath();
+	ctx.fillStyle = this.color;
 	//~ if(this.colors.length < 1){
 		//~ ctx.fillStyle = this.color;
 		//~ game.getChild("playerLight").color = new Color("#ffffff");
@@ -100,12 +99,6 @@ Player.prototype.render = function(ctx) {
 	ctx.arc(this.position.x, this.position.y, this.radius, 0, PI*2);
 	ctx.fill();
 	ctx.closePath();
-	if(this.ghost){
-		this.colors[0] = new Color("#0000ff",1);
-	}
-	else{
-		this.colors[0] =new Color("#ffffff",1);
-	}
 };
 Player.prototype.onCollision = function (obj){
 	return;

@@ -2,6 +2,7 @@ new function level(){
 	this.textures = {};
 	this.sounds = {
 		"up" : "assets/audio/up.wav",
+		"down" : "assets/audio/down.wav",
 	};
 	this.scripts = {
 		"menu" : "assets/js/guis/menu.js",
@@ -60,18 +61,18 @@ new function level(){
 		game.clearColor = "#F0B9F0";
 		
 			
-		var svetlo = new PointLight({color: "#0000ff", distance: 100});
+		var svetlo = new Anihilator({
+			color: "#0000ff",
+			distance: 100,
+			inSound: new Sound(game.loader.assets.sounds.up),
+			outSound: new Sound(game.loader.assets.sounds.down)
+		});
 		svetlo.position.set(300,300);
-		svetlo.tick = function (){
-			if(this.testCollision(player) && game.lights.collision(player.position.x, player.position.y)){
-				player.ghost = true;
-			}
-			else{
-				player.ghost = false;
-			}
-		};
-		svetlo.changeSound = new Sound(game.loader.assets.sounds.up);
 		game.add(svetlo);
+		
+		var zmensovadlo = new Resizer({color: "#855E3E", distance: 100, intensity: 0.8, newSize: 20});
+		zmensovadlo.position.set(100,300);
+		game.add(zmensovadlo);
 		
 		var svetlo2 = new PointLight({color: "#FFFB03", distance: 50, intensity: 0.2});
 		svetlo2.position.set(450,100);
