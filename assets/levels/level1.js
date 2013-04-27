@@ -2,6 +2,7 @@ new function level(){
 	this.textures = {};
 	this.sounds = {
 		"up" : "assets/audio/up.wav",
+		"down" : "assets/audio/down.wav",
 	};
 	this.scripts = {
 		"menu" : "assets/js/guis/menu.js",
@@ -107,14 +108,37 @@ new function level(){
 		svetlo.position.set(300,300);
 		svetlo.tick = function (){
 			if(this.testCollision(player) && game.lights.collision(player.position.x, player.position.y)){
+				var obsahujeBarvu = false;
+				for(var i in player.colors){
+					if(player.colors[i].getRGB() == this.color.getRGB()) obsahujeBarvu = true;
+				};
+				if(!obsahujeBarvu){
+					player.colors.push(this.color);
+					this.inSound.play();
+				}
 				player.ghost = true;
+				player.color = this.color.getRGB();
+				player.colorAnouncer.toSpawn = 0;
+				player.colorAnouncer.emit(2);
 			}
 			else{
 				player.ghost = false;
+				player.color = "#1BE063";
+				for(var i in player.colors){
+					if(player.colors[i].getRGB() == this.color.getRGB()){
+						player.colors.splice(i,1);
+						this.outSound.play();
+					}
+				};
 			}
 		};
-		svetlo.changeSound = new Sound(game.loader.assets.sounds.up);
+		svetlo.inSound = new Sound(game.loader.assets.sounds.up);
+		svetlo.outSound = new Sound(game.loader.assets.sounds.down);
 		game.add(svetlo);
+		
+		var zmensovadlo = new PointLight({color: "#855E3E", distance: 100, intensity: 0.8});
+		zmensovadlo.position.set(100,300);
+		game.add(zmensovadlo);
 		
 		var svetlo2 = new PointLight({color: "#FFFB03", distance: 50, intensity: 0.2});
 		svetlo2.position.set(450,100);
