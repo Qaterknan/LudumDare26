@@ -4,10 +4,12 @@ function Killer( options ){
 
 	this.inSound = options.inSound === undefined ? false : options.inSound;
 	this.outSound = options.outSound === undefined ? false : options.outSound;
+	this.hitSound = options.hitSound === undefined ? false : options.hitSound;
 	this.targets = [];
 	this.chargeCoefficient = options.chargeCoefficient === undefined ? 1 : options.chargeCoefficient;
 	this.chargeMaximum = options.chargeMaximum === undefined ? false : options.chargeMaximum;
 	this.chargeStart = false;
+	this.limit = options.limit === undefined ? 600 : options.limit;
 };
 Killer.prototype = Object.create( PointLight.prototype );
 
@@ -22,7 +24,9 @@ Killer.prototype.postefect = function (player){
 Killer.prototype.tick =function (){
 	for(var i = this.targets.length-1; i > -1;i--){
 		this.targets[i].damageDealt++;
-		if(this.targets[i].damageDealt > 1000)
+		if(this.hitSound && this.targets[i].damageDealt%60 == 0)
+			this.hitSound.play();
+		if(this.targets[i].damageDealt > this.limit)
 			this.targets[i].die();
 	};
 };

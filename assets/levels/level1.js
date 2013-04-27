@@ -3,6 +3,7 @@ new function level(){
 	this.sounds = {
 		"up" : "assets/audio/up.wav",
 		"down" : "assets/audio/down.wav",
+		"hit" : "assets/audio/hit.wav",
 	};
 	this.scripts = {
 		"menu" : "assets/js/guis/menu.js",
@@ -129,7 +130,11 @@ new function level(){
 		zmensovadlo.position.set(100,300);
 		game.add(zmensovadlo);
 		
-		var zabijak = new Killer({color: "#990000", distance: 25});
+		var zabijak = new Killer({
+			color: "#990000",
+			distance: 25,
+			hitSound: new Sound(game.loader.assets.sounds.hit),
+		});
 		zabijak.position.set(200,100);
 		game.add(zabijak);
 		

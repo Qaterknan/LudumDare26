@@ -149,4 +149,5 @@ Player.prototype.compare = function ( newInfluence ){
 };
 Player.prototype.die = function (){
 	game.restartGame();
+	this.damageDealt = 0;
 };
