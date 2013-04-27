@@ -4,13 +4,15 @@ function Player(options){
 	this.radius = 10;
 
 	this.speed = 5;
+	this.ghost = false;
 
 	this.color = "#1BE063";
-	this.colors = [];
+	this.colors = [
+		new Color("#ffffff",1),
+	];
 	
 	this.particleOptions = {
 		size:3,
-		color: new Color("#000000",1),
 		life: 700,
 		velocity: new Vector2(0,0),
 	};
@@ -30,7 +32,7 @@ function Player(options){
 				},
 				color: _this.colors,
 			},
-			emiting : false,
+			emiting : true,
 			amount : 2,
 		});
 	this.add(this.colorAnouncer);
@@ -67,12 +69,14 @@ Player.prototype.move = function(angle) {
 	this.position.y += tY;
 
 	var collisions = game.checkCollisions(this);
-	this.colors = [];
+	//~ this.colors = [];
 	for(var i in collisions){
-		if(collisions[i] instanceof PointLight && collisions[i].id != "playerLight"){
-			this.colors.push(Object.create(collisions[i].color));
-		}
-		if(collisions[i].collidable){console.log(collisions[i]);
+		//~ if(collisions[i] instanceof PointLight && collisions[i].id != "playerLight"){
+			//~ this.colors.push(Object.create(collisions[i].color));
+		//~ }
+		if(collisions[i].id == "playerLight") continue;
+		this.onCollision(collisions[i]);
+		if(collisions[i].collidable){
 			this.position.x -= tX;
 			this.position.y -= tY;
 			break;
@@ -83,21 +87,24 @@ Player.prototype.move = function(angle) {
 
 Player.prototype.render = function(ctx) {
 	ctx.beginPath();
-	if(this.colors.length < 1){
-		ctx.fillStyle = this.color;
+	//~ if(this.colors.length < 1){
+		//~ ctx.fillStyle = this.color;
 		//~ game.getChild("playerLight").color = new Color("#ffffff");
-	}
-	else{var barva = new Color(this.color);
-		for(var i = 0; i < this.colors.length;i++){
-			this.particleOptions.color = this.colors[i];
-			this.colorAnouncer.emit(2);
-			if(this.colors[i] !== barva) barva.add(this.colors[i]);
-		};
+	//~ }
+	//~ else{var barva = new Color(this.color);
+		//~ for(var i = 0; i < this.colors.length;i++){
+			//~ this.particleOptions.color = this.colors[i];
+			//~ this.colorAnouncer.emit(2);
+			//~ if(this.colors[i] !== barva) barva.add(this.colors[i]);
+		//~ };
 		
-		ctx.fillStyle = barva.getRGB();
+		//~ ctx.fillStyle = barva.getRGB();
 		//~ game.getChild("playerLight").color = barva;
-	}
+	//~ }
 	ctx.arc(this.position.x, this.position.y, this.radius, 0, PI*2);
 	ctx.fill();
 	ctx.closePath();
+};
+Player.prototype.onCollision = function (obj){
+	return;
 };
