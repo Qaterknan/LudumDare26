@@ -6,13 +6,15 @@ function Lights(width, height){
 
 	this.checks = 0;
 
-	this.shadowColor = new Color(0x000000, 0.8);
+	this.shadowColor = new Color(0x000000, 0.85);
 }
 
 Lights.prototype.init = function() {
 	this.cacheCanvas = createCanvas(this.width, this.height);
 	this.castCache = createCanvas(this.width, this.height);
 	this.darkMaskCache = createCanvas(this.width, this.height);
+
+	// document.body.appendChild(this.cacheCanvas.canvas);
 };
 
 Lights.prototype.render = function(ctx) {
@@ -23,6 +25,7 @@ Lights.prototype.render = function(ctx) {
 	darkctx.fillStyle = this.shadowColor.getRGBA(); // barva stínu
 	darkctx.fillRect(0, 0, this.darkMaskCache.width, this.darkMaskCache.height);
 	darkctx.globalCompositeOperation = "destination-out";
+	darkctx.translate(-game.camera.tx(0),-game.camera.ty(0));
 	for (var i in game.children){
 		var child = game.children[i];
 		if(child.glow){
@@ -39,9 +42,11 @@ Lights.prototype.render = function(ctx) {
 	ctx.globalCompositeOperation = "lighter";
 	ctx.drawImage(this.cacheCanvas.canvas, 0, 0);
 	var playerLight = game.getChild("playerLight");
-
+	ctx.save();
+	ctx.translate(-game.camera.tx(0),-game.camera.ty(0));
 	if(playerLight)
 		playerLight.glow(ctx);
+	ctx.restore();
 	ctx.restore();
 
 };
@@ -55,8 +60,11 @@ Lights.prototype.cast = function(ctx) {
 
 			if(light.id == "playerLight")
 				continue;
-		
+			
+			castctx.save();
+			castctx.translate(-game.camera.tx(0),-game.camera.ty(0));
 			light.glow(castctx);
+			castctx.restore();
 
 			for(var j in game.children){
 				var child = game.children[j];
@@ -70,6 +78,7 @@ Lights.prototype.cast = function(ctx) {
 				var distance = light.shadowCastDistance;
 
 				castctx.save();
+				castctx.translate(-game.camera.tx(0),-game.camera.ty(0));
 				castctx.globalCompositeOperation = "destination-out";
 				child.cast(castctx, light.position, distance, "#000");
 					castctx.save();
@@ -91,7 +100,10 @@ Lights.prototype.cast = function(ctx) {
 Lights.prototype.collision = function(x,y) {
 	this.checks += 1;
 	if(this.checks%4==0){
-		col = this.cacheCanvas.ctx.getImageData(x, y, 1, 1).data[3];
+		col = this.cacheCanvas.ctx.getImageData(x-game.camera.tx(0),y-game.camera.ty(0), 1, 1).data[3];
+		game.ctx.fillStyle = "red";
+		game.ctx.fillRect(game.camera.tx(x), game.camera.ty(y), 3,3);
+		// console.log(col)
 		this.switchASDF = col > 0;
 	}
 	return this.switchASDF;

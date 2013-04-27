@@ -78,6 +78,10 @@ Game.prototype.tick = function (){
 Game.prototype.render = function (ctx){
 	ctx.fillStyle = this.clearColor;
 	ctx.fillRect(0,0,this.width,this.height);
+
+	if(this.polygonBorder){
+		this.polygonBorder.fill(ctx,"clip");
+	}
 	
 	// GUI je na hře
 	ctx.save();

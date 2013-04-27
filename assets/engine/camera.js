@@ -6,12 +6,16 @@ function Camera(){
 	this.shaking = false;
 };
 
-Camera.prototype.moveTo = function(x,y) {
-	this.origin.set(x,y)
+Camera.prototype.tx = function(x) {
+	return this.position.x + x;
 };
 
-Camera.prototype.follow = function(vec) {
-	this.origin = vec;
+Camera.prototype.ty = function(y) {
+	return this.position.y + y;
+};
+
+Camera.prototype.moveTo = function(x,y) {
+	this.origin.set(x,y)
 };
 
 Camera.prototype.shake = function (amplitude, decrease){
@@ -31,6 +35,12 @@ Camera.prototype.stabilize = function (){
 Camera.prototype.update = function (){
 	this.stabilize();
 	this.position.add(this.velocity);
+	this.tick();
+	// console.log(this.position.x,this.position.y)
+};
+
+Camera.prototype.tick = function() {
+	return;
 };
 
 Camera.prototype.stopShaking = function (){

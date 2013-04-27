@@ -16,12 +16,16 @@ Polygon.prototype.render = function(ctx) {
 
 Polygon.prototype.fill = function(ctx, color) {
 	ctx.beginPath();
-	ctx.fillStyle = color;
+	if(color != "clip")
+		ctx.fillStyle = color;
 	for(var i = 0, l = this.points.length; i < l; i++){
 		var a = this.points[i];
 		ctx.lineTo(a.x, a.y);
 	}
-	ctx.fill();
+	if(color == "clip")
+		ctx.clip();
+	else
+		ctx.fill();
 	ctx.closePath();
 };
 

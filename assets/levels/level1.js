@@ -17,8 +17,12 @@ new function level(){
 			color: "#FF0000"
 		}));
 
-		game.add( new InversedPolygon({
-			color:"#9999ff",
+		// pozadí
+		game.clearColor = "#9999ff";
+		game.add( new Polygon({
+			color:"#F0B9F0",
+			opaque: false,
+			zIndex: -100,
 			points:[
 				new Vector2(100,100),
 				new Vector2(500,20),
@@ -55,11 +59,17 @@ new function level(){
 			zIndex : 10
 		});
 		player.addControls(game.eventhandler);
+
 		playerLight.position = player.position;
+		game.camera.tick = function(){
+			var player = game.getChild("player");
+			if(player)
+				this.position.copy(player.position).sub(new Vector2(game.width/2, game.height/2));
+		};
+
 		game.add(playerLight);
 		game.add(player);
 
-		game.clearColor = "#F0B9F0";
 		
 		var pol = new Polygon({
 			color:"#9999ff",
