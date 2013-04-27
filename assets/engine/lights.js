@@ -12,7 +12,10 @@ Lights.prototype.init = function() {
 	this.castCache = createCanvas(this.width, this.height);
 	this.darkMaskCache = createCanvas(this.width, this.height);
 
-	// document.body.appendChild(this.cacheCanvas.canvas)
+	this.lightsCollisionMask = createCanvas(this.width, this.height);
+	this.lightsCollisionCache = createCanvas(this.width, this.height);
+
+	document.body.appendChild(this.lightsCollisionMask.canvas)
 };
 
 Lights.prototype.render = function(ctx) {
@@ -41,13 +44,25 @@ Lights.prototype.render = function(ctx) {
 	ctx.globalCompositeOperation = "lighter";
 	ctx.drawImage(this.cacheCanvas.canvas, 0, 0);
 	ctx.restore();
+
 };
 
 Lights.prototype.cast = function(ctx) {
+	this.lightsCollisionMask.ctx.clearRect(0,0,this.lightsCollisionMask.width, this.lightsCollisionMask.height)
+	
 	var castctx = this.castCache.ctx;
 	for (var i in game.children){
 		var light = game.children[i];
 		if(light.glow){
+			if(light.id != "playerLight"){
+				this.lightsCollisionCache.ctx.clearRect(0,0,this.lightsCollisionCache.width, this.lightsCollisionCache.height);
+				this.lightsCollisionCache.ctx.beginPath();
+				this.lightsCollisionCache.ctx.fillStyle = "#000";
+				this.lightsCollisionCache.ctx.arc(light.position.x, light.position.y, light.distance, 0, PI*2);
+				this.lightsCollisionCache.ctx.fill();
+				this.lightsCollisionCache.ctx.closePath();
+			}
+
 			castctx.clearRect(0, 0, this.castCache.width, this.castCache.height);
 		
 			light.glow(castctx);
@@ -56,8 +71,16 @@ Lights.prototype.cast = function(ctx) {
 				var child = game.children[j];
 				if(!child.opaque)
 					continue;
+				var distanceSq = light.shadowCastDistance*light.shadowCastDistance;
+				if(new Vector2().subVectors(light.position, child.position).lengthSq() < distance)
+					continue;
 
 				var distance = Math.sqrt(light.shadowCastDistance*light.shadowCastDistance);
+
+				this.lightsCollisionCache.ctx.save();
+				this.lightsCollisionCache.ctx.globalCompositeOperation = "destination-out";
+				child.cast(this.lightsCollisionCache.ctx, light.position, distance, "#FFF");
+				this.lightsCollisionCache.ctx.restore();
 
 				child.cast(castctx, light.position, distance, "rgb(0,0,0)");
 				castctx.save();
@@ -70,56 +93,15 @@ Lights.prototype.cast = function(ctx) {
 			ctx.globalCompositeOperation = "lighter";
 			ctx.drawImage(this.castCache.canvas, 0,0);
 			ctx.restore();
+
+			this.lightsCollisionMask.ctx.drawImage(this.lightsCollisionCache.canvas, 0, 0);
 		}
 
 	}
-		// var light = this.lights[i];
-		// var lightBounds = light.getBounds();
+};
 
-		// ctx.clearRect(0,0,this.castCache.width,this.castCache.height);
-
-		// ctx.save();
-		// light.render(ctx);
-		// ctx.globalCompositeOperation = "destination-out";
-
-		// var dx = (lightBounds.bottomright.x-lightBounds.topleft.x);
-		// var dy = (lightBounds.bottomright.y-lightBounds.topleft.y);
-		// var distance = Math.sqrt(dx*dx+dy*dy);
-
-		// for (var j = 0,leToP len = game.children.length; j < len; j++){
-		// 	var object = game.children[j];
-		// 	// pokud je ve světle
-		// 	if(object.position.x < lightBounds.topleft.x || object.position.x > lightBounds.bottomright.x ||
-		// 		object.position.y < lightBounds.topleft.y || object.position.y > lightBounds.bottomright.y )
-		// 		continue;
-		// 	// pokud je neprůhledný
-		// 	if(!object.opaque)
-		// 		continue;
-
-		// 	// if( object.points ){
-		// 	// 	var polygon = new Polygon( object.points );
-		// 	// 	polygon.position = object.position;
-		// 	// }
-		// 	// else {
-		// 		// console.log("gen points")
-		// 		var polygon = new Polygon();
-		// 		polygon.rectangleToPoints( object );
-		// 		object.points = polygon.points;
-		// 		polygon.position = object.position;
-		// 	// }
-		// 	// pokud je světlo uvnitř objektu
-		// 	if(polygon.contains(light.position)){
-		// 		ctx.fillRect(lightBounds.topleft.x, lightBounds.topleft.y, lightBounds.bottomright.x-lightBounds.topleft.x, lightBounds.bottomright.y - lightBounds.topleft.y);
-		// 		break;
-		// 	}
-		// 	ctx.fillStyle = "rgba(0,0,0,"+(1-object.diffuse)+")";
-		// 	polygon.fill(ctx);
-		// 	ctx.fillStyle = "rgb(0,0,0)";
-		// 	polygon.cast(ctx, light.position, lightBounds, distance);
-		// };
-		// ctx.restore();
-		// castctx.save();
-		// castctx.globalCompositeOperation = "lighter";
-		// castctx.drawImage(this.castCache.canvas, 0,0);
-		// castctx.restore();
+Lights.prototype.collision = function(x,y) {
+	// var col = this.lightsCollisionMask.ctx.isPointInPath(x,y);
+	col = this.lightsCollisionMask.ctx.getImageData(x, y, 1, 1).data[3]; 
+	return col;
 };

@@ -58,7 +58,7 @@ PointLight.prototype.drawBoundingCircle = function (ctx){
 	ctx.closePath();
 };
 PointLight.prototype.render = function (ctx){
-	this.drawBoundingCircle(ctx);
+	//~ this.drawBoundingCircle(ctx);
 };
 PointLight.prototype.glow = function (ctx){
 	ctx.drawImage(this.getGradientCache().canvas,this.position.x-this.distance,this.position.y-this.distance);

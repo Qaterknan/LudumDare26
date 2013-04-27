@@ -1,6 +1,6 @@
 function Player(options){
 	Object2.call(this, options);
-
+	var _this = this;
 	this.radius = 10;
 
 	this.speed = 5;
@@ -28,6 +28,7 @@ function Player(options){
 						max: 0.3,
 					},
 				},
+				color: _this.colors,
 			},
 			emiting : false,
 			amount : 2,
@@ -68,7 +69,7 @@ Player.prototype.move = function(angle) {
 	var collisions = game.checkCollisions(this);
 	this.colors = [];
 	for(var i in collisions){
-		if(collisions[i] instanceof PointLight){
+		if(collisions[i] instanceof PointLight && collisions[i].id != "playerLight" && game.lights.collision(this.position.x, this.position.y)){
 			this.colors.push(Object.create(collisions[i].color));
 		}
 		if(collisions[i].collidable){
@@ -77,24 +78,24 @@ Player.prototype.move = function(angle) {
 			break;
 		}
 	};
-	
+	console.log(game.lights.collision(this.position.x, this.position.y))
 };
 
 Player.prototype.render = function(ctx) {
 	ctx.beginPath();
 	if(this.colors.length < 1){
 		ctx.fillStyle = this.color;
-		game.getChild("playerLight").color = new Color("#ffffff");
+		//~ game.getChild("playerLight").color = new Color("#ffffff");
 	}
-	else{
-		var barva = this.colors[0];
-		for(var i in this.colors){
-			if(this.colors[i] !== barva) barva.add(this.colors[i]);
+	else{var barva = new Color(this.color);
+		for(var i = 0; i < this.colors.length;i++){
 			this.particleOptions.color = this.colors[i];
 			this.colorAnouncer.emit(2);
+			if(this.colors[i] !== barva) barva.add(this.colors[i]);
 		};
+		
 		ctx.fillStyle = barva.getRGB();
-		game.getChild("playerLight").color = barva;
+		//~ game.getChild("playerLight").color = barva;
 	}
 	ctx.arc(this.position.x, this.position.y, this.radius, 0, PI*2);
 	ctx.fill();

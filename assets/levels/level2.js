@@ -9,22 +9,6 @@ new function level(){
 	};
 	this.afterLoad = function (){
 		game.gui.GUILoad(this.scripts.ingame);
-
-		game.add(new Resizer({
-			position: new Vector2(400,100),
-			newSize: 10,
-			color: "#FF0000"
-		}));
-		var pol = new Polygon({
-			color:"#9999ff",
-			opaque: true,
-			points:[
-				new Vector2(350,90),
-				new Vector2(360,110),
-				new Vector2(340,100),
-			],
-		});
-		game.add(pol);
 		
 		var playerLight = new PointLight({
 			id: "playerLight",
@@ -113,7 +97,7 @@ new function level(){
 		
 		var tlacitko = new Trigger({radius: 20});
 		tlacitko.response = function (){
-			game.levelLoad("assets/levels/level2.js");
+			game.levelLoad("assets/levels/menu.js");
 		};
 		tlacitko.position.set(450,100);
 		game.add(tlacitko);
