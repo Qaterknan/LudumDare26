@@ -31,16 +31,39 @@ new function level(){
 		game.clearColor = "#F0B9F0";
 		
 		var pol = new Polygon({
+			color:"#9999ff",
 			points:[
 				new Vector2(25,75),
 				new Vector2(75,75),
-				new Vector2(75,275),
-				new Vector2(25,275),
+				new Vector2(75,500),
+				new Vector2(25,500),
 			],
 		});
 		game.add(pol);
+		
+		var pol2 = new Polygon({
+			color: "#9999ff",
+			points:[
+				new Vector2(75,400),
+				new Vector2(500,400),
+				new Vector2(500,450),
+				new Vector2(75,450),
+			],
+		});
+		game.add(pol2);
+		
+		var pol3 = new Portal({
+			color: "rgb(0,0,255)",
+			points:[
+				new Vector2(300,75),
+				new Vector2(325,75),
+				new Vector2(325,400),
+				new Vector2(300,400),
+			],
+		});
+		game.add(pol3);
 			
-		var svetlo = new PointLight({color: "#0000ff", distance: 200});
+		var svetlo = new PointLight({color: "#0000ff", distance: 100});
 		svetlo.position.set(300,300);
 		svetlo.changeSound = new Sound(game.loader.assets.sounds.up);
 		game.add(svetlo);

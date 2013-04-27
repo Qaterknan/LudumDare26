@@ -24,3 +24,6 @@ Color.prototype.add = function(color) {
 	this.g = (this.g + color.g) & 255;
 	this.b = (this.b + color.b) & 255;
 };
+Color.prototype.getHex = function (){
+	
+};
