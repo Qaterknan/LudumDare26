@@ -85,7 +85,7 @@ new function level(){
 		});
 		game.add(pol5);
 			
-		var svetlo = new Anihilator({color: "#0000ff", distance: 60, intensity: 1});
+		var svetlo = new Tunneler({color: "#0000ff", distance: 60, intensity: 1});
 		svetlo.position.set(300,200);
 		svetlo.tick = function (){
 			this.ticks++;

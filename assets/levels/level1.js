@@ -3,6 +3,7 @@ new function level(){
 	this.sounds = {
 		"up" : "assets/audio/up.wav",
 		"down" : "assets/audio/down.wav",
+		"hit" : "assets/audio/hit.wav",
 	};
 	this.scripts = {
 		"menu" : "assets/js/guis/menu.js",
@@ -126,7 +127,7 @@ new function level(){
 		});
 		game.add(pol5);
 			
-		var svetlo = new Anihilator({
+		var svetlo = new Tunneler({
 			color: "#0000ff",
 			distance: 100,
 			inSound: new Sound(game.loader.assets.sounds.up),
@@ -138,6 +139,14 @@ new function level(){
 		var zmensovadlo = new Resizer({color: "#855E3E", distance: 100, intensity: 0.8, scale: 2});
 		zmensovadlo.position.set(100,300);
 		game.add(zmensovadlo);
+		
+		var zabijak = new Killer({
+			color: "#990000",
+			distance: 25,
+			hitSound: new Sound(game.loader.assets.sounds.hit),
+		});
+		zabijak.position.set(200,100);
+		game.add(zabijak);
 		
 		var svetlo2 = new PointLight({color: "#FFFB03", distance: 50, shadowCastDistance: 100, intensity: 0.2});
 		svetlo2.position.set(450,100);

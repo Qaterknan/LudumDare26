@@ -1,14 +1,17 @@
-function Anihilator( options ){
+function Tunneler( options ){
 	var options = options === undefined ? {} : options;
 	PointLight.call(this, options);
 
 	this.inSound = options.inSound === undefined ? false : options.inSound;
 	this.outSound = options.outSound === undefined ? false : options.outSound;
 	this.targets = [];
+	this.chargeCoefficient = options.chargeCoefficient === undefined ? 1 : options.chargeCoefficient;
+	this.chargeMaximum = options.chargeMaximum === undefined ? 5000 : options.chargeMaximum;
+	this.chargeStart = false;
 };
-Anihilator.prototype = Object.create( PointLight.prototype );
+Tunneler.prototype = Object.create( PointLight.prototype );
 
-Anihilator.prototype.efect = function(player) {
+Tunneler.prototype.efect = function(player) {
 	player.colors.push(this.color);
 	if(this.inSound)
 		this.inSound.play();
@@ -16,8 +19,9 @@ Anihilator.prototype.efect = function(player) {
 	player.color = this.color.getRGB();
 	player.colorAnouncer.toSpawn = 0;
 	player.colorAnouncer.emiting = true;
+	this.chargeStart =new Date().getTime();
 };
-Anihilator.prototype.postefect = function (player){
+Tunneler.prototype.postefect = function (player){
 	player.ghost = false;
 	player.color = "#1BE063";
 	for(var i in player.colors){

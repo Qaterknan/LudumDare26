@@ -5,6 +5,7 @@ function Player(options){
 
 	this.speed = 5;
 	this.ghost = false;
+	this.damageDealt = 0;
 
 	this.color = "#1BE063";
 	this.colors = [];
@@ -131,8 +132,22 @@ Player.prototype.compare = function ( newInfluence ){
 		}
 	};
 	for(var i in this.influencedBy){
-		if(this.influencedBy[i].postefect)
-			this.influencedBy[i].postefect(this);
+		var objekt = this.influencedBy[i];
+		if(objekt.postefect){
+			if(objekt.chargeStart){
+				var _this = this;
+				var ted = new Date().getTime();
+				var charge = ted-objekt.chargeStart > objekt.chargeMaximum ? objekt.chargeMaximum/objekt.chargeCoefficient : (ted-objekt.chargeStart)/objekt.chargeCoefficient;
+				this.addTimeEvent(charge, function (){objekt.postefect(_this);});
+			}
+			else{
+				objekt.postefect(this);
+			}
+		}
 	};
 	this.influencedBy = newInfluence;
+};
+Player.prototype.die = function (){
+	game.restartGame();
+	this.damageDealt = 0;
 };
