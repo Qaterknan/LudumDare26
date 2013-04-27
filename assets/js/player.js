@@ -79,7 +79,6 @@ Player.prototype.move = function(angle) {
 			break;
 		}
 	};
-	console.log(game.lights.collision(this.position.x, this.position.y))
 };
 
 Player.prototype.render = function(ctx) {

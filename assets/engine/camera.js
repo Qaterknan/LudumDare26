@@ -12,7 +12,6 @@ Camera.prototype.moveTo = function(x,y) {
 
 Camera.prototype.follow = function(vec) {
 	this.origin = vec;
-	console.log(vec);
 };
 
 Camera.prototype.shake = function (amplitude, decrease){

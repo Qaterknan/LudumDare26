@@ -15,14 +15,25 @@ new function level(){
 			newSize: 10,
 			color: "#FF0000"
 		}));
-		var pol = new Polygon({
+
+		game.add( new InversedPolygon({
 			color:"#9999ff",
-			opaque: true,
-			position: new Vector2(-100, 200),
 			points:[
-				new Vector2(350,90),
-				new Vector2(360,110),
-				new Vector2(340,100),
+				new Vector2(100,100),
+				new Vector2(500,20),
+				new Vector2(400,350),
+				new Vector2(200,400),
+			],
+		}));
+
+		var pol = new Polygon({
+			color:"#7777ff",
+			opaque: true,
+			position: new Vector2(240, 270),
+			points:[
+				new Vector2(0,0),
+				new Vector2(30,50),
+				new Vector2(-20,20),
 			],
 		});
 		game.add(pol);
@@ -48,60 +59,6 @@ new function level(){
 
 		game.clearColor = "#F0B9F0";
 		
-		var pol = new Polygon({
-			color:"#9999ff",
-			points:[
-				new Vector2(25,75),
-				new Vector2(75,75),
-				new Vector2(75,500),
-				new Vector2(25,500),
-			],
-		});
-		game.add(pol);
-		
-		var pol2 = new Polygon({
-			color: "#9999ff",
-			points:[
-				new Vector2(75,400),
-				new Vector2(500,400),
-				new Vector2(500,450),
-				new Vector2(75,450),
-			],
-		});
-		game.add(pol2);
-		
-		var pol3 = new Portal({
-			color: "rgb(0,0,255)",
-			points:[
-				new Vector2(300,75),
-				new Vector2(325,75),
-				new Vector2(325,400),
-				new Vector2(300,400),
-			],
-		});
-		game.add(pol3);
-		
-		var pol4 = new Polygon({
-			color:"#9999ff",
-			points:[
-				new Vector2(25,75),
-				new Vector2(25,50),
-				new Vector2(500,50),
-				new Vector2(500,75),
-			],
-		});
-		game.add(pol4);
-		
-		var pol5 = new Polygon({
-			color:"#9999ff",
-			points:[
-				new Vector2(500,50),
-				new Vector2(525,50),
-				new Vector2(525,400),
-				new Vector2(500,400),
-			],
-		});
-		game.add(pol5);
 			
 		var svetlo = new PointLight({color: "#0000ff", distance: 100});
 		svetlo.position.set(300,300);

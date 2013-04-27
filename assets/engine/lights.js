@@ -12,7 +12,7 @@ Lights.prototype.init = function() {
 	this.castCache = createCanvas(this.width, this.height);
 	this.darkMaskCache = createCanvas(this.width, this.height);
 
-	// document.body.appendChild(this.castCache.canvas)
+	document.body.appendChild(this.castCache.canvas)
 };
 
 Lights.prototype.render = function(ctx) {
@@ -63,7 +63,7 @@ Lights.prototype.cast = function(ctx) {
 
 				var distance = Math.sqrt(light.shadowCastDistance*light.shadowCastDistance);
 
-				child.cast(castctx, light.position, distance, "rgb(0,0,0)");
+				child.cast(castctx, light.position, distance*2, "rgb(0,0,0)");
 				castctx.save();
 				castctx.translate(child.position.x, child.position.y);
 				child.fill(castctx, "rgba(0,0,0,1)");
@@ -82,7 +82,6 @@ Lights.prototype.cast = function(ctx) {
 Lights.prototype.collision = function(x,y) {
 	if(Math.random()<0.1){
 		col = this.castCache.ctx.getImageData(x, y, 1, 1).data[3]; 
-		console.log(col)
 		this.switchASDF = col !== 255;
 	}
 	return this.switchASDF;
