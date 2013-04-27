@@ -26,5 +26,14 @@ new function level(){
 				]
 			});
 		game.add(polygon);
+			
+		var svetlo = new PointLight({color: "#ff0000"});
+		svetlo.position.set(300,300);
+		game.add(svetlo);
+		
+		/*var spotl = new SpotLight({color: "#00ff00"});
+		spotl.position.set(300,100);
+		game.add(spotl);
+		spotl.direction.set(-1,1);*/
 	};
 };

@@ -291,6 +291,19 @@ Vector2.prototype = {
 
 		return new Vector2( this.x, this.y );
 
+	},
+	// Izzet
+	getAngle: function (){
+		if(this.x == 0 && this.y == 0) return false;
+		if(this.y < 0){
+			return Math.atan(this.y/this.x)+Math.PI;
+		}
+		else{
+			return Math.atan(this.y/this.x);
+		}
+	},
+	getPerpendicular: function (){
+		return new Vector2(-this.y,this.x);
 	}
 
 };
