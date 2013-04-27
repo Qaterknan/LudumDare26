@@ -6,10 +6,10 @@ function onStart( game ){
 	jQuery.ajaxSetup( {
 		cache : false
 	} )
-	var scripts = ["player.js", "polygon.js"];
-	for(var i in scripts){
-		$.getScript("assets/js/"+scripts[i]);
-	}
+	// var scripts = ["player.js", "polygon.js"];
+	// for(var i in scripts){
+	// 	$.getScript("assets/js/"+scripts[i]);
+	// }
 
 	game.adjustCanvas(800, 480);
 	

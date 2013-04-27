@@ -1,5 +1,5 @@
-function Player(){
-	Object2.call(this, {});
+function Player(options){
+	Object2.call(this, options);
 
 	this.radius = 10;
 	this.speed = 5;
