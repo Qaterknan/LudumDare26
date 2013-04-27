@@ -37,6 +37,7 @@ Lights.prototype.render = function(ctx) {
 	ctx.globalCompositeOperation = "lighter";
 	ctx.drawImage(this.cacheCanvas.canvas, 0, 0);
 	var playerLight = game.getChild("playerLight");
+
 	if(playerLight)
 		playerLight.glow(ctx);
 	ctx.restore();
@@ -86,10 +87,11 @@ Lights.prototype.cast = function(ctx) {
 };
 
 Lights.prototype.collision = function(x,y) {
-	if(Math.random()<1){
+	if(Math.random()<0.1){
 		col = this.cacheCanvas.ctx.getImageData(x, y, 1, 1).data[3];
-		console.log(col)
+		// console.log(col)
 		this.switchASDF = col > 0;
 	}
 	return this.switchASDF;
+	// return this.cacheCanvas.ctx.isPointInPath(x,y)
 };

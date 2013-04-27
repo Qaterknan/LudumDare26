@@ -35,3 +35,7 @@ GUI.prototype.addControls = function() {
 		}
 	);
 };
+
+GUI.prototype.resetGUI = function() {
+	this.children = {};
+};
