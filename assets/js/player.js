@@ -2,12 +2,9 @@ function Player(options){
 	Object2.call(this, options);
 
 	this.radius = 10;
-<<<<<<< HEAD
+
 	this.speed = 5;
-=======
-	this.speed = 1;
-	
->>>>>>> particles
+
 	this.color = "#1BE063";
 	this.colors = [];
 	

@@ -37,15 +37,9 @@ new function level(){
 			game.add(polygon);
 		}
 			
-<<<<<<< HEAD
-		var svetlo = new PointLight({color: "#ff4444"});
-		svetlo.position = player.position;
-		// svetlo.position.set(300,300);
-=======
 		var svetlo = new PointLight({color: "#ff0000"});
 		svetlo.position.set(300,300);
 		svetlo.changeSound = new Sound(game.loader.assets.sounds.up);
->>>>>>> particles
 		game.add(svetlo);
 		
 		var svetlo2 = new PointLight({color: "#00ff00"});
