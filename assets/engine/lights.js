@@ -11,8 +11,6 @@ Lights.prototype.init = function() {
 	this.cacheCanvas = createCanvas(this.width, this.height);
 	this.castCache = createCanvas(this.width, this.height);
 	this.darkMaskCache = createCanvas(this.width, this.height);
-
-	document.body.appendChild(this.castCache.canvas)
 };
 
 Lights.prototype.render = function(ctx) {
@@ -31,15 +29,16 @@ Lights.prototype.render = function(ctx) {
 	};
 	darkctx.restore();
 
-	var cachectx = this.cacheCanvas.ctx;
-	cachectx.clearRect(0, 0, this.cacheCanvas.width, this.cacheCanvas.height);
-	this.cast(cachectx);
-
 	ctx.drawImage(this.darkMaskCache.canvas, 0, 0);
 
+	this.cacheCanvas.ctx.clearRect(0, 0, this.cacheCanvas.width, this.cacheCanvas.height);
+	this.cast(this.cacheCanvas.ctx);
 	ctx.save();
 	ctx.globalCompositeOperation = "lighter";
 	ctx.drawImage(this.cacheCanvas.canvas, 0, 0);
+	var playerLight = game.getChild("playerLight");
+	if(playerLight)
+		playerLight.glow(ctx);
 	ctx.restore();
 
 };
@@ -50,6 +49,9 @@ Lights.prototype.cast = function(ctx) {
 		var light = game.children[i];
 		if(light.glow){
 			castctx.clearRect(0, 0, this.castCache.width, this.castCache.height);
+
+			if(light.id == "playerLight")
+				continue;
 		
 			light.glow(castctx);
 
@@ -57,16 +59,20 @@ Lights.prototype.cast = function(ctx) {
 				var child = game.children[j];
 				if(!child.opaque)
 					continue;
-				var distanceSq = light.shadowCastDistance*light.shadowCastDistance;
-				if(new Vector2().subVectors(light.position, child.position).lengthSq() < distance)
+				var distanceSq = light.distance*light.distance;
+				var distanceChildSq = new Vector2().subVectors(light.position, child.getCenter()).lengthSq();
+				if(distanceChildSq > distanceSq)
 					continue;
 
-				var distance = Math.sqrt(light.shadowCastDistance*light.shadowCastDistance);
+				var distance = light.shadowCastDistance;
 
-				child.cast(castctx, light.position, distance*2, "rgb(0,0,0)");
 				castctx.save();
-				castctx.translate(child.position.x, child.position.y);
-				child.fill(castctx, "rgba(0,0,0,1)");
+				castctx.globalCompositeOperation = "destination-out";
+				child.cast(castctx, light.position, distance, "#000");
+					castctx.save();
+						castctx.translate(child.position.x, child.position.y);
+						child.fill(castctx, "rgba(0,0,0,"+(1-child.diffuse)+")");
+					castctx.restore();
 				castctx.restore();
 			}
 
@@ -80,9 +86,10 @@ Lights.prototype.cast = function(ctx) {
 };
 
 Lights.prototype.collision = function(x,y) {
-	if(Math.random()<0.1){
-		col = this.castCache.ctx.getImageData(x, y, 1, 1).data[3]; 
-		this.switchASDF = col !== 255;
+	if(Math.random()<1){
+		col = this.cacheCanvas.ctx.getImageData(x, y, 1, 1).data[3];
+		console.log(col)
+		this.switchASDF = col > 0;
 	}
 	return this.switchASDF;
 };

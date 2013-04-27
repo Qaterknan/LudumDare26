@@ -81,3 +81,12 @@ Polygon.prototype.testCollision = function(obj) {
 	}
 	return false;
 };
+
+Polygon.prototype.getCenter = function() {
+	var center = new Vector2();
+	for(var i in this.points){
+		center.add(this.points[i]);
+	}
+	center = center.divideScalar(this.points.length).add(this.position);
+	return center;
+};

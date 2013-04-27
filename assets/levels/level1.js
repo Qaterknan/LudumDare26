@@ -24,10 +24,11 @@ new function level(){
 				new Vector2(500,20),
 				new Vector2(400,350),
 				new Vector2(200,400),
+				new Vector2(50,250),
 			],
 		}));
 
-		var pol = new Polygon({
+		game.add(new Polygon({
 			color:"#7777ff",
 			opaque: true,
 			position: new Vector2(240, 270),
@@ -35,9 +36,9 @@ new function level(){
 				new Vector2(0,0),
 				new Vector2(30,50),
 				new Vector2(-20,20),
+				new Vector2(-20,-20),
 			],
-		});
-		game.add(pol);
+		}));
 		
 		var playerLight = new PointLight({
 			id: "playerLight",
@@ -74,7 +75,7 @@ new function level(){
 		zmensovadlo.position.set(100,300);
 		game.add(zmensovadlo);
 		
-		var svetlo2 = new PointLight({color: "#FFFB03", distance: 50, intensity: 0.2});
+		var svetlo2 = new PointLight({color: "#FFFB03", distance: 50, shadowCastDistance: 100, intensity: 0.2});
 		svetlo2.position.set(450,100);
 		svetlo.changeSound = new Sound(game.loader.assets.sounds.up);
 		game.add(svetlo2);
