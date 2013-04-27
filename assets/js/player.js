@@ -5,6 +5,7 @@ function Player(options){
 
 	this.speed = 5;
 	this.ghost = false;
+	this.damageDealt = 0;
 
 	this.color = "#1BE063";
 	this.colors = [];
@@ -145,4 +146,7 @@ Player.prototype.compare = function ( newInfluence ){
 		}
 	};
 	this.influencedBy = newInfluence;
+};
+Player.prototype.die = function (){
+	game.restartGame();
 };

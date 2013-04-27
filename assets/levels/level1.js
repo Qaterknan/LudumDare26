@@ -129,6 +129,10 @@ new function level(){
 		zmensovadlo.position.set(100,300);
 		game.add(zmensovadlo);
 		
+		var zabijak = new Killer({color: "#990000", distance: 25});
+		zabijak.position.set(200,100);
+		game.add(zabijak);
+		
 		var svetlo2 = new PointLight({color: "#FFFB03", distance: 50, shadowCastDistance: 100, intensity: 0.2});
 		svetlo2.position.set(450,100);
 		svetlo.changeSound = new Sound(game.loader.assets.sounds.up);

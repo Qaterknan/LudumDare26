@@ -158,7 +158,8 @@ Object2.prototype.sortChildren = function() {
 Object2.prototype.tickChildren = function() {
 	for(var i in this.children){
 		this.children[i].tick();
-		this.children[i].checkTimeEvents();
+		if(this.children[i]) // Může během ticku zemřít
+			this.children[i].checkTimeEvents();
 		if(this.children[i].tickChildren)
 			this.children[i].tickChildren();
 	};
