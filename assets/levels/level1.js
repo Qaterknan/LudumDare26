@@ -24,10 +24,15 @@ new function level(){
 
 		game.clearColor = "#F0B9F0";
 		
-		
-
-		
-		
+		var pol = new Polygon({
+			points:[
+				new Vector2(25,75),
+				new Vector2(75,75),
+				new Vector2(75,275),
+				new Vector2(25,275),
+			],
+		});
+		game.add(pol);
 			
 		var svetlo = new PointLight({color: "#0000ff", distance: 200});
 		svetlo.position.set(300,300);
