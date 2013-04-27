@@ -97,7 +97,7 @@ new function level(){
 		
 		var tlacitko = new Trigger({radius: 20});
 		tlacitko.response = function (){
-			game.levelLoad("assets/levels/level2.js");
+			game.levelLoad("assets/levels/menu.js");
 		};
 		tlacitko.position.set(450,100);
 		game.add(tlacitko);
