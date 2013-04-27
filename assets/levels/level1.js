@@ -12,6 +12,7 @@ new function level(){
 			position : new Vector2(100, 100)
 		});
 		player.addControls(game.eventhandler);
+		player.id = "player";
 		game.add(player);
 
 		var polygon = new Polygon({
@@ -31,6 +32,18 @@ new function level(){
 		svetlo.position.set(300,300);
 		game.add(svetlo);
 		
+		var tlacitko = new Trigger({radius: 20});
+		tlacitko.response = function (){
+			console.log("olé");
+		};
+		tlacitko.position.set(100,100);
+		game.add(tlacitko);
+		
+		game.eventhandler.addKeyboardControl("E",function (){for(var i in game.children){
+			if(game.children[i] instanceof Trigger){
+				if(game.children[i].inRange) game.children[i].response();
+			}
+		}});
 		/*var spotl = new SpotLight({color: "#00ff00"});
 		spotl.position.set(300,100);
 		game.add(spotl);
