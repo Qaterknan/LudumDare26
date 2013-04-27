@@ -9,6 +9,12 @@ new function level(){
 	};
 	this.afterLoad = function (){
 		game.gui.GUILoad(this.scripts.ingame);
+
+		game.add(new Resizer({
+			position: new Vector2(400,100),
+			newSize: 50,
+			color: "#FF0000"
+		}));
 		
 		var playerLight = new PointLight({
 			id: "playerLight",

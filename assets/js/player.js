@@ -84,7 +84,7 @@ Player.prototype.render = function(ctx) {
 	ctx.beginPath();
 	if(this.colors.length < 1){
 		ctx.fillStyle = this.color;
-		this.getChild("svetlo").color = new Color("#ffffff");
+		game.getChild("playerLight").color = new Color("#ffffff");
 	}
 	else{
 		var barva = this.colors[0];
