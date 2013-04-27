@@ -87,11 +87,8 @@ Player.prototype.move = function(angle) {
 			collided = true;
 		}
 	};
-<<<<<<< HEAD
-=======
 	this.compare( newInfluence );
-	console.log(game.lights.collision(this.position.x, this.position.y))
->>>>>>> efect a postefect
+	console.log(game.lights.collision(this.position.x, this.position.y));
 };
 
 Player.prototype.render = function(ctx) {

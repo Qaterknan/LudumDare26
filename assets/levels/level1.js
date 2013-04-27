@@ -61,8 +61,6 @@ new function level(){
 
 		game.clearColor = "#F0B9F0";
 		
-<<<<<<< HEAD
-=======
 		var pol = new Polygon({
 			color:"#9999ff",
 			points:[
@@ -117,7 +115,6 @@ new function level(){
 			],
 		});
 		game.add(pol5);
->>>>>>> efect a postefect
 			
 		var svetlo = new Anihilator({
 			color: "#0000ff",
