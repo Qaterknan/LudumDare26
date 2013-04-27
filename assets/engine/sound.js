@@ -1,4 +1,5 @@
 function Sound(audio, options){
+	var options = options === undefined ? {} : options;
 	this.element = audio;
 	
 	var options = options === undefined ? options : {};
