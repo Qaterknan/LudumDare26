@@ -10,7 +10,7 @@ PointLight.prototype.generateCache = function (){
 	this.cache = createCanvas(this.distance*2,this.distance*2);
 	var ctx = this.cache.ctx;
 	
-	var grad = ctx.createRadialGradient(this.position.x,this.position.y,0,this.position.x,this.position.y,this.distance);
+	var grad = ctx.createRadialGradient(this.distance,this.distance,0,this.distance,this.distance,this.distance);
 	grad.addColorStop(0,this.color);
 	grad.addColorStop(1,"#ffffff");
 	ctx.fillStyle = grad;
@@ -24,4 +24,5 @@ PointLight.prototype.render = function (ctx){
 		this.generateCache();
 	}
 	ctx.drawImage(this.cache.canvas,this.position.x,this.position.y);
+	
 };
