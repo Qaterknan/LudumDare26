@@ -14,11 +14,34 @@ Polygon.prototype.render = function(ctx) {
 		ctx.fillStyle = this.color;
 		for(var i = 0, l = this.points.length; i < l; i++){
 			var a = this.points[i];
-			var b = this.points[(i+1)%l];
-			if(Math.random() < 0.01) console.log(a)
-			ctx.lineTo(b.x, b.y);
+			ctx.lineTo(a.x, a.y);
 		}
 		ctx.fill();
 		ctx.closePath();
 	ctx.restore();
+};
+
+Polygon.prototype.testCollision = function(obj) {
+	for(var i = 0, l = this.points.length; i < l; i++){
+		var a = new Vector2().addVectors(this.position, this.points[i]);
+		var b = new Vector2().addVectors(this.position, this.points[(i+1)%l]);
+		var c = obj.position;
+
+		var smer = new Vector2().subVectors(b,a);
+		var normal = new Vector2(smer.y, -smer.x);
+
+		var distance = (normal.x * c.x + normal.y * c.y - a.x*normal.x - a.y*normal.y)/normal.length();
+		if(obj.radius > Math.abs(distance)){
+			return true;
+			// if(distance < 0){
+
+				// var ramenoA = new Vector2().subVectors(c,a);
+				// var ramenoB = new Vector2().subVectors(c,b);
+				// if(ramenoA.length() < smer.length() || ramenoB.length() < smer.length()){
+				// 	return true;
+				// }
+			// }
+		}
+	}
+	return false;
 };

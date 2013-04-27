@@ -9,7 +9,8 @@ new function level(){
 		game.gui.GUILoad(this.scripts.ingame);
 		
 		var player = new Player({
-			position : new Vector2(100, 100)
+			position : new Vector2(100, 100),
+			zIndex : 10
 		});
 		player.addControls(game.eventhandler);
 		game.add(player);
@@ -17,12 +18,12 @@ new function level(){
 		var polygon = new Polygon({
 			position : new Vector2(200, 200),
 			points : [
-				new Vector2(-10,-40),
-				new Vector2(10,-30),
-				new Vector2(20,10),
-				new Vector2(20,30),
-				new Vector2(-60,10),
-				new Vector2(-80,-10),
+				new Vector2(-10*2,-20*2),
+				new Vector2(10*2,-30*2),
+				new Vector2(20*2,10*2),
+				// new Vector2(20*2,30*2),
+				// new Vector2(-60*2,10*2),
+				// new Vector2(-80*2,-10*2),
 				]
 			});
 		game.add(polygon);

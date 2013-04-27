@@ -94,3 +94,21 @@ Game.prototype.levelLoad = function (src){
 		})
 	});
 };
+
+Game.prototype.checkCollisions = function(obj){
+	var colliding = [];
+	for(var i in this.children){
+		var child = this.children[i];
+		if(child != obj){
+			if(child.testCollision(obj)){
+				colliding.push(child);
+			}
+		}
+	}
+	if(colliding.length > 0){
+		return colliding;
+	}
+	else {
+		return false;
+	}
+};

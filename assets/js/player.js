@@ -2,7 +2,7 @@ function Player(options){
 	Object2.call(this, options);
 
 	this.radius = 10;
-	this.speed = 5;
+	this.speed = 1;
 	this.color = "#1BE063";
 }
 Player.prototype = Object.create( Object2.prototype );
@@ -24,8 +24,16 @@ Player.prototype.addControls = function(eventhandler) {
 };
 
 Player.prototype.move = function(angle) {
-	this.position.x -= this.speed * Math.cos(angle);
-	this.position.y -= this.speed * Math.sin(angle);
+	var tX = - this.speed * Math.cos(angle),
+		tY = - this.speed * Math.sin(angle)
+	this.position.x += tX;
+	this.position.y += tY;
+
+	var collisions = game.checkCollisions(this);
+	if(collisions){
+		this.position.x -= tX;
+		this.position.y -= tY;
+	}
 };
 
 Player.prototype.render = function(ctx) {
