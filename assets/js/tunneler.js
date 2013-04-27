@@ -8,6 +8,7 @@ function Tunneler( options ){
 	this.chargeCoefficient = options.chargeCoefficient === undefined ? 1 : options.chargeCoefficient;
 	this.chargeMaximum = options.chargeMaximum === undefined ? 5000 : options.chargeMaximum;
 	this.chargeStart = false;
+	this.ghostId = options.ghostId === undefined ? this.color.getRGB() : options.ghostId;
 };
 Tunneler.prototype = Object.create( PointLight.prototype );
 
@@ -16,6 +17,7 @@ Tunneler.prototype.efect = function(player) {
 	if(this.inSound)
 		this.inSound.play();
 	player.ghost = true;
+	player.ghostId = this.ghostId;
 	player.color = this.color.getRGB();
 	player.colorAnouncer.toSpawn = 0;
 	player.colorAnouncer.emiting = true;
