@@ -140,6 +140,17 @@ new function level(){
 		svetlo.position.set(300,300);
 		game.add(svetlo);
 		
+		var sw = new Switch({
+			radius: 25,
+			position: new Vector2(100,100),
+			light: new PointLight({
+				color: "#ffffff",
+				distance: 50,
+				position: new Vector2(0,0),
+			}),
+		});
+		game.add(sw);
+		
 		var zmensovadlo = new Resizer({color: "#855E3E", distance: 100, intensity: 0.8, scale: 2});
 		zmensovadlo.position.set(100,300);
 		game.add(zmensovadlo);
