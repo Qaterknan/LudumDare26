@@ -7,11 +7,8 @@ function Portal(options){
 Portal.prototype = Object.create( Polygon.prototype );
 Portal.prototype.tick = function (){
 	var player = game.getChild("player");
-	for(var i in player.colors){
-		if(player.colors[i].getRGB() == this.color){
-			this.collidable = false;
-			return;
-		}
-	};
-	this.collidable = true;
+	if(player.ghost){
+		this.collidable = false;
+	}
+	else	this.collidable = true;
 };

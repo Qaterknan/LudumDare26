@@ -15,7 +15,7 @@ Lights.prototype.init = function() {
 	this.lightsCollisionMask = createCanvas(this.width, this.height);
 	this.lightsCollisionCache = createCanvas(this.width, this.height);
 
-	document.body.appendChild(this.lightsCollisionMask.canvas)
+	// document.body.appendChild(this.lightsCollisionMask.canvas)
 };
 
 Lights.prototype.render = function(ctx) {

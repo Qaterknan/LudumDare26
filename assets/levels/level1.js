@@ -18,6 +18,7 @@ new function level(){
 		var pol = new Polygon({
 			color:"#9999ff",
 			opaque: true,
+			position: new Vector2(-100, 200),
 			points:[
 				new Vector2(350,90),
 				new Vector2(360,110),
@@ -31,7 +32,8 @@ new function level(){
 			color: "#FFF", 
 			distance: 20, 
 			shadowCastDistance: 40,
-			intensity: 0.5
+			intensity: 0.5,
+			collidable: false,
 		});
 		
 		var player = new Player({
@@ -103,6 +105,14 @@ new function level(){
 			
 		var svetlo = new PointLight({color: "#0000ff", distance: 100});
 		svetlo.position.set(300,300);
+		svetlo.tick = function (){
+			if(this.testCollision(player) && game.lights.collision(player.position.x, player.position.y)){
+				player.ghost = true;
+			}
+			else{
+				player.ghost = false;
+			}
+		};
 		svetlo.changeSound = new Sound(game.loader.assets.sounds.up);
 		game.add(svetlo);
 		
