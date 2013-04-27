@@ -12,5 +12,5 @@ function Teleporter( options ){
 Teleporter.prototype = Object.create( PointLight.prototype );
 
 Teleporter.prototype.teleport = function(player) {
-	player.position = this.destination;
+	player.position.set(this.destination.x,this.destination.y);
 };
