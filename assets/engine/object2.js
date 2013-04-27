@@ -17,6 +17,8 @@ function Object2( options ){
 	this.parent = undefined;
 	this.children = [];
 	this.childrenCache = {};
+	
+	this.timeEvents = [];
 
 	this.ticks = 0;
 
@@ -156,6 +158,7 @@ Object2.prototype.sortChildren = function() {
 Object2.prototype.tickChildren = function() {
 	for(var i in this.children){
 		this.children[i].tick();
+		this.children[i].checkTimeEvents();
 		if(this.children[i].tickChildren)
 			this.children[i].tickChildren();
 	};
@@ -204,4 +207,21 @@ Object2.prototype.testCollision = function(obj){
 
 Object2.prototype.onCollision = function (){
 	return;
+};
+
+Object2.prototype.checkTimeEvents = function (){
+	var len = this.timeEvents.length;
+	var cas = new Date().getTime();
+	for(var i = 0; i < len; i++){
+		if(this.timeEvents[i][0] < cas){
+			this.timeEvents[i][1](this);
+			if(!this.timeEvents[i][2])
+				this.timeEvents.splice(i,1);
+		}
+	};
+};
+
+Object2.prototype.addTimeEvent = function (cas,akce,zachovat){
+	var ted = new Date().getTime();
+	this.timeEvents.push([cas+ted,akce,zachovat]);
 };
