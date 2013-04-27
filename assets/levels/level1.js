@@ -21,9 +21,9 @@ new function level(){
 				new Vector2(-10*2,-20*2),
 				new Vector2(10*2,-30*2),
 				new Vector2(20*2,10*2),
-				// new Vector2(20*2,30*2),
-				// new Vector2(-60*2,10*2),
-				// new Vector2(-80*2,-10*2),
+				new Vector2(20*2,30*2),
+				new Vector2(-60*2,10*2),
+				new Vector2(-80*2,-10*2),
 				]
 			});
 		game.add(polygon);

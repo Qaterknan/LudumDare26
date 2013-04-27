@@ -32,15 +32,14 @@ Polygon.prototype.testCollision = function(obj) {
 
 		var distance = (normal.x * c.x + normal.y * c.y - a.x*normal.x - a.y*normal.y)/normal.length();
 		if(obj.radius > Math.abs(distance)){
+			var ramenoA = new Vector2().subVectors(c,a);
+			var ramenoB = new Vector2().subVectors(c,b);
+			if( ramenoA.lengthSq() + ramenoB.lengthSq() < smer.lengthSq() ){
+				return true;
+			}
+		}
+		if(new Vector2().subVectors(c,a).lengthSq() < obj.radius*obj.radius){
 			return true;
-			// if(distance < 0){
-
-				// var ramenoA = new Vector2().subVectors(c,a);
-				// var ramenoB = new Vector2().subVectors(c,b);
-				// if(ramenoA.length() < smer.length() || ramenoB.length() < smer.length()){
-				// 	return true;
-				// }
-			// }
 		}
 	}
 	return false;
