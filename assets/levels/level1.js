@@ -116,7 +116,7 @@ new function level(){
 		});
 		game.add(pol5);
 			
-		var svetlo = new Anihilator({
+		var svetlo = new Tunneler({
 			color: "#0000ff",
 			distance: 100,
 			inSound: new Sound(game.loader.assets.sounds.up),

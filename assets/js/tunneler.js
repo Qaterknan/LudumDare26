@@ -1,4 +1,4 @@
-function Anihilator( options ){
+function Tunneler( options ){
 	var options = options === undefined ? {} : options;
 	PointLight.call(this, options);
 
@@ -9,9 +9,9 @@ function Anihilator( options ){
 	this.chargeMaximum = options.chargeMaximum === undefined ? 5000 : options.chargeMaximum;
 	this.chargeStart = false;
 };
-Anihilator.prototype = Object.create( PointLight.prototype );
+Tunneler.prototype = Object.create( PointLight.prototype );
 
-Anihilator.prototype.efect = function(player) {
+Tunneler.prototype.efect = function(player) {
 	player.colors.push(this.color);
 	if(this.inSound)
 		this.inSound.play();
@@ -21,7 +21,7 @@ Anihilator.prototype.efect = function(player) {
 	player.colorAnouncer.emiting = true;
 	this.chargeStart =new Date().getTime();
 };
-Anihilator.prototype.postefect = function (player){
+Tunneler.prototype.postefect = function (player){
 	player.ghost = false;
 	player.color = "#1BE063";
 	for(var i in player.colors){
