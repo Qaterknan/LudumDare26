@@ -59,6 +59,9 @@ Player.prototype.addControls = function(eventhandler) {
 			if(game.children[i] instanceof Trigger){
 				if(game.children[i].testCollision(_this)) game.children[i].response();
 			}
+			if(game.children[i] instanceof Teleporter){
+				if(game.children[i].testCollision(_this)) game.children[i].teleport(_this);
+			}
 		}
 	});
 	eventhandler.addKeyboardControl("R", function (){
