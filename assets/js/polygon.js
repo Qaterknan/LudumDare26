@@ -14,18 +14,25 @@ Polygon.prototype.render = function(ctx) {
 	ctx.restore();
 };
 
-Polygon.prototype.fill = function(ctx, color) {
+Polygon.prototype.fill = function(ctx, color, type) {
 	ctx.beginPath();
-	if(color != "clip")
-		ctx.fillStyle = color;
 	for(var i = 0, l = this.points.length; i < l; i++){
 		var a = this.points[i];
 		ctx.lineTo(a.x, a.y);
 	}
-	if(color == "clip")
+	if(type == "clip"){
 		ctx.clip();
-	else
+	}
+	else if(type == "stroke"){
+		ctx.strokeStyle = color;
+		ctx.lineWidth = 2;
+		ctx.stroke();
+	}
+	else {
+		ctx.fillStyle = color;
 		ctx.fill();
+	}
+
 	ctx.closePath();
 };
 

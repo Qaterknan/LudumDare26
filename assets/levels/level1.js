@@ -21,6 +21,7 @@ new function level(){
 		// pozadí
 		game.clearColor = "#9999ff";
 		game.add( new Polygon({
+			id: "backgroundPolygon",
 			color:"#F0B9F0",
 			opaque: false,
 			zIndex: -100,
@@ -32,6 +33,7 @@ new function level(){
 				new Vector2(50,250),
 			],
 		}));
+		game.polygonBorder = game.getChild("backgroundPolygon");
 
 		game.add(new Polygon({
 			color:"#7777ff",
