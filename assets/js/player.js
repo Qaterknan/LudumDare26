@@ -9,6 +9,8 @@ function Player(options){
 	this.color = "#1BE063";
 	this.colors = [];
 	
+	this.influencedBy = [];
+	
 	this.particleOptions = {
 		size:3,
 		life: 500,
@@ -67,16 +69,25 @@ Player.prototype.move = function(angle) {
 	this.position.y += tY;
 
 	var collisions = game.checkCollisions(this);
-	//~ this.colors = [];
+	var newInfluence = [];
+	var collided = false;
 	for(var i in collisions){
-		if(collisions[i].id == "playerLight") continue;
+		if(collisions[i].id == "playerLight") continue;console.log(collisions[i]);
+		if(collisions[i] instanceof PointLight){
+			newInfluence.push(collisions[i]);
+		}
 		this.onCollision(collisions[i]);
-		if(collisions[i].collidable){
+		if(collisions[i].collidable && !collided){
 			this.position.x -= tX;
 			this.position.y -= tY;
-			break;
+			collided = true;
 		}
 	};
+<<<<<<< HEAD
+=======
+	this.compare( newInfluence );
+	console.log(game.lights.collision(this.position.x, this.position.y))
+>>>>>>> efect a postefect
 };
 
 Player.prototype.render = function(ctx) {
@@ -102,4 +113,22 @@ Player.prototype.render = function(ctx) {
 };
 Player.prototype.onCollision = function (obj){
 	return;
+};
+Player.prototype.compare = function ( newInfluence ){
+	for(var i in newInfluence){
+		var oldIndex = this.influencedBy.indexOf(newInfluence[i]);
+		if(oldIndex != -1){
+			this.influencedBy.splice(oldIndex, 1);
+			continue;
+		}
+		else{
+			if(newInfluence[i].efect)
+				newInfluence[i].efect(this);
+		}
+	};
+	for(var i in this.influencedBy){
+		if(this.influencedBy[i].postefect)
+			this.influencedBy[i].postefect(this);
+	};
+	this.influencedBy = newInfluence;
 };

@@ -61,6 +61,63 @@ new function level(){
 
 		game.clearColor = "#F0B9F0";
 		
+<<<<<<< HEAD
+=======
+		var pol = new Polygon({
+			color:"#9999ff",
+			points:[
+				new Vector2(25,75),
+				new Vector2(75,75),
+				new Vector2(75,500),
+				new Vector2(25,500),
+			],
+		});
+		game.add(pol);
+		
+		var pol2 = new Polygon({
+			color: "#9999ff",
+			points:[
+				new Vector2(75,400),
+				new Vector2(500,400),
+				new Vector2(500,450),
+				new Vector2(75,450),
+			],
+		});
+		game.add(pol2);
+		
+		var pol3 = new Portal({
+			color: "rgba(0,0,255,0.5)",
+			points:[
+				new Vector2(300,75),
+				new Vector2(325,75),
+				new Vector2(325,400),
+				new Vector2(300,400),
+			],
+		});
+		game.add(pol3);
+		
+		var pol4 = new Polygon({
+			color:"#9999ff",
+			points:[
+				new Vector2(25,75),
+				new Vector2(25,50),
+				new Vector2(500,50),
+				new Vector2(500,75),
+			],
+		});
+		game.add(pol4);
+		
+		var pol5 = new Polygon({
+			color:"#9999ff",
+			points:[
+				new Vector2(500,50),
+				new Vector2(525,50),
+				new Vector2(525,400),
+				new Vector2(500,400),
+			],
+		});
+		game.add(pol5);
+>>>>>>> efect a postefect
 			
 		var svetlo = new Anihilator({
 			color: "#0000ff",
@@ -71,7 +128,7 @@ new function level(){
 		svetlo.position.set(300,300);
 		game.add(svetlo);
 		
-		var zmensovadlo = new Resizer({color: "#855E3E", distance: 100, intensity: 0.8, newSize: 20});
+		var zmensovadlo = new Resizer({color: "#855E3E", distance: 100, intensity: 0.8, scale: 2});
 		zmensovadlo.position.set(100,300);
 		game.add(zmensovadlo);
 		

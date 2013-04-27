@@ -85,19 +85,12 @@ new function level(){
 		});
 		game.add(pol5);
 			
-		var svetlo = new PointLight({color: "#0000ff", distance: 60, intensity: 1});
+		var svetlo = new Anihilator({color: "#0000ff", distance: 60, intensity: 1});
 		svetlo.position.set(300,200);
 		svetlo.tick = function (){
-			if(this.testCollision(player)){
-				player.ghost = true;
-			}
-			else{
-				player.ghost = false;
-			}
 			this.ticks++;
 			this.position.y += 20*Math.sin(this.ticks/10);
 		};
-		svetlo.changeSound = new Sound(game.loader.assets.sounds.up);
 		game.add(svetlo);
 		
 		var svetlo2 = new PointLight({color: "#FFFB03", distance: 50, intensity: 0.2});
