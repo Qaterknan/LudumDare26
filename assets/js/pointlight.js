@@ -4,6 +4,7 @@ function PointLight( options ){
 	
 	this.distance = options.distance === undefined ? 200 : options.distance;
 	this.shadowCastDistance = options.shadowCastDistance === undefined ? 300 : options.shadowCastDistance;
+	this.intensity = options.intensity === undefined ? 1 : options.intensity;
 	this.color = options.color === undefined ? new Color("#ffffff", 1) : new Color(options.color,1);
 	this.radius = options.radius === undefined ? this.distance*0.8 : options.radius;
 
@@ -16,7 +17,7 @@ PointLight.prototype.generateCaches = function (){
 	var ctx = this.gradientCache.ctx;
 	// gradient cache
 	var gradient = ctx.createRadialGradient(this.distance, this.distance, 0, this.distance, this.distance, this.distance);
-	gradient.addColorStop(0, this.color.getRGB());
+	gradient.addColorStop(0, this.color.getRGBA(this.intensity));
 	gradient.addColorStop(1, this.color.getRGBA(0));
 
 	ctx.fillStyle = gradient;
@@ -30,7 +31,7 @@ PointLight.prototype.generateCaches = function (){
 	var ctx = this.visibleMaskCache.ctx;
 
 	var gradient = ctx.createRadialGradient(d,d, 0, d,d,d);
-	gradient.addColorStop( 0, 'rgba(0,0,0,1)' );
+	gradient.addColorStop( 0, 'rgba(0,0,0,'+this.intensity+')' );
 	gradient.addColorStop( 1, 'rgba(0,0,0,0)' );
 
 	ctx.fillStyle = gradient;

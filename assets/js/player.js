@@ -93,7 +93,7 @@ Player.prototype.render = function(ctx) {
 			this.colorAnouncer.emit(2);
 		};
 		ctx.fillStyle = barva.getRGB();
-		this.getChild("svetlo").color = barva;
+		game.getChild("playerLight").color = barva;
 	}
 	ctx.arc(this.position.x, this.position.y, this.radius, 0, PI*2);
 	ctx.fill();

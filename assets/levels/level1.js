@@ -10,16 +10,22 @@ new function level(){
 	this.afterLoad = function (){
 		game.gui.GUILoad(this.scripts.ingame);
 		
-		var playerLight = new PointLight({color: "#ffffff", distance: 50});
+		var playerLight = new PointLight({
+			id: "playerLight",
+			color: "#FFF", 
+			distance: 20, 
+			shadowCastDistance: 40,
+			intensity: 0.5
+		});
 		
 		var player = new Player({
+			id: "player",
 			position : new Vector2(100, 100),
 			zIndex : 10
 		});
 		player.addControls(game.eventhandler);
-		player.id = "player";
-		playerLight.id = "svetlo";
-		player.add(playerLight);
+		playerLight.position = player.position;
+		game.add(playerLight);
 		game.add(player);
 
 		game.clearColor = "#F0B9F0";
