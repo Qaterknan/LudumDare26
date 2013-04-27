@@ -18,7 +18,7 @@
 				font : "VT220",
 			},
 			mouseup : function (){
-				game.levelLoad("assets/levels/menu.js");
+				game.levelLoad("assets/levels/level1.js");
 			},
 		}) );
 	},

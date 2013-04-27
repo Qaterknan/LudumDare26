@@ -24,7 +24,7 @@ function Object2( options ){
 	this.rendering = true;
 
 	this.collidable = options.collidable === undefined ? true : options.collidable;
-	this.collisionType = "hitbox"; // "hitbox", "rotated-hitbox"
+	this.collisionType = "circle"; // "hitbox", "rotated-hitbox"
 	this.boundingRadius = options.boundingRadius === undefined ? this.computeBoundingRadius() : options.boundingRadius;
 	this.hitbox = options.hitbox === undefined ? {x: 0, y: 0, width: _this.width, height: _this.height} : options.hitbox;
 
