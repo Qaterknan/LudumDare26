@@ -2,7 +2,6 @@ function Polygon(options){
 	Object2.call(this, options);
 
 	this.color = options.color === undefined ? "#000000" : options.color;
-	this.opaque = true;
 
 	this.points = options.points === undefined ? [] : options.points;
 }

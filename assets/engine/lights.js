@@ -12,10 +12,7 @@ Lights.prototype.init = function() {
 	this.castCache = createCanvas(this.width, this.height);
 	this.darkMaskCache = createCanvas(this.width, this.height);
 
-	this.lightsCollisionMask = createCanvas(this.width, this.height);
-	this.lightsCollisionCache = createCanvas(this.width, this.height);
-
-	// document.body.appendChild(this.lightsCollisionMask.canvas)
+	// document.body.appendChild(this.castCache.canvas)
 };
 
 Lights.prototype.render = function(ctx) {
@@ -48,21 +45,10 @@ Lights.prototype.render = function(ctx) {
 };
 
 Lights.prototype.cast = function(ctx) {
-	this.lightsCollisionMask.ctx.clearRect(0,0,this.lightsCollisionMask.width, this.lightsCollisionMask.height)
-	
 	var castctx = this.castCache.ctx;
 	for (var i in game.children){
 		var light = game.children[i];
 		if(light.glow){
-			if(light.id != "playerLight"){
-				this.lightsCollisionCache.ctx.clearRect(0,0,this.lightsCollisionCache.width, this.lightsCollisionCache.height);
-				this.lightsCollisionCache.ctx.beginPath();
-				this.lightsCollisionCache.ctx.fillStyle = "#000";
-				this.lightsCollisionCache.ctx.arc(light.position.x, light.position.y, light.distance, 0, PI*2);
-				this.lightsCollisionCache.ctx.fill();
-				this.lightsCollisionCache.ctx.closePath();
-			}
-
 			castctx.clearRect(0, 0, this.castCache.width, this.castCache.height);
 		
 			light.glow(castctx);
@@ -77,11 +63,6 @@ Lights.prototype.cast = function(ctx) {
 
 				var distance = Math.sqrt(light.shadowCastDistance*light.shadowCastDistance);
 
-				this.lightsCollisionCache.ctx.save();
-				this.lightsCollisionCache.ctx.globalCompositeOperation = "destination-out";
-				child.cast(this.lightsCollisionCache.ctx, light.position, distance, "#FFF");
-				this.lightsCollisionCache.ctx.restore();
-
 				child.cast(castctx, light.position, distance, "rgb(0,0,0)");
 				castctx.save();
 				castctx.translate(child.position.x, child.position.y);
@@ -93,15 +74,16 @@ Lights.prototype.cast = function(ctx) {
 			ctx.globalCompositeOperation = "lighter";
 			ctx.drawImage(this.castCache.canvas, 0,0);
 			ctx.restore();
-
-			this.lightsCollisionMask.ctx.drawImage(this.lightsCollisionCache.canvas, 0, 0);
 		}
 
 	}
 };
 
 Lights.prototype.collision = function(x,y) {
-	// var col = this.lightsCollisionMask.ctx.isPointInPath(x,y);
-	col = this.lightsCollisionMask.ctx.getImageData(x, y, 1, 1).data[3]; 
-	return col;
+	if(Math.random()<0.1){
+		col = this.castCache.ctx.getImageData(x, y, 1, 1).data[3]; 
+		console.log(col)
+		this.switchASDF = col !== 255;
+	}
+	return this.switchASDF;
 };
