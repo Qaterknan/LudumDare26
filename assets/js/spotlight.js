@@ -6,6 +6,8 @@ function SpotLight( options ){
 	this.range = options.range === undefined ? Math.PI/4 : options.range;
 	this.direction = options.direction === undefined ? new Vector2(1,1) : options.direction;
 	this.color = options.color === undefined ? new Color("#ffffff",1) : new Color(options.color, 1);
+
+	this.collidable = false;
 };
 SpotLight.prototype = Object.create( Object2.prototype );
 SpotLight.prototype.render = function (ctx){

@@ -30,9 +30,12 @@ Player.prototype.move = function(angle) {
 	this.position.y += tY;
 
 	var collisions = game.checkCollisions(this);
-	if(collisions){
-		this.position.x -= tX;
-		this.position.y -= tY;
+	for(var i in collisions){
+		if(collisions[i].collidable){
+			this.position.x -= tX;
+			this.position.y -= tY;
+			break;
+		}
 	}
 };
 

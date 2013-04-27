@@ -5,6 +5,8 @@ function PointLight( options ){
 	this.distance = options.distance === undefined ? 100 : options.distance;
 	this.color = options.color === undefined ? new Color("#ffffff", 1) : new Color(options.color,1);
 	this.radius = options.radius === undefined ? this.distance*0.8 : options.radius;
+
+	this.collidable = false;
 };
 PointLight.prototype = Object.create( Object2.prototype );
 PointLight.prototype.generateCache = function (){

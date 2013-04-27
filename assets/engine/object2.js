@@ -192,3 +192,12 @@ Object2.prototype.render = function(ctx) {
 		ctx.restore();
 	ctx.restore();
 };
+
+Object2.prototype.testCollision = function(obj){
+	var vector = new Vector2().subVectors(obj.position, this.position);
+	var radiusSum = this.radius + obj.radius;
+	if(vector.lengthSq() < radiusSum*radiusSum){
+		return true;
+	}
+	return false;
+}

@@ -5,6 +5,8 @@ function Trigger( options ){
 	this.radius = options.radius === undefined ? 10 : options.radius;
 	this.response = options.response === undefined ? function (){} : options.response;
 	this.inRange = false;
+
+	this.collidable = false;
 };
 Trigger.prototype = Object.create( Object2.prototype );
 Trigger.prototype.drawBoundingCircle = function (ctx){
@@ -16,15 +18,4 @@ Trigger.prototype.drawBoundingCircle = function (ctx){
 };
 Trigger.prototype.render = function (ctx){
 	this.drawBoundingCircle(ctx);
-};
-Trigger.prototype.tick = function (){
-	var poziceHrace = game.getChild("player").position;
-	var X = poziceHrace.x-this.position.x;
-	var Y = poziceHrace.y-this.position.y;
-	if(X*X+Y*Y <= this.radius*this.radius){
-		this.inRange = true;
-	}
-	else{
-		this.inRange = false;
-	}
 };
