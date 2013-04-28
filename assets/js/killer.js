@@ -10,15 +10,20 @@ function Killer( options ){
 	this.chargeMaximum = options.chargeMaximum === undefined ? false : options.chargeMaximum;
 	this.chargeStart = false;
 	this.limit = options.limit === undefined ? 600 : options.limit;
+	this.bloodColor = new Color("#ff0000",0.8);
 };
 Killer.prototype = Object.create( PointLight.prototype );
 
 Killer.prototype.efect = function(player) {
 	this.targets.push(player);
+	player.blood.emitOptions.amount += 4;
+	player.blood.emiting = true;
 	if(this.inSound)
 		this.inSound.play();
 };
 Killer.prototype.postefect = function (player){
+	player.blood.emitOptions.amount -= 4;
+	player.blood.emiting = false;
 	this.targets.splice(this.targets.indexOf(player),1);
 };
 Killer.prototype.tick =function (){

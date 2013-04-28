@@ -128,7 +128,7 @@ ParticleSystem.prototype.emit = function(amount) {
 	var randomize = this.emitOptions.randomize === undefined ? {} : this.emitOptions.randomize;
 	var options = this.particleOptions === undefined ? {} : this.particleOptions;
 	for (var y = 0; y < amount; y++){
-		for(var i in randomize){
+		for(var i in randomize){if(Math.random()*10 < 1) console.log(randomize);
 			if( randomize[i].min !== undefined && randomize[i].max !== undefined )
 				options[i] = random(randomize[i].max, randomize[i].min);
 			else if( randomize[i].x !== undefined || randomize[i].y !== undefined ){

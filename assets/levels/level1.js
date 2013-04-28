@@ -99,6 +99,7 @@ new function level(){
 			color: "#990000",
 			distance: 25,
 			hitSound: new Sound(game.loader.assets.sounds.hit),
+			limit: 100,
 		});
 		zabijak.position.set(200,100);
 		game.add(zabijak);

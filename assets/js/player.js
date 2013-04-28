@@ -12,6 +12,8 @@ function Player(options){
 	this.color = "#1BE063";
 	this.colors = [];
 	
+	this.bloodColors = [new Color("#ff0000",0.8), new Color("#FCB96D", 0.8)];
+	
 	this.influencedBy = [];
 	this.keyNodes = [];
 	
@@ -19,6 +21,13 @@ function Player(options){
 		size:3,
 		life: 750,
 		velocity: new Vector2(0,0),
+	};
+	this.bloodOptions = {
+		size: 2,
+		life: 750,
+		velocity: new Vector2(0,0),
+		gravity: new Vector2(0,-0.05),
+		position: new Vector2(0,0),
 	};
 	this.colorAnouncer = new ParticleSystem({},
 		this.particleOptions,
@@ -40,6 +49,37 @@ function Player(options){
 			amount : 0,
 		});
 	this.add(this.colorAnouncer);
+	this.blood = new ParticleSystem({},
+		this.bloodOptions,
+		{
+			randomize: {
+				velocity: {
+					x:{
+						min: -0.5,
+						max: 0.5,
+					},
+					y:{
+						min: -0.1,
+						max: 0.1,
+					},
+				},
+				position: {
+					x:{
+						min: -10,
+						max: 10,
+					},
+					y:{
+						min:-10,
+						max: 10,
+					},
+				},
+				color: _this.bloodColors,
+			},
+			amount: 4,
+			emiting : false,
+		}
+	);
+	this.add(this.blood);
 }
 Player.prototype = Object.create( Object2.prototype );
 
@@ -94,6 +134,7 @@ Player.prototype.addControls = function(eventhandler) {
 };
 
 Player.prototype.move = function(angle) {
+	if(this.dying) return;
 	var tX = - this.speed * Math.cos(angle),
 		tY = - this.speed * Math.sin(angle)
 	this.position.x += tX;
@@ -132,6 +173,8 @@ Player.prototype.render = function(ctx) {
 		ctx.stroke();
 		ctx.closePath();
 	}
+	if(this.radius+this.radiusBonus <= 0)
+		return;
 	ctx.beginPath();
 	ctx.fillStyle = this.color;
 	//~ if(this.colors.length < 1){
@@ -181,7 +224,9 @@ Player.prototype.compare = function ( newInfluence ){
 				if(this.pulsing){
 					this.pulsing = false;
 					this.radiusBonus = 0;
+					this.ticks = 0;
 				}
+				this.increase = false;
 				this.addTimeEvent(charge, function (){objekt.postefect(_this);});
 			}
 			else{
@@ -192,8 +237,8 @@ Player.prototype.compare = function ( newInfluence ){
 	this.influencedBy = newInfluence;
 };
 Player.prototype.die = function (){
-	game.restartGame();
 	this.damageDealt = 0;
+	this.dying = true;
 };
 
 Player.prototype.startEmitCount = function (limit){
@@ -204,7 +249,7 @@ Player.prototype.startEmitCount = function (limit){
 };
 
 Player.prototype.tick = function (){
-	if(this.colorAnouncer.emiting){
+	if(this.increase){
 		var newAmount = this.colorAnouncer.emitOptions.amount + this.emitChangeRate;
 		if(newAmount > this.emitLimit)
 			this.colorAnouncer.emitOptions.amount = this.emitLimit;
@@ -213,6 +258,15 @@ Player.prototype.tick = function (){
 	}
 	if(this.pulsing){
 		this.radiusBonus = this.colorAnouncer.emitOptions.amount*2*Math.cos(this.ticks/10);
+		this.ticks++;
 	}
-	this.ticks++;
+	if(this.dying){
+		if(this.radius + this.radiusBonus >= 0)
+			this.radiusBonus += -0.1;
+		else{
+			this.radiusBonus = -this.radius;
+			game.restartGame();
+		}
+	};
+	
 };
