@@ -8,6 +8,9 @@ function PointLight( options ){
 	this.color = options.color === undefined ? new Color("#ffffff", 1) : new Color(options.color,1);
 	this.radius = options.radius === undefined ? this.distance*0.85 : options.radius;
 
+	// this.efect = options.efect === undefined ? undefined : options.efect;
+	// this.postefect = options.postefect === undefined ? undefined : options.postefect;
+
 	this.collidable = false;
 	
 	this.range = options.range === undefined ? 2*PI : options.range;

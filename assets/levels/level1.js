@@ -14,7 +14,7 @@ new function level(){
 
 		var mainColor = "#9999ff";
 
-		// pozadí levelu
+		// pozadí levelu =============================
 		game.clearColor = mainColor;
 		game.add( new Polygon({
 			id: "backgroundPolygon",
@@ -23,7 +23,7 @@ new function level(){
 			zIndex: -100,
 			points:[
 				new Vector2(100,100),
-				new Vector2(518,45),
+				new Vector2(518,9),
 				new Vector2(1000,20),
 				new Vector2(1091,394),
 				new Vector2(966,570),
@@ -35,14 +35,14 @@ new function level(){
 				new Vector2(380,547),
 				new Vector2(648,444),
 				new Vector2(759,354),
-				new Vector2(691,220),
+				new Vector2(715,253),
 				new Vector2(400,400),
 				new Vector2(50,250),
 			],
 		}));
-		// game.polygonBorder = game.getChild("backgroundPolygon");
+		game.polygonBorder = game.getChild("backgroundPolygon");
 
-		// player
+		// player =============================
 		var playerLight = new PointLight({
 			id: "playerLight",
 			color: "#FFF", 
@@ -69,15 +69,40 @@ new function level(){
 		game.add(playerLight);
 		game.add(player);
 
+		// cíl =============================
+		game.add(new Trigger({
+			position: new Vector2(175,512),
+			radius: 20,
+			color: "#F2DE46",
+			response: function(){
+				game.levelLoad("assets/levels/testlevel2.js");
+			}
+		}));
+		var triggerLight = new PointLight({
+			position: new Vector2(175,512),
+			radius: 30,
+			color: "#FFFF00",
+			intensity: 0.4,
+		})
+		triggerLight.efect = function(){
+				game.gui.children["press_e"].visible = true;
+			};
+		triggerLight.postefect = function(){
+				game.gui.children["press_e"].visible = false;
+			};
+		game.add(triggerLight);
+
+		// ostatní =============================
+
 		game.add(new Polygon({
 			color: mainColor,
 			position: new Vector2(926,237),
 			opaque: true,
 			points:[
-				new Vector2(837-926,198-237),
-				new Vector2(875-926,148-237),
-				new Vector2(939-926,272-237),
-				new Vector2(852-926,266-237),
+				new Vector2(-89,-39),
+				new Vector2(-51,-64),
+				new Vector2(10,48),
+				new Vector2(-68,84),
 			],
 			oscilatePoints: [
 				new Vector2(854,160),
@@ -89,7 +114,8 @@ new function level(){
 		
 		game.add(new Killer({
 			position: new Vector2(527,66),
-			distance: 180
+			distance: 180,
+			shadowCastDistance: 180*2,
 		}));
 		game.add(new Killer({
 			position: new Vector2(993,239),
@@ -101,14 +127,6 @@ new function level(){
 			oscilateEasing: "harmonic",
 			acceleration: 0.05,
 			distance: 140
-		}));
-
-		game.add(new Trigger({
-			position: new Vector2(175,512),
-			radius: 20,
-			response: function(){
-				game.levelLoad("assets/levels/testlevel2.js");
-			}
 		}));
 	};
 };
