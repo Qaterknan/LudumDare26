@@ -9,6 +9,13 @@ Polygon.prototype = Object.create( Object2.prototype );
 
 Polygon.prototype.tick = function() {
 	this.oscilate();
+	
+	if(this.oscilatePoints){
+		var player = game.getChild("player");
+		if(this.testCollision(player)){
+			player.position.add(this.velocity);
+		};
+	}
 };
 
 Polygon.prototype.render = function(ctx) {

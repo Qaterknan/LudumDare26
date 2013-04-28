@@ -10,6 +10,7 @@ function Object2( options ){
 	this.position = options.position === undefined ? new Vector2() : options.position;
 	this.zIndex = options.zIndex === undefined ? 0 : options.zIndex;
 	this.rotation = options.rotation === undefined ? 0 : options.rotation;
+	this.velocity = new Vector2();
 	
 	this.width = options.width === undefined ? 0 : options.width;
 	this.height = options.height === undefined ? 0 : options.height;
@@ -56,8 +57,10 @@ Object2.prototype.oscilate = function() {
 			this.oscilatePoint = this.oscilatePoints[0].equals(this.oscilatePoint) ? this.oscilatePoints[1] : this.oscilatePoints[0];
 		}
 		if(this.oscilateEasing == "harmonic"){
-			this.position.x += (this.oscilatePoint.x - this.position.x)*this.acceleration;
-			this.position.y += (this.oscilatePoint.y - this.position.y)*this.acceleration;
+			this.velocity.x = (this.oscilatePoint.x - this.position.x)*this.acceleration;
+			this.velocity.y = (this.oscilatePoint.y - this.position.y)*this.acceleration;
+			this.position.x += this.velocity.x;
+			this.position.y += this.velocity.y;
 		}
 		else if(this.oscilateEasing == "linear") {
 			this.position.x += (this.oscilatePoint.x - this.position.x);

@@ -12,13 +12,14 @@ new function level(){
 	this.afterLoad = function (){
 		game.gui.GUILoad(this.scripts.ingame);
 
-		var mainColor = "#9999ff";
+		var majorColor = "#9999ff";
+		var minorColor = "#F0B9F0";
 
 		// pozadí levelu =============================
-		game.clearColor = mainColor;
+		game.clearColor = majorColor;
 		game.add( new Polygon({
 			id: "backgroundPolygon",
-			color:"#F0B9F0",
+			color: minorColor,
 			opaque: false,
 			zIndex: -100,
 			points:[
@@ -96,7 +97,7 @@ new function level(){
 		// ostatní =============================
 
 		game.add(new Polygon({
-			color: mainColor,
+			color: majorColor,
 			position: new Vector2(926,237),
 			opaque: true,
 			points:[

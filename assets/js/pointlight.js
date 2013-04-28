@@ -160,15 +160,15 @@ PointLight.prototype.cast = function (ctx){
 	ctx.drawImage(this.getVisibleMaskCache().canvas,this.position.x-this.shadowCastDistance,this.position.y-this.shadowCastDistance);
 };
 
-Object2.prototype.testCollision = function(obj){
-	var vector = new Vector2().subVectors(obj.position, this.position);
-	var angle = vector.getAngle();
-	// todo
-	// console.log(angle);
-	// if()
-	var radiusSum = this.radius + obj.radius;
-	if(vector.lengthSq() < radiusSum*radiusSum){
-		return true;
-	}
-	return false;
-}
+// Object2.prototype.testCollision = function(obj){
+// 	var vector = new Vector2().subVectors(obj.position, this.position);
+// 	var angle = vector.getAngle();
+// 	// todo
+// 	// console.log(angle);
+// 	// if()
+// 	var radiusSum = this.radius + obj.radius;
+// 	if(vector.lengthSq() < radiusSum*radiusSum){
+// 		return true;
+// 	}
+// 	return false;
+// }
