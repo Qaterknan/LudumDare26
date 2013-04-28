@@ -16,9 +16,12 @@ Accelerator.prototype.efect = function(player) {
 	if(this.inSound)
 		this.inSound.play();
 	this.chargeStart = new Date().getTime();
+	player.keyNodes = [];
+	player.tailRender = true;
 };
 Accelerator.prototype.postefect = function (player){
 	player.speed -= this.bonus;
 	if(this.outSound)
 		this.outSound.play();
+	player.tailRender = false;
 };

@@ -11,6 +11,7 @@ function Player(options){
 	this.colors = [];
 	
 	this.influencedBy = [];
+	this.keyNodes = [];
 	
 	this.particleOptions = {
 		size:3,
@@ -40,18 +41,33 @@ function Player(options){
 }
 Player.prototype = Object.create( Object2.prototype );
 
+Player.prototype.keyNodeCache = function (newKey){
+	if(this.keyNodes[1])
+		this.keyNodes.splice(1,1);
+	this.keyNodes.splice(0,0,newKey);
+	console.log(this.keyNodes);
+};
+
 Player.prototype.addControls = function(eventhandler) {
 	var _this = this;
-	eventhandler.addKeyboardControl("A", undefined, undefined, function(){
+	eventhandler.addKeyboardControl("A", function (){
+		_this.keyNodeCache(_this.position.clone());
+	}, undefined, function(){
 		_this.move(0);
 	});
-	eventhandler.addKeyboardControl("D", undefined, undefined, function(){
+	eventhandler.addKeyboardControl("D", function (){
+		_this.keyNodeCache(_this.position.clone());
+	}, undefined, function(){
 		_this.move(PI);
 	});
-	eventhandler.addKeyboardControl("W", undefined, undefined, function(){
+	eventhandler.addKeyboardControl("W", function (){
+		_this.keyNodeCache(_this.position.clone());
+	}, undefined, function(){
 		_this.move(PI/2);
 	});
-	eventhandler.addKeyboardControl("S", undefined, undefined, function(){
+	eventhandler.addKeyboardControl("S", function (){
+		_this.keyNodeCache(_this.position.clone());
+	}, undefined, function(){
 		_this.move(-PI/2);
 	});
 	eventhandler.addKeyboardControl("E", function (){
@@ -99,6 +115,16 @@ Player.prototype.move = function(angle) {
 };
 
 Player.prototype.render = function(ctx) {
+	if(this.tailRender){
+		ctx.beginPath();
+		ctx.strokeStyle = "#ffffff";
+		ctx.moveTo(this.position.x,this.position.y);
+		for(var i in this.keyNodes){
+			ctx.lineTo(this.keyNodes[i].x,this.keyNodes[i].y);
+		}
+		ctx.stroke();
+		ctx.closePath();
+	}
 	ctx.beginPath();
 	ctx.fillStyle = this.color;
 	//~ if(this.colors.length < 1){
@@ -118,6 +144,7 @@ Player.prototype.render = function(ctx) {
 	ctx.arc(this.position.x, this.position.y, this.radius, 0, PI*2);
 	ctx.fill();
 	ctx.closePath();
+	
 };
 Player.prototype.onCollision = function (obj){
 	return;
