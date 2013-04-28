@@ -12,13 +12,7 @@ new function level(){
 	this.afterLoad = function (){
 		game.gui.GUILoad(this.scripts.ingame);
 
-		game.add(new Resizer({
-			position: new Vector2(400,100),
-			newSize: 10,
-			color: "#FF0000"
-		}));
-
-		// pozadí
+		// pozadí levelu
 		game.clearColor = "#9999ff";
 		game.add( new Polygon({
 			id: "backgroundPolygon",
@@ -27,26 +21,15 @@ new function level(){
 			zIndex: -100,
 			points:[
 				new Vector2(100,100),
-				new Vector2(500,20),
-				new Vector2(400,350),
-				new Vector2(200,400),
+				new Vector2(518,45),
+				new Vector2(1000,20),
+				new Vector2(800,350),
+				new Vector2(400,400),
 				new Vector2(50,250),
 			],
 		}));
 		game.polygonBorder = game.getChild("backgroundPolygon");
 
-		game.add(new Polygon({
-			color:"#7777ff",
-			opaque: true,
-			position: new Vector2(240, 270),
-			points:[
-				new Vector2(0,0),
-				new Vector2(30,50),
-				new Vector2(-20,20),
-				new Vector2(-20,-20),
-			],
-		}));
-		
 		var playerLight = new PointLight({
 			id: "playerLight",
 			color: "#FFF", 
@@ -73,66 +56,23 @@ new function level(){
 		game.add(playerLight);
 		game.add(player);
 
-		
-		var pol = new Polygon({
-			color:"#9999ff",
-			points:[
-				new Vector2(25,75),
-				new Vector2(75,75),
-				new Vector2(75,500),
-				new Vector2(25,500),
-			],
-		});
-		game.add(pol);
-		
-		var pol2 = new Polygon({
-			color: "#9999ff",
-			points:[
-				new Vector2(75,400),
-				new Vector2(500,400),
-				new Vector2(500,450),
-				new Vector2(75,450),
-			],
-		});
-		game.add(pol2);
-		
 		var pol3 = new Portal({
 			color: "rgba(0,0,255,0.5)",
 			ghostId: "port1",
+			position: new Vector2(811,155),
 			points:[
-				new Vector2(300,75),
-				new Vector2(325,75),
-				new Vector2(325,400),
-				new Vector2(300,400),
+				new Vector2(-30,-150),
+				new Vector2(15,-150),
+				new Vector2(50,150),
+				new Vector2(30,150),
 			],
 		});
 		game.add(pol3);
 		
-		var pol4 = new Polygon({
-			color:"#9999ff",
-			points:[
-				new Vector2(25,75),
-				new Vector2(25,50),
-				new Vector2(500,50),
-				new Vector2(500,75),
-			],
-		});
-		game.add(pol4);
-		
-		var pol5 = new Polygon({
-			color:"#9999ff",
-			points:[
-				new Vector2(500,50),
-				new Vector2(525,50),
-				new Vector2(525,400),
-				new Vector2(500,400),
-			],
-		});
-		game.add(pol5);
-			
 		var svetlo = new Tunneler({
 			color: "#0000ff",
 			distance: 100,
+			shadowCastDistance: 100,
 			ghostId: "port1",
 			inSound: new Sound(game.loader.assets.sounds.up),
 			outSound: new Sound(game.loader.assets.sounds.down)
@@ -153,18 +93,20 @@ new function level(){
 		game.add(zabijak);
 		
 		var urychlovac = new Accelerator({
+			lightConstructor: PointLight,
 			color: "#25E6B9",
-			distance: 50,
+			distance: 300,
 			intensity: 0.8,
 			bonus: 5,
+			range: PI/6,
 			inSound: new Sound(game.loader.assets.sounds.up),
 			outSound: new Sound(game.loader.assets.sounds.down),
 		});
-		urychlovac.position.set(400,200);
+		urychlovac.position.set(622,371);
 		game.add(urychlovac);
 		
 		var svetlo2 = new PointLight({color: "#FFFB03", distance: 50, shadowCastDistance: 100, intensity: 0.2});
-		svetlo2.position.set(450,100);
+		svetlo2.position.set(918,76);
 		svetlo.changeSound = new Sound(game.loader.assets.sounds.up);
 		game.add(svetlo2);
 		
@@ -172,12 +114,7 @@ new function level(){
 		tlacitko.response = function (){
 			game.levelLoad("assets/levels/level2.js");
 		};
-		tlacitko.position.set(450,100);
+		tlacitko.position.set(918,76);
 		game.add(tlacitko);
-		
-		/*var spotl = new SpotLight({color: "#00ff00"});
-		spotl.position.set(300,100);
-		game.add(spotl);
-		spotl.direction.set(-1,1);*/
 	};
 };

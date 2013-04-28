@@ -294,12 +294,13 @@ Vector2.prototype = {
 	},
 	// Izzet
 	getAngle: function (){
+
 		if(this.x == 0 && this.y == 0) return false;
-		if(this.y < 0){
-			return Math.atan(this.y/this.x)+Math.PI;
+		if(this.x < 0){
+			return Math.atan(this.y/this.x);
 		}
 		else{
-			return Math.atan(this.y/this.x);
+			return Math.atan(this.y/this.x)+PI;
 		}
 	},
 	getPerpendicular: function (){

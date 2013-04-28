@@ -64,7 +64,12 @@ Player.prototype.addControls = function(eventhandler) {
 	eventhandler.addKeyboardControl("R", function (){
 		game.restartGame();
 	});
-	
+	eventhandler.addMouseControl(1, function(x,y){
+		console.log(
+			Math.round(game.camera.tx(x))+","+
+			Math.round(game.camera.ty(y))
+			);
+	})
 };
 
 Player.prototype.move = function(angle) {
