@@ -20,8 +20,10 @@ Tunneler.prototype.efect = function(player) {
 	player.ghostId = this.ghostId;
 	player.color = this.color.getRGB();
 	player.colorAnouncer.toSpawn = 0;
+	player.startEmitCount(this.chargeMaximum);
 	player.colorAnouncer.emiting = true;
 	this.chargeStart =new Date().getTime();
+	player.pulsing = true;
 };
 Tunneler.prototype.postefect = function (player){
 	player.ghost = false;
@@ -34,4 +36,5 @@ Tunneler.prototype.postefect = function (player){
 	if(this.outSound)
 		this.outSound.play();
 	player.colorAnouncer.emiting = false;
+	player.colorAnouncer.emitOptions.amount = 0;
 };

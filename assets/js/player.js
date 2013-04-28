@@ -2,6 +2,7 @@ function Player(options){
 	Object2.call(this, options);
 	var _this = this;
 	this.radius = 10;
+	this.radiusBonus = 0;
 
 	this.speed = 5;
 	// this.currentSpeed = 0;
@@ -12,18 +13,28 @@ function Player(options){
 	this.directions = [];
 
 	this.ghost = false;
+	this.pulsing = false;
 	this.damageDealt = 0;
 
 	this.color = "#1BE063";
 	this.colors = [];
+	
+	this.bloodColors = [new Color("#ff0000",0.8), new Color("#FCB96D", 0.8)];
 	
 	this.influencedBy = [];
 	this.keyNodes = [];
 	
 	this.particleOptions = {
 		size:3,
-		life: 500,
+		life: 750,
 		velocity: new Vector2(0,0),
+	};
+	this.bloodOptions = {
+		size: 2,
+		life: 750,
+		velocity: new Vector2(0,0),
+		gravity: new Vector2(0,-0.05),
+		position: new Vector2(0,0),
 	};
 	this.colorAnouncer = new ParticleSystem({},
 		this.particleOptions,
@@ -42,9 +53,40 @@ function Player(options){
 				color: _this.colors,
 			},
 			emiting : false,
-			amount : 2,
+			amount : 0,
 		});
 	this.add(this.colorAnouncer);
+	this.blood = new ParticleSystem({},
+		this.bloodOptions,
+		{
+			randomize: {
+				velocity: {
+					x:{
+						min: -0.5,
+						max: 0.5,
+					},
+					y:{
+						min: -0.1,
+						max: 0.1,
+					},
+				},
+				position: {
+					x:{
+						min: -10,
+						max: 10,
+					},
+					y:{
+						min:-10,
+						max: 10,
+					},
+				},
+				color: _this.bloodColors,
+			},
+			amount: 4,
+			emiting : false,
+		}
+	);
+	this.add(this.blood);
 }
 Player.prototype = Object.create( Object2.prototype );
 
@@ -52,7 +94,6 @@ Player.prototype.keyNodeCache = function (newKey){
 	if(this.keyNodes[1])
 		this.keyNodes.splice(1,1);
 	this.keyNodes.splice(0,0,newKey);
-	// console.log(this.keyNodes);
 };
 
 Player.prototype.addControls = function(eventhandler) {
@@ -139,6 +180,7 @@ Player.prototype.removeDirection = function(normalized) {
 };
 
 Player.prototype.move = function() {
+	if(this.dying) return;
 	var tX = this.currentVelocity.x,
 		tY = this.currentVelocity.y;
 	this.position.x += tX;
@@ -186,6 +228,8 @@ Player.prototype.render = function(ctx) {
 		ctx.stroke();
 		ctx.closePath();
 	}
+	if(this.radius+this.radiusBonus <= 0)
+		return;
 	ctx.beginPath();
 	ctx.fillStyle = this.color;
 	//~ if(this.colors.length < 1){
@@ -202,7 +246,7 @@ Player.prototype.render = function(ctx) {
 		//~ ctx.fillStyle = barva.getRGB();
 		//~ game.getChild("playerLight").color = barva;
 	//~ }
-	ctx.arc(this.position.x, this.position.y, this.radius, 0, PI*2);
+	ctx.arc(this.position.x, this.position.y, this.radius+this.radiusBonus, 0, PI*2);
 	ctx.fill();
 	ctx.closePath();
 	
@@ -229,6 +273,15 @@ Player.prototype.compare = function ( newInfluence ){
 				var _this = this;
 				var ted = new Date().getTime();
 				var charge = ted-objekt.chargeStart > objekt.chargeMaximum ? objekt.chargeMaximum/objekt.chargeCoefficient : (ted-objekt.chargeStart)/objekt.chargeCoefficient;
+				if(objekt instanceof Tunneler){
+					this.emitChangeRate = -this.colorAnouncer.emitOptions.amount*(100/6)/charge;
+				}
+				if(this.pulsing){
+					this.pulsing = false;
+					this.radiusBonus = 0;
+					this.ticks = 0;
+				}
+				this.increase = false;
 				this.addTimeEvent(charge, function (){objekt.postefect(_this);});
 			}
 			else{
@@ -239,6 +292,36 @@ Player.prototype.compare = function ( newInfluence ){
 	this.influencedBy = newInfluence;
 };
 Player.prototype.die = function (){
-	game.restartGame();
 	this.damageDealt = 0;
+	this.dying = true;
+};
+
+Player.prototype.startEmitCount = function (limit){
+	this.emitStart = new Date().getTime();
+	this.emitLimit = 2;
+	this.emitChangeRate = this.emitLimit/(limit*6/100);
+	this.increase = true;
+};
+
+Player.prototype.tick = function (){
+	if(this.increase){
+		var newAmount = this.colorAnouncer.emitOptions.amount + this.emitChangeRate;
+		if(newAmount > this.emitLimit)
+			this.colorAnouncer.emitOptions.amount = this.emitLimit;
+		else
+			this.colorAnouncer.emitOptions.amount = newAmount;
+	}
+	if(this.pulsing){
+		this.radiusBonus = this.colorAnouncer.emitOptions.amount*2*Math.cos(this.ticks/10);
+		this.ticks++;
+	}
+	if(this.dying){
+		if(this.radius + this.radiusBonus >= 0)
+			this.radiusBonus += -0.1;
+		else{
+			this.radiusBonus = -this.radius;
+			game.restartGame();
+		}
+	};
+	
 };
