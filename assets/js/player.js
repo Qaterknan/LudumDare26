@@ -2,9 +2,11 @@ function Player(options){
 	Object2.call(this, options);
 	var _this = this;
 	this.radius = 10;
+	this.radiusBonus = 0;
 
 	this.speed = 5;
 	this.ghost = false;
+	this.pulsing = false;
 	this.damageDealt = 0;
 
 	this.color = "#1BE063";
@@ -146,7 +148,7 @@ Player.prototype.render = function(ctx) {
 		//~ ctx.fillStyle = barva.getRGB();
 		//~ game.getChild("playerLight").color = barva;
 	//~ }
-	ctx.arc(this.position.x, this.position.y, this.radius, 0, PI*2);
+	ctx.arc(this.position.x, this.position.y, this.radius+this.radiusBonus, 0, PI*2);
 	ctx.fill();
 	ctx.closePath();
 	
@@ -175,6 +177,10 @@ Player.prototype.compare = function ( newInfluence ){
 				var charge = ted-objekt.chargeStart > objekt.chargeMaximum ? objekt.chargeMaximum/objekt.chargeCoefficient : (ted-objekt.chargeStart)/objekt.chargeCoefficient;
 				if(objekt instanceof Tunneler){
 					this.emitChangeRate = -this.colorAnouncer.emitOptions.amount*(100/6)/charge;
+				}
+				if(this.pulsing){
+					this.pulsing = false;
+					this.radiusBonus = 0;
 				}
 				this.addTimeEvent(charge, function (){objekt.postefect(_this);});
 			}
@@ -205,5 +211,8 @@ Player.prototype.tick = function (){
 		else
 			this.colorAnouncer.emitOptions.amount = newAmount;
 	}
-	console.log(this.colorAnouncer.emitOptions.amount);
+	if(this.pulsing){
+		this.radiusBonus = this.colorAnouncer.emitOptions.amount*2*Math.cos(this.ticks/10);
+	}
+	this.ticks++;
 };
