@@ -123,20 +123,20 @@ new function level(){
 			acceleration: 0.09,
 			distance: 80
 		}));
-		game.add(new Killer({
-			position: new Vector2(900,500),
-			oscilatePoints: [new Vector2(700,250), new Vector2(1000,750)],
-			oscilateEasing: "harmonic",
-			acceleration: 0.09,
-			distance: 40
-		}));
-		game.add(new Killer({
-			position: new Vector2(900,500),
-			oscilatePoints: [new Vector2(1000,250), new Vector2(700,750)],
-			oscilateEasing: "harmonic",
-			acceleration: 0.09,
-			distance: 80
-		}));
+		// game.add(new Killer({
+			// position: new Vector2(900,500),
+			// oscilatePoints: [new Vector2(700,250), new Vector2(1000,750)],
+			// oscilateEasing: "harmonic",
+			// acceleration: 0.09,
+			// distance: 40
+		// }));
+		// game.add(new Killer({
+			// position: new Vector2(900,500),
+			// oscilatePoints: [new Vector2(1000,250), new Vector2(700,750)],
+			// oscilateEasing: "harmonic",
+			// acceleration: 0.09,
+			// distance: 80
+		// }));
 		var res = new new Resizer({
 			position: new Vector2(900, 900),
 			scale: 0.5,
