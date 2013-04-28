@@ -294,8 +294,13 @@ Player.prototype.compare = function ( newInfluence ){
 	this.influencedBy = newInfluence;
 };
 Player.prototype.die = function (){
-	this.damageDealt = 0;
-	this.dying = true;
+	if(!this.dying){
+		console.log("asdf")
+		game.filterColor = new Color();
+		game.filterColor.alpha = 0;
+		this.damageDealt = 0;
+		this.dying = true;
+	}
 };
 
 Player.prototype.startEmitCount = function (limit){
@@ -330,7 +335,13 @@ Player.prototype.tick = function (){
 		else{
 			this.radiusBonus = -this.radius;
 			game.restartGame();
+			return;
 		}
+		game.filterColor.r = 255;
+		game.filterColor.g = 30;
+		game.filterColor.b = 0;
+		game.filterColor.alpha += 0.005;
+		console.log(game.filterColor.alpha )
 	};
 	
 };

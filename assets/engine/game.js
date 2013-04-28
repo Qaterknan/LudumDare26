@@ -5,6 +5,7 @@ function Game(){
 	this.ctx = this.canvas.getContext("2d");
 
 	this.clearColor = "#FFFFFF";
+	this.filterColor = false;
 	this.width = 800;
 	this.height = 480;
 
@@ -97,6 +98,15 @@ Game.prototype.render = function (ctx){
 	this.lights.render(ctx);
 
 	this.gui.render(ctx);
+
+	if(this.filterColor){
+		var gradient = ctx.createRadialGradient(this.width/2, this.height/2, 0, this.width/2, this.height/2, this.width/2);
+		gradient.addColorStop(0, this.filterColor.getRGBA(0));
+		gradient.addColorStop(1, this.filterColor.getRGBA());
+
+		ctx.fillStyle = gradient;
+		ctx.fillRect(0,0,this.width, this.height);
+	}
 };
 
 Game.prototype.levelLoad = function (src){
@@ -108,6 +118,7 @@ Game.prototype.levelLoad = function (src){
 	this.gui.addControls();
 
 	this.polygonBorder = false;
+	this.filterColor = false;
 
 	this.clearColor = "#FFFFFF";
 	this.gui.add(new Text({
