@@ -1,6 +1,6 @@
 function Teleporter( options ){
 	var options = options === undefined ? {} : options;
-	PointLight.call(this, options);
+	Trigger.call(this, options);
 
 	this.inSound = options.inSound === undefined ? false : options.inSound;
 	this.outSound = options.outSound === undefined ? false : options.outSound;
@@ -9,7 +9,7 @@ function Teleporter( options ){
 	this.chargeStart = false;
 	this.destination = options.destination === undefined ? this.position : options.destination;
 };
-Teleporter.prototype = Object.create( PointLight.prototype );
+Teleporter.prototype = Object.create( Trigger.prototype );
 
 Teleporter.prototype.teleport = function(player) {
 	player.position.set(this.destination.x,this.destination.y);

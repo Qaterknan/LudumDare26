@@ -34,7 +34,7 @@ Killer.prototype.tick =function (){
 	this.oscilate();
 	for(var i = this.targets.length-1; i > -1;i--){
 		this.targets[i].damageDealt += 10000000/(this.distance*this.distance*new Vector2().subVectors(this.targets[i].position, this.position).lengthSq());
-		console.log(this.targets[i].damageDealt)
+		//~ console.log(this.targets[i].damageDealt)
 		if(this.hitSound && this.targets[i].damageDealt%60 == 0)
 			this.hitSound.play();
 		if(this.targets[i].damageDealt > this.limit)

@@ -8,8 +8,10 @@ function Switch( options ){
 
 	this.collidable = false;
 	
-	this.light = options.light === undefined ? false : options.light;
+	this.lights = options.lights === undefined ? false : options.lights;
 	this.on = false;
+	if(this.lights.off)
+		game.add(this.lights.off);
 };
 Switch.prototype = Object.create( Trigger.prototype );
 Switch.prototype.toogleLight = function (){
@@ -23,8 +25,14 @@ Switch.prototype.toogleLight = function (){
 	}
 };
 Switch.prototype.turnOn = function (){
-	game.add(this.light);
+	if(this.lights.on)
+		game.add(this.lights.on);
+	if(this.lights.off)
+		game.remove(this.lights.off);
 };
 Switch.prototype.turnOff = function (){
-	game.remove(this.light);
+	if(this.lights.on)
+		game.remove(this.lights.on);
+	if(this.lights.off)
+		game.add(this.lights.off);
 };

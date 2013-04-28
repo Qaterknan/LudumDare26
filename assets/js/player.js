@@ -325,6 +325,7 @@ Player.prototype.die = function (){
 		game.filterColor.alpha = 0;
 		this.damageDealt = 0;
 		this.dying = true;
+		this.pulsing = false;
 	}
 };
 

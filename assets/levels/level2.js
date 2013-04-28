@@ -80,6 +80,8 @@ new function level(){
 			radius: 20,
 			color: "#F2DE46",
 			response: function(){
+				if(game.getChild("speedTrigger").timerSound)
+					game.getChild("speedTrigger").timerSound.stop();
 				game.levelLoad("assets/levels/level2.js");
 			}
 		}));
@@ -106,16 +108,95 @@ new function level(){
 			oscilatePoints: [new Vector2(627,-43), new Vector2(630,339)],
 			oscilateEasing: "linear",
 			acceleration: 0.01,
-			distance: 130
+			distance: 130,
+			zIndex: 2,
 		}));
 
-		game.add(new Tunneler({
-			id: "tunneler",
+		var tunneler1 = new Tunneler({
+			id: "tunneler1",
 			position: new Vector2(624,167),
 			color: "#0F16F2",
-			distance: 140
-		}));
-
+			distance: 140,
+			ghostId : "prvni",
+		});
+		
+		var tunneler2 = new Tunneler({
+			id: "tunneler2",
+			position: new Vector2(624,167),
+			color: "#F2F20F",
+			distance: 140,
+			ghostId : "druhy",
+			intensity : 0.5,
+		});
+		
+		var sw = new Switch({
+			id : "tunnelerTrigger",
+			position : new Vector2(893,62),
+			color: "#A5ECFA",
+			radius : 20,
+			response : function (){
+				this.toogleLight();
+			},
+			lights : {
+				on : tunneler2,
+				off : tunneler1,
+			},
+		});
+		game.add(sw);
+		
+		var port1 = new Portal({
+			id : "modryPortal",
+			ghostId : "prvni",
+			color : "rgba(15,22,242,0.5)",
+			points : [
+				new Vector2(750,69),
+				new Vector2(786,69),
+				new Vector2(800,245),
+				new Vector2(758,251),
+			],
+		});
+		game.add(port1);
+		
+		var port2 = new Portal({
+			id : "zlutyPortal",
+			ghostId : "druhy",
+			color : "rgba(242,242,15,0.5)",
+			points : [
+				new Vector2(758,251),
+				new Vector2(504,248),
+				new Vector2(510,273),
+				new Vector2(752,272),
+			],
+		});
+		game.add(port2);
+		
+		var teleport = new Teleporter({
+			id : "teleport",
+			position : new Vector2(833,-42),
+			color: "#D117B8",
+			destination : new Vector2(621,-37),
+			radius : 20,
+			response : function (){
+				this.teleport( player );
+			},
+		});
+		game.add(teleport);
+		
+		var teleportLight = new PointLight({
+			position: new Vector2(833,-42),
+			radius: 20,
+			color: "#D117B8",
+			intensity: 0.4,
+		})
+		teleportLight.efect = function(){
+				game.gui.children["press_e"].visible = true;
+			};
+		teleportLight.postefect = function(){
+				game.gui.children["press_e"].visible = false;
+			};
+		game.add(teleportLight);
+		
+		
 		game.add(new Trigger({
 			id: "speedTrigger",
 			position: new Vector2(402,167),
