@@ -3,10 +3,11 @@ new function level(){
 	this.sounds = {};
 	this.scripts = {
 		"menu" : "assets/js/guis/menu.js",
-		"credits" : "assets/js/guis/credits.js",
 	};
 	this.afterLoad = function (){
 		game.gui.GUILoad(this.scripts.menu);
+		
+		game.clearColor = "#E0E0E0";
 		
 		game.camera.origin.set(0,0);
 		
@@ -69,8 +70,11 @@ new function level(){
 			position: new Vector2(655,99),
 			oscilatePoints: [new Vector2(655,99), new Vector2(710,239)],
 			oscilateEasing: "harmonic",
-			acceleration: 0.5,
+			acceleration: 0.005,
 		});
+		svetlo3.tick = function (){
+			this.oscilate();
+		};
 		game.add(svetlo3);
 	};
 };

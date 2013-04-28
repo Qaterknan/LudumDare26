@@ -15,7 +15,7 @@
 				size : 36,
 				value : "Play",
 				color : "#ffffff",
-				font : "VT220",
+				font : "tahoma",
 				position: new Vector2(35,0),
 			},
 			mouseup : function (){
@@ -32,7 +32,7 @@
 		}) );
 		game.gui.add(new Button({
 			id: "load",
-			position: new Vector2(game.width/2-50,100),
+			position: new Vector2(game.width/2-52,100),
 			width: 130,
 			height: 40,
 			rectangle : {
@@ -42,10 +42,11 @@
 				size: 36,
 				value: "Continue",
 				color: "#ffffff",
-				font: "VT220",
+				font: "tahoma",
+				position: new Vector2(0,0),
 			},
 			mouseup : function (){
-				console.log("Program this first!");
+				console.log("Program this first! ++ ");
 			},
 			mouseover : function (){
 				this.children[1].size = 38;
@@ -68,7 +69,7 @@
 				size: 36,
 				value: "Website",
 				color: "#ffffff",
-				font: "VT220",
+				font: "tahoma",
 				position: new Vector2(7,0),
 			},
 			mouseup : function (){
@@ -95,7 +96,7 @@
 				size: 36,
 				value: "Credits",
 				color: "#ffffff",
-				font: "VT220",
+				font: "tahoma",
 				position: new Vector2(14,0),
 			},
 			mouseup : function (){
