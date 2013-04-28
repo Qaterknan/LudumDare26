@@ -13,7 +13,7 @@ GUI.prototype.render = function (ctx){
 	this.renderChildren(ctx);
 };
 
-GUI.prototype.GUILoad = function(guiobject) {
+GUI.prototype.GUILoad = function(guiobject) {console.log(guiobject);
 	this.children = [];
 	guiobject.preload(this.parent);
 	guiobject.objects(this.parent);

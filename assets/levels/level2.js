@@ -123,9 +123,13 @@ new function level(){
 			color: "#F20FDF",
 			response: function(){
 				game.getChild("killer").acceleration = 0.003;
-				this.timerSound.play();
-
-				// set timed event
+				var sound = this.timerSound;
+				sound.loop = true;
+				sound.play();
+				game.getChild("killer").addTimeEvent(5000, function (o){
+					o.acceleration = 0.01;
+					sound.stop();
+				});
 			}
 		}));
 		game.getChild("speedTrigger").timerSound = new Sound(game.loader.assets.sounds.ticking,{loop: true});
