@@ -1,8 +1,7 @@
 function Accelerator( options ){
 	var options = options === undefined ? {} : options;
+	options.color = "#25E6B9";
 	PointLight.call(this, options);
-	
-	this.color = new Color("#25E6B9");
 	
 	this.inSound = options.inSound === undefined ? false : options.inSound;
 	this.outSound = options.outSound === undefined ? false : options.outSound;

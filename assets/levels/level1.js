@@ -51,6 +51,7 @@ new function level(){
 			intensity: 0.5,
 			collidable: false,
 		});
+		playerLight.ambientParticles.emiting = false;
 		
 		var player = new Player({
 			id: "player",
