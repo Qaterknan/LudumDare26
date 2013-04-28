@@ -77,7 +77,7 @@ new function level(){
 			radius: 20,
 			color: "#F2DE46",
 			response: function(){
-				game.levelLoad("assets/levels/testlevel2.js");
+				game.levelLoad("assets/levels/level2.js");
 			}
 		}));
 		var triggerLight = new PointLight({
