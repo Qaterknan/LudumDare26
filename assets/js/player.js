@@ -18,7 +18,8 @@ function Player(options){
 	this.pulsing = false;
 	this.damageDealt = 0;
 
-	this.color = "#1BE063";
+	this.normalColor = "#1BE063";
+	this.color = this.normalColor;
 	this.colors = [];
 	
 	this.bloodColors = [new Color("#ff0000",0.8), new Color("#FCB96D", 0.8)];
@@ -368,4 +369,16 @@ Player.prototype.tick = function (){
 		console.log(game.filterColor.alpha )
 	};
 	
+};
+
+
+Player.prototype.stopCharging = function(color) {
+	this.color = this.normalColor;
+	for(var i in this.colors){
+		if(this.colors[i].getRGB() == color.getRGB()){
+			this.colors.splice(i,1);
+		}
+	};
+	this.colorAnouncer.emiting = false;
+	this.colorAnouncer.emitOptions.amount = 0;
 };
