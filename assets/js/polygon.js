@@ -69,7 +69,7 @@ Polygon.prototype.cast = function(ctx, origin, distance, color) {
 	}
 };
 
-Polygon.prototype.testCollision = function(obj) {
+Polygon.prototype.testCollision = function(obj, returnAtts) {
 	for(var i = 0, l = this.points.length; i < l; i++){
 		var a = new Vector2().addVectors(this.position, this.points[i]);
 		var b = new Vector2().addVectors(this.position, this.points[(i+1)%l]);
@@ -83,11 +83,11 @@ Polygon.prototype.testCollision = function(obj) {
 			var ramenoA = new Vector2().subVectors(c,a);
 			var ramenoB = new Vector2().subVectors(c,b);
 			if( ramenoA.lengthSq() + ramenoB.lengthSq() < smer.lengthSq() ){
-				return true;
+				return returnAtts ? {normal: normal, distance: distance} : true;
 			}
 		}
 		if(new Vector2().subVectors(c,a).lengthSq() < obj.radius*obj.radius){
-			return true;
+			return returnAtts ? {normal: normal, distance: distance} : true;
 		}
 	}
 	return false;

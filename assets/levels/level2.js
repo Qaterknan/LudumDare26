@@ -93,6 +93,14 @@ new function level(){
 		};
 		game.add(svetlo);
 		
+		var tel = new Teleporter({
+			color: "#FA73A9",
+			distance: 50,
+			destination: new Vector2(200,200),
+			position: new Vector2(300,300),
+		});
+		game.add(tel);
+		
 		var svetlo2 = new PointLight({color: "#FFFB03", distance: 50, intensity: 0.2});
 		svetlo2.position.set(450,100);
 		svetlo.changeSound = new Sound(game.loader.assets.sounds.up);
