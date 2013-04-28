@@ -12,7 +12,7 @@ function Killer( options ){
 	this.chargeCoefficient = options.chargeCoefficient === undefined ? 1 : options.chargeCoefficient;
 	this.chargeMaximum = options.chargeMaximum === undefined ? false : options.chargeMaximum;
 	this.chargeStart = false;
-	this.limit = options.limit === undefined ? 15 : options.limit;
+	this.limit = options.limit === undefined ? 0.5 : options.limit;
 	this.bloodColor = new Color("#ff0000",0.8);
 };
 Killer.prototype = Object.create( PointLight.prototype );
@@ -33,7 +33,7 @@ Killer.prototype.postefect = function (player){
 Killer.prototype.tick =function (){
 	this.oscilate();
 	for(var i = this.targets.length-1; i > -1;i--){
-		this.targets[i].damageDealt++;
+		this.targets[i].damageDealt += (this.distance*this.distance)/(new Vector2().addVectors(this.targets[i].position, this.position).lengthSq());
 		if(this.hitSound && this.targets[i].damageDealt%60 == 0)
 			this.hitSound.play();
 		if(this.targets[i].damageDealt > this.limit)

@@ -1,7 +1,7 @@
 function Player(options){
 	Object2.call(this, options);
 	var _this = this;
-	this.radius = 10;
+	this.radius = 15;
 	this.radiusBonus = 0;
 
 	this.dying = false;
