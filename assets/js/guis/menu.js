@@ -99,7 +99,7 @@
 				position: new Vector2(14,0),
 			},
 			mouseup : function (){
-				console.log("Program this first!");
+				game.gui.GUILoad(game.loader.assets.scripts.credits);
 			},
 			mouseover : function (){
 				this.children[1].size = 38;
