@@ -2,9 +2,12 @@ function Killer( options ){
 	var options = options === undefined ? {} : options;
 	PointLight.call(this, options);
 
-	this.inSound = options.inSound === undefined ? false : options.inSound;
-	this.outSound = options.outSound === undefined ? false : options.outSound;
-	this.hitSound = options.hitSound === undefined ? false : options.hitSound;
+	this.color = new Color("#FF0000");
+	this.hitSound = new Sound(game.loader.assets.sounds.hit);
+
+	// this.inSound = options.inSound === undefined ? false : options.inSound;
+	// this.outSound = options.outSound === undefined ? false : options.outSound;
+	// this.hitSound = options.hitSound === undefined ? false : options.hitSound;
 	this.targets = [];
 	this.chargeCoefficient = options.chargeCoefficient === undefined ? 1 : options.chargeCoefficient;
 	this.chargeMaximum = options.chargeMaximum === undefined ? false : options.chargeMaximum;
@@ -22,6 +25,7 @@ Killer.prototype.postefect = function (player){
 	this.targets.splice(this.targets.indexOf(player),1);
 };
 Killer.prototype.tick =function (){
+	this.oscilate();
 	for(var i = this.targets.length-1; i > -1;i--){
 		this.targets[i].damageDealt++;
 		if(this.hitSound && this.targets[i].damageDealt%60 == 0)

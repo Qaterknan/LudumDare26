@@ -93,9 +93,9 @@ Eventhandler.prototype.keyboardhandler = function(e) {
 		this.keyboardControls[ keycode ].down = (type == "keydown");
 		this.keyboardControls[ keycode ].exec(type);
 	}
-	else{
-		console.log([type, keycode, String.fromCharCode(keycode)]);
-	}
+	// else{
+	// 	console.log([type, keycode, String.fromCharCode(keycode)]);
+	// }
 }
 
 Eventhandler.prototype.mousehandler = function(e) {

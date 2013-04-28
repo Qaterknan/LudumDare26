@@ -7,10 +7,20 @@ function Polygon(options){
 }
 Polygon.prototype = Object.create( Object2.prototype );
 
+Polygon.prototype.tick = function() {
+	this.oscilate();
+};
+
 Polygon.prototype.render = function(ctx) {
 	ctx.save();
 		ctx.translate(this.position.x, this.position.y);
 		this.fill(ctx, this.color);
+		for(var i = 0, l = this.points.length; i < l; i++){
+			var a = this.points[i];
+			ctx.fillStyle="#000000";
+			ctx.font="20px Georgia";
+			ctx.fillText(i+1,this.points[i].x,this.points[i].y);
+		}
 	ctx.restore();
 };
 

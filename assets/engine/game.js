@@ -107,6 +107,8 @@ Game.prototype.levelLoad = function (src){
 	this.eventhandler.resetControls();
 	this.gui.addControls();
 
+	this.polygonBorder = false;
+
 	this.clearColor = "#FFFFFF";
 	this.gui.add(new Text({
 		position: new Vector2(_this.width/2-100, _this.height/2-30),

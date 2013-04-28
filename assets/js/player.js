@@ -172,9 +172,7 @@ Player.prototype.tick = function() {
 		this.currentVelocity.y += (this.velocity.y - this.currentVelocity.y) * this.acceleration;
 	}
 
-	if(this.currentVelocity.x != 0 || this.currentVelocity.y != 0){
-		this.move();
-	}
+	this.move();
 };
 
 Player.prototype.render = function(ctx) {

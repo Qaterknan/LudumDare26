@@ -30,11 +30,40 @@ function Object2( options ){
 	this.boundingRadius = options.boundingRadius === undefined ? this.computeBoundingRadius() : options.boundingRadius;
 	this.hitbox = options.hitbox === undefined ? {x: 0, y: 0, width: _this.width, height: _this.height} : options.hitbox;
 
+	this.oscilatePoints = options.oscilatePoints === undefined ? false : options.oscilatePoints;
+	if(options.oscilatePoints !== undefined)
+		this.oscilatePoint = options.oscilatePoint === undefined ? this.oscilatePoints[0] : options.oscilatePoint;
+	this.acceleration = options.acceleration === undefined ? 0.1 : options.acceleration;
+	this.oscilateEasing = options.oscilateEasing === undefined ? "harmonic" : options.oscilateEasing;
+
 	// světlo
 	this.opaque = options.opaque === undefined ? false : options.opaque;
 	this.diffuse =  options.diffuse === undefined ? 0.4 : options.diffuse; // jak moc se od jeho povrchu odráží světlo
 
 	this.velocity = new Vector2();
+};
+
+Object2.prototype.tick = function() {
+	this.oscilate();
+};
+
+Object2.prototype.oscilate = function() {
+	if(this.oscilatePoints){
+		if(
+			Math.abs(this.position.x - this.oscilatePoint.x) < 3 &&
+			Math.abs(this.position.y - this.oscilatePoint.y) < 3
+			){
+			this.oscilatePoint = this.oscilatePoints[0].equals(this.oscilatePoint) ? this.oscilatePoints[1] : this.oscilatePoints[0];
+		}
+		if(this.oscilateEasing == "harmonic"){
+			this.position.x += (this.oscilatePoint.x - this.position.x)*this.acceleration;
+			this.position.y += (this.oscilatePoint.y - this.position.y)*this.acceleration;
+		}
+		else if(this.oscilateEasing == "linear") {
+			this.position.x += (this.oscilatePoint.x - this.position.x);
+			this.position.y += (this.oscilatePoint.y - this.position.y);
+		}
+	}
 };
 
 Object2.prototype.lookAt = function(position) {

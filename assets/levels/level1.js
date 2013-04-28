@@ -12,8 +12,10 @@ new function level(){
 	this.afterLoad = function (){
 		game.gui.GUILoad(this.scripts.ingame);
 
+		var mainColor = "#9999ff";
+
 		// pozadí levelu
-		game.clearColor = "#9999ff";
+		game.clearColor = mainColor;
 		game.add( new Polygon({
 			id: "backgroundPolygon",
 			color:"#F0B9F0",
@@ -23,13 +25,24 @@ new function level(){
 				new Vector2(100,100),
 				new Vector2(518,45),
 				new Vector2(1000,20),
-				new Vector2(800,350),
+				new Vector2(1091,394),
+				new Vector2(966,570),
+				new Vector2(705,621),
+				new Vector2(536,823),
+				new Vector2(70,692),
+				new Vector2(25,479),
+				new Vector2(220,401),
+				new Vector2(380,547),
+				new Vector2(648,444),
+				new Vector2(759,354),
+				new Vector2(691,220),
 				new Vector2(400,400),
 				new Vector2(50,250),
 			],
 		}));
-		game.polygonBorder = game.getChild("backgroundPolygon");
+		// game.polygonBorder = game.getChild("backgroundPolygon");
 
+		// player
 		var playerLight = new PointLight({
 			id: "playerLight",
 			color: "#FFF", 
@@ -41,7 +54,7 @@ new function level(){
 		
 		var player = new Player({
 			id: "player",
-			position : new Vector2(150, 150),
+			position : new Vector2(308,230),
 			zIndex : 10
 		});
 		player.addControls(game.eventhandler);
@@ -53,80 +66,49 @@ new function level(){
 				this.moveTo( new Vector2(-game.width/2, -game.height/2).add(player.position) );
 			}
 		};
-
 		game.add(playerLight);
 		game.add(player);
 
-		var pol3 = new Portal({
-			color: "rgba(0,0,255,0.5)",
-			ghostId: "port1",
-			position: new Vector2(811,155),
+		game.add(new Polygon({
+			color: mainColor,
+			position: new Vector2(926,237),
+			opaque: true,
 			points:[
-				new Vector2(-30,-150),
-				new Vector2(15,-150),
-				new Vector2(50,150),
-				new Vector2(30,150),
+				new Vector2(837-926,198-237),
+				new Vector2(875-926,148-237),
+				new Vector2(939-926,272-237),
+				new Vector2(852-926,266-237),
 			],
-		});
-		game.add(pol3);
+			oscilatePoints: [
+				new Vector2(854,160),
+				new Vector2(961,350)
+			],
+			acceleration: 0.02,
+			oscilateEasing: "harmonic"
+		}));
 		
-		var svetlo = new Tunneler({
-			color: "#0000ff",
-			distance: 100,
-			shadowCastDistance: 100,
-			ghostId: "port1",
-			inSound: new Sound(game.loader.assets.sounds.up),
-			outSound: new Sound(game.loader.assets.sounds.down)
-		});
-		svetlo.position.set(300,300);
-		game.add(svetlo);
-		
-		var sw = new Switch({
-			radius: 25,
-			position: new Vector2(100,100),
-			light: new PointLight({
-				color: "#ffffff",
-				distance: 50,
-				position: new Vector2(0,0),
-			}),
-		});
-		game.add(sw);
-		
-		var zmensovadlo = new Resizer({color: "#855E3E", distance: 100, intensity: 0.8, scale: 2});
-		zmensovadlo.position.set(100,300);
-		game.add(zmensovadlo);
-		
-		var zabijak = new Killer({
-			color: "#990000",
-			distance: 25,
-			hitSound: new Sound(game.loader.assets.sounds.hit),
-		});
-		zabijak.position.set(200,100);
-		game.add(zabijak);
-		
-		var urychlovac = new Accelerator({
-			lightConstructor: PointLight,
-			color: "#25E6B9",
-			distance: 300,
-			intensity: 0.8,
-			bonus: 5,
-			range: PI/6,
-			inSound: new Sound(game.loader.assets.sounds.up),
-			outSound: new Sound(game.loader.assets.sounds.down),
-		});
-		urychlovac.position.set(622,371);
-		game.add(urychlovac);
-		
-		var svetlo2 = new PointLight({color: "#FFFB03", distance: 50, shadowCastDistance: 100, intensity: 0.2});
-		svetlo2.position.set(918,76);
-		svetlo.changeSound = new Sound(game.loader.assets.sounds.up);
-		game.add(svetlo2);
-		
-		var tlacitko = new Trigger({radius: 20});
-		tlacitko.response = function (){
-			game.levelLoad("assets/levels/level2.js");
-		};
-		tlacitko.position.set(918,76);
-		game.add(tlacitko);
+		game.add(new Killer({
+			position: new Vector2(527,66),
+			distance: 180
+		}));
+		game.add(new Killer({
+			position: new Vector2(993,239),
+			distance: 300
+		}));
+		game.add(new Killer({
+			position: new Vector2(522,807),
+			oscilatePoints: [new Vector2(522,807), new Vector2(394,551)],
+			oscilateEasing: "harmonic",
+			acceleration: 0.05,
+			distance: 140
+		}));
+
+		game.add(new Trigger({
+			position: new Vector2(175,512),
+			radius: 20,
+			response: function(){
+				game.levelLoad("assets/levels/testlevel2.js");
+			}
+		}));
 	};
 };

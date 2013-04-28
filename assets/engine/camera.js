@@ -34,7 +34,6 @@ Camera.prototype.stabilize = function (){
 };
 
 Camera.prototype.update = function (){
-	console.log(this.origin.x,this.origin.y)
 	// this.stabilize();
 	// this.position.add(this.velocity);
 	this.position.x += (this.origin.x - this.position.x)*this.acceleration;
