@@ -95,16 +95,16 @@ Polygon.prototype.testCollision = function(obj, returnAtts) {
 		var smer = new Vector2().subVectors(b,a);
 		var normal = new Vector2(smer.y, -smer.x);
 
-		var distance = (normal.x * c.x + normal.y * c.y - a.x*normal.x - a.y*normal.y)/normal.length();
-		if(obj.radius > Math.abs(distance)){
+		var distance = Math.abs(normal.x * c.x + normal.y * c.y - a.x*normal.x - a.y*normal.y)/normal.length();
+		if(new Vector2().subVectors(c,a).lengthSq() < obj.radius*obj.radius){
+			return returnAtts ? {normal: normal, distance: distance, point:true} : true;
+		}
+		if(obj.radius > distance){
 			var ramenoA = new Vector2().subVectors(c,a);
 			var ramenoB = new Vector2().subVectors(c,b);
 			if( ramenoA.lengthSq() + ramenoB.lengthSq() < smer.lengthSq() ){
-				return returnAtts ? {normal: normal, distance: distance} : true;
+				return returnAtts ? {normal: normal, distance: distance, point:false} : true;
 			}
-		}
-		if(new Vector2().subVectors(c,a).lengthSq() < obj.radius*obj.radius){
-			return returnAtts ? {normal: normal, distance: distance} : true;
 		}
 	}
 	return false;
