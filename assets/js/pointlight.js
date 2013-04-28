@@ -15,6 +15,48 @@ function PointLight( options ){
 	
 	this.range = options.range === undefined ? 2*PI : options.range;
 	this.direction = options.direction === undefined ? 0 : options.direction;
+	var _this = this;
+	this.ambientOptions = {
+		color : _this.color,
+		alpha : 0.1,
+		size: 4,
+		fade : 0.0002,
+		life: _this.distance*100/6,
+		velocity: new Vector2(0,0),
+		position: new Vector2(0,0),
+	};
+	this.ambientParticles = new ParticleSystem({},
+		this.ambientOptions,
+		{
+			randomize : {
+				velocity: {
+					x: {
+						min: -1,
+						max: 1,
+					},
+					y: {
+						min: -1,
+						max: 1,
+					},
+				},
+				//~ position: {
+					//~ x: {
+						//~ min: -distance/2,
+						//~ max: distance/2,
+					//~ },
+					//~ y: {
+						//~ min: -distance/2,
+						//~ max: distance/2,
+					//~ },
+				//~ },
+			},
+			emiting : true,
+			amount: 0.05,
+		}
+	);
+	this.add(this.ambientParticles);
+	if(this.range != 2*PI)
+		this.ambientParticles.emiting = false;
 };
 PointLight.prototype = Object.create( Object2.prototype );
 

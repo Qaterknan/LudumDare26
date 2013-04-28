@@ -1,7 +1,7 @@
 function Tunneler( options ){
 	var options = options === undefined ? {} : options;
 	PointLight.call(this, options);
-
+	
 	this.inSound = options.inSound === undefined ? false : options.inSound;
 	this.outSound = options.outSound === undefined ? false : options.outSound;
 	this.targets = [];

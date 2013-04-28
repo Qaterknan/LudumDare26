@@ -1,8 +1,8 @@
 function Killer( options ){
 	var options = options === undefined ? {} : options;
+	options.color = "#FF0000";
 	PointLight.call(this, options);
 
-	this.color = new Color("#FF0000");
 	this.hitSound = new Sound(game.loader.assets.sounds.hit);
 
 	// this.inSound = options.inSound === undefined ? false : options.inSound;
