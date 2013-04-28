@@ -4,6 +4,8 @@ function Player(options){
 	this.radius = 10;
 	this.radiusBonus = 0;
 
+	this.dying = false;
+
 	this.speed = 5;
 	// this.currentSpeed = 0;
 	this.acceleration = 0.20;
@@ -31,10 +33,18 @@ function Player(options){
 	};
 	this.bloodOptions = {
 		size: 2,
-		life: 750,
+		life: 600,
 		velocity: new Vector2(0,0),
 		gravity: new Vector2(0,-0.05),
 		position: new Vector2(0,0),
+		tick: function(){
+			if(this.position.x < 0){
+				this.velocity.x += 0.2;
+			}
+			else if(this.position.x > 0){
+				this.velocity.x -= 0.2;
+			}
+		}
 	};
 	this.colorAnouncer = new ParticleSystem({},
 		this.particleOptions,
@@ -62,8 +72,8 @@ function Player(options){
 			randomize: {
 				velocity: {
 					x:{
-						min: -0.5,
-						max: 0.5,
+						min: -1.2,
+						max: 1.2,
 					},
 					y:{
 						min: -0.1,
@@ -82,7 +92,7 @@ function Player(options){
 				},
 				color: _this.bloodColors,
 			},
-			amount: 4,
+			amount: 2,
 			emiting : false,
 		}
 	);
@@ -161,6 +171,7 @@ Player.prototype.setDirection = function(normalized) {
 	}
 
 	this.velocity.setLength(this.speed);
+	// console.log(this.velocity);
 };
 
 Player.prototype.removeDirection = function(normalized) {
@@ -206,15 +217,6 @@ Player.prototype.move = function() {
 		}
 	};
 	this.compare( newInfluence );
-};
-
-Player.prototype.tick = function() {
-	if(!this.velocity.equals(this.currentVelocity)){
-		this.currentVelocity.x += (this.velocity.x - this.currentVelocity.x) * this.acceleration;
-		this.currentVelocity.y += (this.velocity.y - this.currentVelocity.y) * this.acceleration;
-	}
-
-	this.move();
 };
 
 Player.prototype.render = function(ctx) {
@@ -304,6 +306,13 @@ Player.prototype.startEmitCount = function (limit){
 };
 
 Player.prototype.tick = function (){
+	if(!this.velocity.equals(this.currentVelocity)){
+		this.currentVelocity.x += (this.velocity.x - this.currentVelocity.x) * this.acceleration;
+		this.currentVelocity.y += (this.velocity.y - this.currentVelocity.y) * this.acceleration;
+	}
+
+	this.move();
+
 	if(this.increase){
 		var newAmount = this.colorAnouncer.emitOptions.amount + this.emitChangeRate;
 		if(newAmount > this.emitLimit)
