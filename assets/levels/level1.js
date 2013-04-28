@@ -49,8 +49,9 @@ new function level(){
 		playerLight.position = player.position;
 		game.camera.tick = function(){
 			var player = game.getChild("player");
-			if(player)
-				this.position.copy(player.position).sub(new Vector2(game.width/2, game.height/2));
+			if(player){
+				this.moveTo( new Vector2(-game.width/2, -game.height/2).add(player.position) );
+			}
 		};
 
 		game.add(playerLight);

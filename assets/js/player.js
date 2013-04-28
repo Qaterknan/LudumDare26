@@ -4,6 +4,13 @@ function Player(options){
 	this.radius = 10;
 
 	this.speed = 5;
+	// this.currentSpeed = 0;
+	this.acceleration = 0.20;
+	this.velocity = new Vector2();
+	this.currentVelocity = new Vector2();
+
+	this.directions = [];
+
 	this.ghost = false;
 	this.damageDealt = 0;
 
@@ -45,30 +52,42 @@ Player.prototype.keyNodeCache = function (newKey){
 	if(this.keyNodes[1])
 		this.keyNodes.splice(1,1);
 	this.keyNodes.splice(0,0,newKey);
-	console.log(this.keyNodes);
+	// console.log(this.keyNodes);
 };
 
 Player.prototype.addControls = function(eventhandler) {
 	var _this = this;
 	eventhandler.addKeyboardControl("A", function (){
 		_this.keyNodeCache(_this.position.clone());
-	}, undefined, function(){
-		_this.move(0);
+		_this.setDirection(new Vector2(-1, 0));
+	}, function(){
+		_this.removeDirection(new Vector2(-1, 0));
+	}, function(){
+		return;
 	});
 	eventhandler.addKeyboardControl("D", function (){
 		_this.keyNodeCache(_this.position.clone());
-	}, undefined, function(){
-		_this.move(PI);
+		_this.setDirection(new Vector2(1, 0));
+	}, function(){
+		_this.removeDirection(new Vector2(1, 0));
+	}, function(){
+		return;
 	});
 	eventhandler.addKeyboardControl("W", function (){
 		_this.keyNodeCache(_this.position.clone());
-	}, undefined, function(){
-		_this.move(PI/2);
+		_this.setDirection(new Vector2(0, -1));
+	}, function(){
+		_this.removeDirection(new Vector2(0, -1));
+	}, function(){
+		return;
 	});
 	eventhandler.addKeyboardControl("S", function (){
 		_this.keyNodeCache(_this.position.clone());
-	}, undefined, function(){
-		_this.move(-PI/2);
+		_this.setDirection(new Vector2(0, 1));
+	}, function(){
+		_this.removeDirection(new Vector2(0, 1));
+	}, function(){
+		return;
 	});
 	eventhandler.addKeyboardControl("E", function (){
 		for(var i in game.children){
@@ -91,9 +110,37 @@ Player.prototype.addControls = function(eventhandler) {
 	})
 };
 
-Player.prototype.move = function(angle) {
-	var tX = - this.speed * Math.cos(angle),
-		tY = - this.speed * Math.sin(angle)
+Player.prototype.setDirection = function(normalized) {
+	this.removeDirection(normalized);
+	this.directions.push(normalized);
+	this.velocity.set(0,0);
+
+	for(var i in this.directions){
+		this.velocity.add(this.directions[i]);
+	}
+
+	this.velocity.setLength(this.speed);
+};
+
+Player.prototype.removeDirection = function(normalized) {
+	for(var i in this.directions){
+		if(this.directions[i].equals(normalized)){
+			this.directions.splice(i, 1);
+			break;
+		}
+	}
+
+	this.velocity.set(0,0);
+	for(var i in this.directions){
+		this.velocity.add(this.directions[i]);
+	}
+
+	this.velocity.setLength(this.speed);
+};
+
+Player.prototype.move = function() {
+	var tX = this.currentVelocity.x,
+		tY = this.currentVelocity.y;
 	this.position.x += tX;
 	this.position.y += tY;
 
@@ -117,6 +164,17 @@ Player.prototype.move = function(angle) {
 		}
 	};
 	this.compare( newInfluence );
+};
+
+Player.prototype.tick = function() {
+	if(!this.velocity.equals(this.currentVelocity)){
+		this.currentVelocity.x += (this.velocity.x - this.currentVelocity.x) * this.acceleration;
+		this.currentVelocity.y += (this.velocity.y - this.currentVelocity.y) * this.acceleration;
+	}
+
+	if(this.currentVelocity.x != 0 || this.currentVelocity.y != 0){
+		this.move();
+	}
 };
 
 Player.prototype.render = function(ctx) {

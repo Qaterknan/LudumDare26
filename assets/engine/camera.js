@@ -4,6 +4,7 @@ function Camera(){
 	this.origin = new Vector2();
 
 	this.shaking = false;
+	this.acceleration = 0.1;
 };
 
 Camera.prototype.tx = function(x) {
@@ -14,8 +15,8 @@ Camera.prototype.ty = function(y) {
 	return this.position.y + y;
 };
 
-Camera.prototype.moveTo = function(x,y) {
-	this.origin.set(x,y)
+Camera.prototype.moveTo = function(vector) {
+	this.origin.copy(vector);
 };
 
 Camera.prototype.shake = function (amplitude, decrease){
@@ -26,17 +27,19 @@ Camera.prototype.shake = function (amplitude, decrease){
 };
 
 Camera.prototype.stabilize = function (){
-	if(this.shaking){
+	// if(this.shaking){
 		this.velocity.x += (this.origin.x-this.position.x)*this.decrease;
 		this.velocity.y += (this.origin.y-this.position.y)*this.decrease;
-	}
+	// }
 };
 
 Camera.prototype.update = function (){
-	this.stabilize();
-	this.position.add(this.velocity);
+	console.log(this.origin.x,this.origin.y)
+	// this.stabilize();
+	// this.position.add(this.velocity);
+	this.position.x += (this.origin.x - this.position.x)*this.acceleration;
+	this.position.y += (this.origin.y - this.position.y)*this.acceleration;
 	this.tick();
-	// console.log(this.position.x,this.position.y)
 };
 
 Camera.prototype.tick = function() {
