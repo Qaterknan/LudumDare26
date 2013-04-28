@@ -366,7 +366,6 @@ Player.prototype.tick = function (){
 		game.filterColor.g = 30;
 		game.filterColor.b = 0;
 		game.filterColor.alpha += 0.005;
-		console.log(game.filterColor.alpha )
 	};
 	
 };

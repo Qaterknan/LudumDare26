@@ -114,10 +114,9 @@ new function level(){
 			oscilateEasing: "harmonic"
 		}));
 		
-		game.add(new Resizer({
+		game.add(new Killer({
 			position: new Vector2(527,66),
 			distance: 180,
-			scale: 0.5,
 			shadowCastDistance: 180*2,
 		}));
 		game.add(new Killer({
