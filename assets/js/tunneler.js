@@ -20,6 +20,7 @@ Tunneler.prototype.efect = function(player) {
 	player.ghostId = this.ghostId;
 	player.color = this.color.getRGB();
 	player.colorAnouncer.toSpawn = 0;
+	player.startEmitCount(this.chargeMaximum);
 	player.colorAnouncer.emiting = true;
 	this.chargeStart =new Date().getTime();
 };
@@ -33,5 +34,7 @@ Tunneler.prototype.postefect = function (player){
 	};
 	if(this.outSound)
 		this.outSound.play();
+	console.log("post");
 	player.colorAnouncer.emiting = false;
+	player.colorAnouncer.emitOptions.amount = 0;
 };

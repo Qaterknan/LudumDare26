@@ -15,7 +15,7 @@ function Player(options){
 	
 	this.particleOptions = {
 		size:3,
-		life: 500,
+		life: 750,
 		velocity: new Vector2(0,0),
 	};
 	this.colorAnouncer = new ParticleSystem({},
@@ -35,7 +35,7 @@ function Player(options){
 				color: _this.colors,
 			},
 			emiting : false,
-			amount : 2,
+			amount : 0,
 		});
 	this.add(this.colorAnouncer);
 }
@@ -45,7 +45,7 @@ Player.prototype.keyNodeCache = function (newKey){
 	if(this.keyNodes[1])
 		this.keyNodes.splice(1,1);
 	this.keyNodes.splice(0,0,newKey);
-	console.log(this.keyNodes);
+	//~ console.log(this.keyNodes);
 };
 
 Player.prototype.addControls = function(eventhandler) {
@@ -173,6 +173,9 @@ Player.prototype.compare = function ( newInfluence ){
 				var _this = this;
 				var ted = new Date().getTime();
 				var charge = ted-objekt.chargeStart > objekt.chargeMaximum ? objekt.chargeMaximum/objekt.chargeCoefficient : (ted-objekt.chargeStart)/objekt.chargeCoefficient;
+				if(objekt instanceof Tunneler){
+					this.emitChangeRate = -this.colorAnouncer.emitOptions.amount*(100/6)/charge;
+				}
 				this.addTimeEvent(charge, function (){objekt.postefect(_this);});
 			}
 			else{
@@ -185,4 +188,22 @@ Player.prototype.compare = function ( newInfluence ){
 Player.prototype.die = function (){
 	game.restartGame();
 	this.damageDealt = 0;
+};
+
+Player.prototype.startEmitCount = function (limit){
+	this.emitStart = new Date().getTime();
+	this.emitLimit = 2;
+	this.emitChangeRate = this.emitLimit/(limit*6/100);
+	this.increase = true;
+};
+
+Player.prototype.tick = function (){
+	if(this.colorAnouncer.emiting){
+		var newAmount = this.colorAnouncer.emitOptions.amount + this.emitChangeRate;
+		if(newAmount > this.emitLimit)
+			this.colorAnouncer.emitOptions.amount = this.emitLimit;
+		else
+			this.colorAnouncer.emitOptions.amount = newAmount;
+	}
+	console.log(this.colorAnouncer.emitOptions.amount);
 };
