@@ -19,7 +19,7 @@
 				position: new Vector2(35,0),
 			},
 			mouseup : function (){
-				game.levelLoad("assets/levels/level2.js");
+				game.levelLoad("assets/levels/level5.js");
 			},
 			mouseover : function (){
 				this.children[1].size = 38;

@@ -82,7 +82,7 @@ new function level(){
 			response: function(){
 				if(game.getChild("speedTrigger").timerSound)
 					game.getChild("speedTrigger").timerSound.stop();
-				game.levelLoad("assets/levels/level2.js");
+				game.levelLoad("assets/levels/level4.js");
 			}
 		}));
 		var triggerLight = new PointLight({
@@ -176,9 +176,6 @@ new function level(){
 			color: "#D117B8",
 			destination : new Vector2(621,-37),
 			radius : 20,
-			response : function (){
-				this.teleport( player );
-			},
 		});
 		game.add(teleport);
 		

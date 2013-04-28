@@ -14,3 +14,7 @@ Teleporter.prototype = Object.create( Trigger.prototype );
 Teleporter.prototype.teleport = function(player) {
 	player.position.set(this.destination.x,this.destination.y);
 };
+
+Teleporter.prototype.response = function (){
+	this.teleport(game.getChild("player"));
+};
