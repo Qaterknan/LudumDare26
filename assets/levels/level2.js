@@ -12,33 +12,32 @@ new function level(){
 	this.afterLoad = function (){
 		game.gui.GUILoad(this.scripts.ingame);
 
-		var majorColor = "#9999ff";
-		var minorColor = "#F0B9F0";
+		var mainColor = "#9999ff";
 
 		// pozadí levelu =============================
-		game.clearColor = majorColor;
+		game.clearColor = mainColor;
 		game.add( new Polygon({
 			id: "backgroundPolygon",
-			color: minorColor,
+			color:"#F0B9F0",
 			opaque: false,
 			zIndex: -100,
 			points:[
-				new Vector2(100,100),
-				new Vector2(518,9),
-				new Vector2(1000,20),
-				new Vector2(1091,394),
-				new Vector2(966,570),
-				new Vector2(705,621),
-				new Vector2(536,823),
-				new Vector2(70,692),
-				new Vector2(25,479),
-				new Vector2(220,401),
-				new Vector2(380,547),
-				new Vector2(648,444),
-				new Vector2(759,354),
-				new Vector2(715,253),
-				new Vector2(400,400),
-				new Vector2(50,250),
+				new Vector2(100,200),
+				new Vector2(300,200),
+				new Vector2(700,200),
+				new Vector2(700,100),
+				new Vector2(650,100),
+				new Vector2(650, 0),
+				new Vector2(770, 0),
+				new Vector2(770,100),
+				new Vector2(720,100),
+				new Vector2(720,200),
+				new Vector2(900,200),
+				new Vector2(900,900),
+				new Vector2(800,900),
+				new Vector2(700,300),
+				new Vector2(400,300),
+				new Vector2(100,300),
 			],
 		}));
 		game.polygonBorder = game.getChild("backgroundPolygon");
@@ -73,15 +72,15 @@ new function level(){
 
 		// cíl =============================
 		game.add(new Trigger({
-			position: new Vector2(175,512),
+			position: new Vector2(710,50),
 			radius: 20,
 			color: "#F2DE46",
 			response: function(){
-				game.levelLoad("assets/levels/level2.js");
+				game.levelLoad("assets/levels/testlevel2.js");
 			}
 		}));
 		var triggerLight = new PointLight({
-			position: new Vector2(175,512),
+			position: new Vector2(710,50),
 			radius: 30,
 			color: "#FFFF00",
 			intensity: 0.4,
@@ -95,40 +94,55 @@ new function level(){
 		game.add(triggerLight);
 
 		// ostatní =============================
-
-		game.add(new Polygon({
-			color: majorColor,
-			position: new Vector2(926,237),
-			opaque: true,
-			points:[
-				new Vector2(-89,-39),
-				new Vector2(-51,-64),
-				new Vector2(10,48),
-				new Vector2(-68,84),
-			],
-			oscilatePoints: [
-				new Vector2(854,160),
-				new Vector2(961,350)
-			],
-			acceleration: 0.02,
-			oscilateEasing: "harmonic"
-		}));
 		
 		game.add(new Killer({
-			position: new Vector2(527,66),
-			distance: 180,
-			shadowCastDistance: 180*2,
-		}));
-		game.add(new Killer({
-			position: new Vector2(993,239),
-			distance: 300
-		}));
-		game.add(new Killer({
-			position: new Vector2(522,807),
-			oscilatePoints: [new Vector2(522,807), new Vector2(394,551)],
+			position: new Vector2(500,250),
+			oscilatePoints: [new Vector2(400,150), new Vector2(600,350)],
 			oscilateEasing: "harmonic",
 			acceleration: 0.05,
-			distance: 140
+			distance: 100
 		}));
+		game.add(new Killer({
+			position: new Vector2(850,250),
+			oscilatePoints: [new Vector2(700,250), new Vector2(1000,250)],
+			oscilateEasing: "harmonic",
+			acceleration: 0.09,
+			distance: 80
+		}));
+		game.add(new Killer({
+			position: new Vector2(900,500),
+			oscilatePoints: [new Vector2(700,500), new Vector2(1000,500)],
+			oscilateEasing: "harmonic",
+			acceleration: 0.09,
+			distance: 80
+		}));
+		game.add(new Killer({
+			position: new Vector2(900,500),
+			oscilatePoints: [new Vector2(700,750), new Vector2(1000,750)],
+			oscilateEasing: "harmonic",
+			acceleration: 0.09,
+			distance: 80
+		}));
+		game.add(new Killer({
+			position: new Vector2(900,500),
+			oscilatePoints: [new Vector2(700,250), new Vector2(1000,750)],
+			oscilateEasing: "harmonic",
+			acceleration: 0.09,
+			distance: 40
+		}));
+		game.add(new Killer({
+			position: new Vector2(900,500),
+			oscilatePoints: [new Vector2(1000,250), new Vector2(700,750)],
+			oscilateEasing: "harmonic",
+			acceleration: 0.09,
+			distance: 80
+		}));
+		var res = new new Resizer({
+			position: new Vector2(900, 900),
+			scale: 0.5,
+			distance: 80
+		})
+		res.postefect = false;
+		game.add(res);
 	};
 };
