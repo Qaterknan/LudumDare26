@@ -212,9 +212,17 @@ Object2.prototype.onCollision = function (){
 };
 
 Object2.prototype.checkTimeEvents = function (){
-	var len = this.timeEvents.length;
+	/*var len = this.timeEvents.length;
 	var cas = new Date().getTime();
 	for(var i = 0; i < len; i++){
+		if(this.timeEvents[i][0] < cas){
+			this.timeEvents[i][1](this);
+			if(!this.timeEvents[i][2])
+				this.timeEvents.splice(i,1);
+		}
+	};*/
+	for(var i in this.timeEvents){
+		var cas = new Date().getTime();
 		if(this.timeEvents[i][0] < cas){
 			this.timeEvents[i][1](this);
 			if(!this.timeEvents[i][2])
