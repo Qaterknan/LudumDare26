@@ -4,6 +4,7 @@ new function level(){
 		"up" : "assets/audio/up.wav",
 		"down" : "assets/audio/down.wav",
 		"hit" : "assets/audio/hit.wav",
+		"ticking" : "assets/sounds/ticking.wav",
 	};
 	this.scripts = {
 		"menu" : "assets/js/guis/menu.js",
@@ -12,35 +13,38 @@ new function level(){
 	this.afterLoad = function (){
 		game.gui.GUILoad(this.scripts.ingame);
 
-		var mainColor = "#9999ff";
+		var majorColor = "#0FF293";
+		var minorColor = "#E09D80";
 
 		// pozadí levelu =============================
-		game.clearColor = mainColor;
+		game.clearColor = majorColor;
 		game.add( new Polygon({
 			id: "backgroundPolygon",
-			color:"#F0B9F0",
+			color: minorColor,
 			opaque: false,
 			zIndex: -100,
 			points:[
-				new Vector2(100,200),
-				new Vector2(300,200),
-				new Vector2(700,200),
-				new Vector2(700,100),
-				new Vector2(650,100),
-				new Vector2(650, 0),
-				new Vector2(770, 0),
-				new Vector2(770,100),
-				new Vector2(720,100),
-				new Vector2(720,200),
-				new Vector2(900,200),
-				new Vector2(900,900),
-				new Vector2(800,900),
-				new Vector2(700,300),
-				new Vector2(400,300),
-				new Vector2(100,300),
+				new Vector2(334,47),
+				new Vector2(499,56),
+				new Vector2(539,-151),
+				new Vector2(721,-135),
+				new Vector2(750,69),
+				new Vector2(786,69),
+				new Vector2(800,-122),
+				new Vector2(1035,-23),
+				new Vector2(1033,112),
+				new Vector2(800,245),
+				new Vector2(758,251),
+				new Vector2(715,434),
+				new Vector2(772,625),
+				new Vector2(513,625),
+				new Vector2(547,442),
+				new Vector2(504,248),
+				new Vector2(265,349),
+				new Vector2(96,232),
 			],
 		}));
-		game.polygonBorder = game.getChild("backgroundPolygon");
+		// game.polygonBorder = game.getChild("backgroundPolygon");
 
 		// player =============================
 		var playerLight = new PointLight({
@@ -55,7 +59,7 @@ new function level(){
 		
 		var player = new Player({
 			id: "player",
-			position : new Vector2(308,230),
+			position : new Vector2(267,249),
 			zIndex : 10
 		});
 		player.addControls(game.eventhandler);
@@ -72,15 +76,15 @@ new function level(){
 
 		// cíl =============================
 		game.add(new Trigger({
-			position: new Vector2(710,50),
+			position: new Vector2(655,578),
 			radius: 20,
 			color: "#F2DE46",
 			response: function(){
-				game.levelLoad("assets/levels/testlevel2.js");
+				game.levelLoad("assets/levels/level2.js");
 			}
 		}));
 		var triggerLight = new PointLight({
-			position: new Vector2(710,50),
+			position: new Vector2(655,578),
 			radius: 30,
 			color: "#FFFF00",
 			intensity: 0.4,
@@ -94,55 +98,49 @@ new function level(){
 		game.add(triggerLight);
 
 		// ostatní =============================
+
 		
 		game.add(new Killer({
-			position: new Vector2(500,250),
-			oscilatePoints: [new Vector2(400,150), new Vector2(600,350)],
-			oscilateEasing: "harmonic",
-			acceleration: 0.05,
-			distance: 100
+			id: "killer",
+			position: new Vector2(627,-43),
+			oscilatePoints: [new Vector2(627,-43), new Vector2(630,339)],
+			oscilateEasing: "linear",
+			acceleration: 0.01,
+			distance: 130
 		}));
-		game.add(new Killer({
-			position: new Vector2(850,250),
-			oscilatePoints: [new Vector2(700,250), new Vector2(1000,250)],
-			oscilateEasing: "harmonic",
-			acceleration: 0.09,
-			distance: 80
+
+		game.add(new Tunneler({
+			id: "tunneler",
+			position: new Vector2(624,167),
+			color: "#0F16F2",
+			distance: 140
 		}));
-		game.add(new Killer({
-			position: new Vector2(900,500),
-			oscilatePoints: [new Vector2(700,500), new Vector2(1000,500)],
-			oscilateEasing: "harmonic",
-			acceleration: 0.09,
-			distance: 80
+
+		game.add(new Trigger({
+			id: "speedTrigger",
+			position: new Vector2(402,167),
+			radius: 20,
+			color: "#F20FDF",
+			response: function(){
+				game.getChild("killer").acceleration = 0.003;
+				this.timerSound.play();
+
+				// set timed event
+			}
 		}));
-		game.add(new Killer({
-			position: new Vector2(900,500),
-			oscilatePoints: [new Vector2(700,750), new Vector2(1000,750)],
-			oscilateEasing: "harmonic",
-			acceleration: 0.09,
-			distance: 80
-		}));
-		game.add(new Killer({
-			position: new Vector2(900,500),
-			oscilatePoints: [new Vector2(700,250), new Vector2(1000,750)],
-			oscilateEasing: "harmonic",
-			acceleration: 0.09,
-			distance: 40
-		}));
-		game.add(new Killer({
-			position: new Vector2(900,500),
-			oscilatePoints: [new Vector2(1000,250), new Vector2(700,750)],
-			oscilateEasing: "harmonic",
-			acceleration: 0.09,
-			distance: 80
-		}));
-		var res = new new Resizer({
-			position: new Vector2(900, 900),
-			scale: 0.5,
-			distance: 80
+		game.getChild("speedTrigger").timerSound = new Sound(game.loader.assets.sounds.ticking,{loop: true});
+		var triggerLight = new PointLight({
+			position: new Vector2(402,167),
+			radius: 30,
+			color: "#F20FDF",
+			intensity: 0.6,
 		})
-		res.postefect = false;
-		game.add(res);
+		triggerLight.efect = function(){
+				game.gui.children["press_e"].visible = true;
+			};
+		triggerLight.postefect = function(){
+				game.gui.children["press_e"].visible = false;
+			};
+		game.add(triggerLight); 
 	};
 };

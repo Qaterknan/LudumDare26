@@ -63,8 +63,10 @@ Object2.prototype.oscilate = function() {
 			this.position.y += this.velocity.y;
 		}
 		else if(this.oscilateEasing == "linear") {
-			this.position.x += (this.oscilatePoint.x - this.position.x);
-			this.position.y += (this.oscilatePoint.y - this.position.y);
+			var second = this.oscilatePoints[0].equals(this.oscilatePoint) ? this.oscilatePoints[1] : this.oscilatePoints[0];
+			var dif = new Vector2().subVectors(this.oscilatePoint, second).multiplyScalar(this.acceleration);
+			this.position.x += dif.x;
+			this.position.y += dif.y;
 		}
 	}
 };
