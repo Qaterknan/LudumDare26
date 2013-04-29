@@ -7,7 +7,7 @@ var statistics = {
 
 		$.ajax({
 			cache : true,
-			url : "stats.php",
+			url : "statistics/stats.php",
 			data : post,
 			complete : function(xhr){
 				console.log(xhr.responseText);
