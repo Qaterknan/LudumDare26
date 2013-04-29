@@ -1,14 +1,7 @@
 new function level(){
 	this.textures = {};
-	this.sounds = {
-		"up" : "assets/audio/up.wav",
-		"down" : "assets/audio/down.wav",
-		"hit" : "assets/audio/hit.wav",
-	};
-	this.scripts = {
-		"menu" : "assets/js/guis/menu.js",
-		"ingame" : "assets/js/guis/ingame.js",
-	};
+	this.sounds = {};
+	this.scripts = {"ingame" : "assets/js/guis/ingame.js"};
 	this.afterLoad = function (){
 		game.gui.GUILoad(this.scripts.ingame);
 
@@ -59,6 +52,7 @@ new function level(){
 			position : new Vector2(308,230),
 			zIndex : 10
 		});
+		player.dieSound = new Sound(game.loader.assets.sounds.fire);
 		player.addControls(game.eventhandler);
 
 		playerLight.position = player.position;
@@ -72,17 +66,19 @@ new function level(){
 		game.add(player);
 
 		// cíl =============================
+		var exit_sound = new Sound(game.loader.assets.sounds.clink);
 		game.add(new Trigger({
 			position: new Vector2(175,512),
 			radius: 20,
 			color: "#F2DE46",
 			response: function(){
+				exit_sound.play();
 				game.levelLoad("assets/levels/level2.js");
 			}
 		}));
 		var triggerLight = new PointLight({
 			position: new Vector2(175,512),
-			radius: 30,
+			distance: 150,
 			color: "#FFFF00",
 			intensity: 0.4,
 		})

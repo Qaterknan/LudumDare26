@@ -76,6 +76,7 @@ PointLight.prototype.generateCaches = function (){
 
 		// visiblemask cache
 		var d = this.shadowCastDistance;
+		
 		this.visibleMaskCache = createCanvas(d*2, d*2);
 		var ctx = this.visibleMaskCache.ctx;
 

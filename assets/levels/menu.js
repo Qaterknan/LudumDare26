@@ -1,6 +1,10 @@
 new function level(){
 	this.textures = {};
-	this.sounds = {};
+	this.sounds = {
+		"fire" : "assets/sounds/fire.wav",
+		"ticking" : "assets/sounds/ticking.wav",
+		"clink" : "assets/sounds/clink.wav",
+	};
 	this.scripts = {
 		"menu" : "assets/js/guis/menu.js",
 		"credits" : "assets/js/guis/credits.js",

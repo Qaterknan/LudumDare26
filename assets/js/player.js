@@ -320,7 +320,7 @@ Player.prototype.compare = function ( newInfluence ){
 };
 Player.prototype.die = function (){
 	if(!this.dying){
-		console.log("asdf")
+		this.dieSound.play();
 		game.filterColor = new Color();
 		game.filterColor.alpha = 0;
 		this.damageDealt = 0;

@@ -1,20 +1,12 @@
 new function level(){
 	this.textures = {};
-	this.sounds = {
-		"up" : "assets/audio/up.wav",
-		"down" : "assets/audio/down.wav",
-		"hit" : "assets/audio/hit.wav",
-		"ticking" : "assets/sounds/ticking.wav",
-	};
-	this.scripts = {
-		"menu" : "assets/js/guis/menu.js",
-		"ingame" : "assets/js/guis/ingame.js",
-	};
+	this.sounds = {};
+	this.scripts = {"ingame" : "assets/js/guis/ingame.js"};
 	this.afterLoad = function (){
 		game.gui.GUILoad(this.scripts.ingame);
 
-		var majorColor = "#0FF293";
-		var minorColor = "#E09D80";
+		var majorColor = "#FBFF7A";
+		var minorColor = "#B2B0FF";
 
 		// pozadí levelu =============================
 		game.clearColor = majorColor;
@@ -62,6 +54,7 @@ new function level(){
 			position : new Vector2(267,249),
 			zIndex : 10
 		});
+		player.dieSound = new Sound(game.loader.assets.sounds.fire);
 		player.addControls(game.eventhandler);
 
 		playerLight.position = player.position;
@@ -75,11 +68,13 @@ new function level(){
 		game.add(player);
 
 		// cíl =============================
+		var exit_sound = new Sound(game.loader.assets.sounds.clink);
 		game.add(new Trigger({
 			position: new Vector2(655,578),
 			radius: 20,
 			color: "#F2DE46",
 			response: function(){
+				exit_sound.play();
 				if(game.getChild("speedTrigger").timerSound)
 					game.getChild("speedTrigger").timerSound.stop();
 				game.levelLoad("assets/levels/level4.js");
@@ -87,7 +82,7 @@ new function level(){
 		}));
 		var triggerLight = new PointLight({
 			position: new Vector2(655,578),
-			radius: 30,
+			distance: 30,
 			color: "#FFFF00",
 			intensity: 0.4,
 		})
@@ -105,10 +100,12 @@ new function level(){
 		game.add(new Killer({
 			id: "killer",
 			position: new Vector2(627,-43),
+			intensity: 1,
 			oscilatePoints: [new Vector2(627,-43), new Vector2(630,339)],
 			oscilateEasing: "linear",
 			acceleration: 0.01,
 			distance: 130,
+			shadowCastDistance: 130*6,
 			zIndex: 2,
 		}));
 
@@ -117,6 +114,7 @@ new function level(){
 			position: new Vector2(624,167),
 			color: "#0F16F2",
 			distance: 140,
+			shadowCastDistance: 140,
 			ghostId : "prvni",
 		});
 		
@@ -125,6 +123,7 @@ new function level(){
 			position: new Vector2(624,167),
 			color: "#F2F20F",
 			distance: 140,
+			shadowCastDistance: 140,
 			ghostId : "druhy",
 			intensity : 0.5,
 		});
@@ -143,6 +142,20 @@ new function level(){
 			},
 		});
 		game.add(sw);
+		var switchLight = new PointLight({
+			position: new Vector2(893,62),
+			distance: 150,
+			shadowCastDistance: 20,
+			color: "#10BEE0",
+			intensity: 0.5,
+		});
+		switchLight.efect = function(){
+				game.gui.children["press_e"].visible = true;
+			};
+		switchLight.postefect = function(){
+				game.gui.children["press_e"].visible = false;
+			};
+		game.add(switchLight);
 		
 		var port1 = new Portal({
 			id : "modryPortal",
@@ -181,10 +194,11 @@ new function level(){
 		
 		var teleportLight = new PointLight({
 			position: new Vector2(833,-42),
-			radius: 20,
+			distance: 150,
+			shadowCastDistance: 20,
 			color: "#D117B8",
-			intensity: 0.4,
-		})
+			intensity: 0.5,
+		});
 		teleportLight.efect = function(){
 				game.gui.children["press_e"].visible = true;
 			};
@@ -211,18 +225,18 @@ new function level(){
 			}
 		}));
 		game.getChild("speedTrigger").timerSound = new Sound(game.loader.assets.sounds.ticking,{loop: true});
-		var triggerLight = new PointLight({
+		var triggerLight2 = new PointLight({
 			position: new Vector2(402,167),
-			radius: 30,
+			distance: 150,
 			color: "#F20FDF",
-			intensity: 0.6,
+			intensity: 0.5,
 		})
-		triggerLight.efect = function(){
+		triggerLight2.efect = function(){
 				game.gui.children["press_e"].visible = true;
 			};
-		triggerLight.postefect = function(){
+		triggerLight2.postefect = function(){
 				game.gui.children["press_e"].visible = false;
 			};
-		game.add(triggerLight); 
+		game.add(triggerLight2); 
 	};
 };
