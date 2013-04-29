@@ -1,6 +1,6 @@
 new function level(){
 	this.textures = {};
-	this.sounds = {};
+	this.sounds = {"theme" : "assets/sounds/theme.mp3"};
 	this.scripts = {"ingame" : "assets/js/guis/ingame.js"};
 	this.afterLoad = function (){
 		game.gui.GUILoad(this.scripts.ingame);
@@ -65,16 +65,16 @@ new function level(){
 		// cíl =============================
 		var exit_sound = new Sound(game.loader.assets.sounds.clink);
 		game.add(new Trigger({
-			position: new Vector2(738,253),
+			position: new Vector2(1125,-51),
 			radius: 20,
 			color: "#F2DE46",
 			response: function(){
 				exit_sound.play();
-				game.levelLoad("assets/levels/level3.js");
+				game.levelLoad("assets/levels/level2.js");
 			}
 		}));
 		var triggerLight = new PointLight({
-			position: new Vector2(738,253),
+			position: new Vector2(1125,-51),
 			radius: 20,
 			color: "#FFFF00",
 			intensity: 0.4,
@@ -90,19 +90,70 @@ new function level(){
 		// ostatní =============================
 		
 		var smaller = new Resizer({
-			position: new Vector2(448,102),
-			direction: PI*5/8,
-			distance: 300,
-			range: PI/6,
+			position: new Vector2(624,251),
+			direction: PI*3/2,
+			distance: 100,
 			intensity: 0.8,
 			scale: 0.5,
-			oscilatePoints: [new Vector2(448,102), new Vector2(317,97)],
-			oscilateEasing: "harmonic",
-			acceleration: 0.1,
+			oscilatePoints: [new Vector2(784,137), new Vector2(747,388)],
+			oscilateEasing: "linear",
+			acceleration: 0.02,
 		});
 		smaller.tick = function (){
-			this.oscilate();
+			//~ this.oscilate();
 		};
 		game.add(smaller);
+		
+		game.add(new Polygon({
+			points : [
+				new Vector2(848,70),
+				new Vector2(691,-25),
+				new Vector2(719,-95),
+				new Vector2(1092,-102),
+				new Vector2(1241,-62),
+				new Vector2(1035,56),
+				new Vector2(985,400),
+				new Vector2(812,406),
+			],
+			color: minorColor,
+			opaque: false,
+			zIndex: -100,
+		}));
+		
+		var teleport1 = new Teleporter({
+			id : "teleport1",
+			position : new Vector2(740,250),
+			color: "#D117B8",
+			destination : new Vector2(877,251),
+			radius : 20,
+		});
+		teleport1.response = function (){
+			this.teleport(player);
+			if(player.radius != 15){
+				smaller.postefect(player);
+				player.radius = 15
+			}
+		};
+		game.add(teleport1);
+		
+		var teleport1Light = new PointLight({
+			position: new Vector2(740,250),
+			distance: 150,
+			shadowCastDistance: 20,
+			color: "#D117B8",
+			intensity: 0.5,
+		});
+		game.add(teleport1Light);
+		
+		game.add(new Killer({
+			position: new Vector2(982,352),
+			direction: PI*3/2,
+			distance: 120,
+			range: PI/8,
+			intensity: 0.8,
+			oscilatePoints: [new Vector2(982,352), new Vector2(1017,133)],
+			oscilateEasing: "harmonic",
+			acceleration: 0.02,
+		}));
 	};
 };

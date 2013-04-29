@@ -83,7 +83,8 @@ new function level(){
 			color: "#F2DE46",
 			response: function(){
 				exit_sound.play();
-				game.levelLoad("assets/levels/level5.js");
+				game.getChild("tunnelerTrigger").tickingSound.stop();
+				game.levelLoad("assets/levels/menu.js");
 			}
 		}));
 		var triggerLight = new PointLight({
@@ -141,7 +142,11 @@ new function level(){
 				new Vector2(-83,15),
 				new Vector2(90,-22),
 			],
+<<<<<<< HEAD
 			oscilatePoints: [new Vector2(165,83), new Vector2(321,78)],
+=======
+			oscilatePoints: [new Vector2(155,83), new Vector2(301,78)],
+>>>>>>> jednoduchý level na rozehrání
 			oscilateEasing: "harmonic",
 			acceleration: 0.1,
 			opaque : true,
@@ -180,8 +185,10 @@ new function level(){
 			response : function (){
 				var _this = this;
 				this.toogleLight();
+				this.tickingSound.play();
 				this.addTimeEvent(5000,function (){
 					_this.toogleLight();
+					_this.tickingSound.stop();
 				})
 			},
 			lights : {
@@ -189,6 +196,8 @@ new function level(){
 				off : killer,
 			},
 		});
+		sw.tickingSound = new Sound(game.loader.assets.sounds.ticking);
+		sw.tickingSound.loop = true;
 		game.add(sw);
 		
 		var zlutyTunneler = new Tunneler({
