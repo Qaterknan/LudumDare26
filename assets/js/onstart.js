@@ -5,15 +5,14 @@ function onStart( game ){
 	*/
 	jQuery.ajaxSetup( {
 		cache : false
-	} )
-	// var scripts = ["player.js", "polygon.js"];
-	// for(var i in scripts){
-	// 	$.getScript("assets/js/"+scripts[i]);
-	// }
+	} );
 
 	game.adjustCanvas(800, 480);
 	
 	game.gui.addControls();
 	
-	game.levelLoad("assets/levels/menu.js");
+	if(localStorage.lastLevel === undefined){
+		localStorage.lastLevel = "assets/levels/menu.js";
+	}
+	game.levelLoad("assets/levels/menu.js", true);
 };

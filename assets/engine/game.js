@@ -109,8 +109,12 @@ Game.prototype.render = function (ctx){
 	}
 };
 
-Game.prototype.levelLoad = function (src){
+Game.prototype.levelLoad = function (src, nosave){
 	var _this = this;
+
+	if(!nosave){
+		localStorage.lastLevel = src;
+	}
 	this.levelSrc = src;
 	this.children = [];
 	this.childrenCache = {};
@@ -163,4 +167,10 @@ Game.prototype.checkCollisions = function(obj){
 
 Game.prototype.restartGame = function() {
 	this.levelLoad(this.levelSrc);
+};
+
+Game.prototype.continueLevel = function() {
+	if(localStorage.lastLevel){
+		this.levelLoad(localStorage.lastLevel)
+	}
 };

@@ -46,7 +46,7 @@
 				position: new Vector2(0,0),
 			},
 			mouseup : function (){
-				console.log("Program this first! ++ ");
+				game.continueLevel();
 			},
 			mouseover : function (){
 				this.children[1].size = 38;
