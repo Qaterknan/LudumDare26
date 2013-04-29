@@ -142,11 +142,7 @@ new function level(){
 				new Vector2(-83,15),
 				new Vector2(90,-22),
 			],
-<<<<<<< HEAD
-			oscilatePoints: [new Vector2(165,83), new Vector2(321,78)],
-=======
 			oscilatePoints: [new Vector2(155,83), new Vector2(301,78)],
->>>>>>> jednoduchý level na rozehrání
 			oscilateEasing: "harmonic",
 			acceleration: 0.1,
 			opaque : true,
