@@ -8,7 +8,7 @@ new function level(){
 	this.afterLoad = function (){
 		game.gui.GUILoad(this.scripts.menu);
 		
-		game.clearColor = "#E0E0E0";
+		game.clearColor = "#9999ff";
 		
 		game.camera.origin.set(0,0);
 		
@@ -49,33 +49,22 @@ new function level(){
 		});
 		//~ game.add(polygon2)
 		
-		var svetlo1 = new Tunneler({
-			color: "#0000ff", distance : 200, intensity: 0.8,
-			position: new Vector2(496,397),
-		});
-		game.add(svetlo1);
-		
-		var svetlo2 = new Killer({
-			distance: 100,
-			intensity: 0.8,
-			position: new Vector2(173,52),
-			oscilatePoints: [new Vector2(173,52), new Vector2(319,395)],
+		for(var i=0;i<10;i++){
+			var svetlo = new PointLight({
+			color: '#'+(Math.random()*0xFFFFFF<<0).toString(16), 
+			distance : 100+200*Math.random(), intensity: 0.5+Math.random()*0.5,
+			position: new Vector2(Math.random()*game.width,Math.random()*game.height),
+			oscilatePoints: [
+				new Vector2(Math.random()*game.width,Math.random()*game.height), 
+				new Vector2(Math.random()*game.width,Math.random()*game.height)
+				],
 			oscilateEasing: "harmonic",
-			acceleration: 0.05,
+			acceleration: 0.05*Math.random(),
 		});
-		game.add(svetlo2);
-		
-		var svetlo3 = new Accelerator({
-			distance: 70,
-			intensity: 0.8,
-			position: new Vector2(655,99),
-			oscilatePoints: [new Vector2(655,99), new Vector2(710,239)],
-			oscilateEasing: "harmonic",
-			acceleration: 0.005,
-		});
-		svetlo3.tick = function (){
+		svetlo.tick = function (){
 			this.oscilate();
 		};
-		game.add(svetlo3);
+		game.add(svetlo);
+		}
 	};
 };

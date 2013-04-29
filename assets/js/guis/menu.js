@@ -17,6 +17,10 @@
 				color : "#ffffff",
 				font : "tahoma",
 				position: new Vector2(35,0),
+				shadow : {
+					blur : 15,
+					color : "#333"
+				}
 			},
 			mouseup : function (){
 				game.levelLoad("assets/levels/level1.js");
@@ -44,6 +48,10 @@
 				color: "#ffffff",
 				font: "tahoma",
 				position: new Vector2(0,0),
+				shadow : {
+					blur : 15,
+					color : "#333"
+				}
 			},
 			mouseup : function (){
 				game.continueLevel();
@@ -71,6 +79,10 @@
 				color: "#ffffff",
 				font: "tahoma",
 				position: new Vector2(7,0),
+				shadow : {
+					blur : 15,
+					color : "#333"
+				}
 			},
 			mouseup : function (){
 				window.open("http://kukas.no-ip.org/","_blank");
@@ -98,6 +110,10 @@
 				color: "#ffffff",
 				font: "tahoma",
 				position: new Vector2(14,0),
+				shadow : {
+					blur : 15,
+					color : "#333"
+				}
 			},
 			mouseup : function (){
 				game.gui.GUILoad(game.loader.assets.scripts.credits);
