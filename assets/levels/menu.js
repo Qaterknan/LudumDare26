@@ -4,6 +4,7 @@ new function level(){
 		"fire" : "assets/sounds/fire.wav",
 		"ticking" : "assets/sounds/ticking.wav",
 		"clink" : "assets/sounds/clink.wav",
+		"music" : "assets/sounds/shit.mp3",
 	};
 	this.scripts = {
 		"menu" : "assets/js/guis/menu.js",
@@ -11,6 +12,11 @@ new function level(){
 	};
 	this.afterLoad = function (){
 		game.gui.GUILoad(this.scripts.menu);
+
+		var music = new Sound(this.sounds.music);
+		music.volume = 0.2;
+		music.loop = true;
+		music.play();
 		
 		game.clearColor = "#9999ff";
 		
