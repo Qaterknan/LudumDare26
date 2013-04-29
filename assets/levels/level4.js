@@ -109,8 +109,10 @@ new function level(){
 				var save = game.getChild("teleport").destination.clone();
 				game.getChild("teleport").destination.set(this.otherDestination.x,this.otherDestination.y);
 				this.otherDestination = save;
+				this.clinkSound.play()
 			},
 		});
+		prep.clinkSound = new Sound(game.loader.assets.sounds.clink);
 		prep.otherDestination = new Vector2(-120,342);
 		game.add(prep);
 		
