@@ -41,10 +41,18 @@ Loader.prototype.load = function (type, src, callback){
 		obj.src = src;
 	}
 	else if(type == "script"){
-		$.get(src+"?="+Math.random(),function (data){// console.log(src+ " loaded");
-			_this.scripts[src] = eval("(function (){return "+data+";})();");
-			_this.toLoad--;
-			_this.checkLoad(callback);
+		$.ajax({
+			url: src,
+			success: function (data){
+				_this.scripts[src] = eval("(function (){return "+data+";})();");
+				_this.toLoad--;
+				_this.checkLoad(callback);
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				_this.scripts[src] = eval("(function (){return "+jqXHR.responseText+";})();");
+				_this.toLoad--;
+				_this.checkLoad(callback);
+			}
 		});
 	}
 };

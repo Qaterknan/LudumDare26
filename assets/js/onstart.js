@@ -4,9 +4,9 @@ function onStart( game ){
 		do argumentu je vrácen objekt game
 	*/
 	statistics.send("startGame");
-	jQuery.ajaxSetup( {
-		cache : false
-	} );
+	// jQuery.ajaxSetup( {
+	// 	cache : false
+	// } );
 
 	game.adjustCanvas(800, 480);
 	
