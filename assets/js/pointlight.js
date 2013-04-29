@@ -72,7 +72,7 @@ PointLight.prototype.generateCaches = function (){
 		ctx.fillStyle = gradient;
 		ctx.fillRect(0, 0, this.distance*2, this.distance*2);
 
-		this.gradientHash = this.distance + this.color.getRGBA();
+		this.gradientHash = this.distance + this.color.getRGBA() + this.direction;
 
 		// visiblemask cache
 		var d = this.shadowCastDistance;
@@ -108,7 +108,7 @@ PointLight.prototype.generateCaches = function (){
 		ctx.fill();
 		ctx.closePath();
 
-		this.gradientHash = this.distance + this.color.getRGBA();
+		this.gradientHash = this.distance + this.color.getRGBA() + this.direction;
 
 		// visiblemask cache
 		var d = this.shadowCastDistance;
@@ -135,7 +135,7 @@ PointLight.prototype.generateCaches = function (){
 };
 
 PointLight.prototype.getGradientCache = function() {
-	if(this.gradientCache === undefined || this.gradientHash !== this.distance + this.color.getRGBA() )
+	if(this.gradientCache === undefined || this.gradientHash !== this.distance + this.color.getRGBA() + this.direction )
 		this.generateCaches();
 	return this.gradientCache;
 };

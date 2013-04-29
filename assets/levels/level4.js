@@ -82,7 +82,7 @@ new function level(){
 			color: "#F2DE46",
 			response: function(){
 				exit_sound.play();
-				game.levelLoad("assets/levels/level3.js");
+				game.levelLoad("assets/levels/level5.js");
 			}
 		}));
 		var triggerLight = new PointLight({

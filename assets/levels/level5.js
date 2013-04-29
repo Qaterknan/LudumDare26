@@ -69,7 +69,7 @@ new function level(){
 			color: "#F2DE46",
 			response: function(){
 				exit_sound.play();
-				game.levelLoad("assets/levels/level2.js");
+				game.levelLoad("assets/levels/level3.js");
 			}
 		}));
 		var triggerLight = new PointLight({
@@ -95,13 +95,12 @@ new function level(){
 			range: PI/6,
 			intensity: 0.8,
 			scale: 0.5,
+			oscilatePoints: [new Vector2(448,102), new Vector2(317,97)],
+			oscilateEasing: "harmonic",
+			acceleration: 0.1,
 		});
 		smaller.tick = function (){
-			if(this.oldDirection === undefined)
-				this.oldDirection = this.direction;
-			this.direction = Math.sin(this.ticks/10)+this.oldDirection;
-			this.ticks++;
-			console.log(this.direction);
+			this.oscilate();
 		};
 		game.add(smaller);
 	};
