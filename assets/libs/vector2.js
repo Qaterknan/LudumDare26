@@ -304,7 +304,8 @@ Vector2.prototype = {
 		}
 	},
 	getPerpendicular: function (){
-		return [new Vector2(-this.y,this.x),new Vector2(this.y,-this.x)];
+		return new Vector2(-this.y,this.x);
+		//~ return [new Vector2(-this.y,this.x),new Vector2(this.y,-this.x)];
 	}
 
 };

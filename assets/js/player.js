@@ -202,43 +202,50 @@ Player.prototype.move = function() {
 	var newInfluence = [];
 	var collided = false;
 	for(var i in collisions){
-		var obj = collisions[i][0];
-		if(obj.id == "playerLight")
+		if(collisions[i].id == "playerLight")
+		//~ var obj = collisions[i][0];
+		//~ if(obj.id == "playerLight")
 			continue;
-		if(obj instanceof PointLight){
+		if(collisions[i] instanceof PointLight){
+		//~ if(obj instanceof PointLight){
 			// zřídka kdy mohou nastat problémy - když jedno světlo bude odstíněné a druhé bude zasahovat do jeho radiu. Pak se zaznamenají obě světla místo jednoho. Situace je ale natolik nepravděpodobná, že bug ignoruji.
 			if(game.lights.collision(this.position.x,this.position.y)){
-				newInfluence.push(obj);
+				newInfluence.push(collisions[i]);
+				//~ newInfluence.push(obj);
 			}
 		}
-		this.onCollision(obj);
-		if(obj.collidable){
-			if(!collided){
-				this.position.x -= tX;
-				this.position.y -= tY;
-			}
+		//~ this.onCollision(obj);
+		//~ if(obj.collidable){
+			//~ if(!collided){
+				//~ this.position.x -= tX;
+				//~ this.position.y -= tY;
+			//~ }
+		this.onCollision(collisions[i]);
+		if(collisions[i].collidable && !collided){
+			this.position.x -= tX;
+			this.position.y -= tY;
 			collided = true;
 
-			var len = this.currentVelocity.length();
-			if(collisions[i][1].point && collisions.length > 1){
-				continue;
-			}
+			//~ var len = this.currentVelocity.length();
+			//~ if(collisions[i][1].point && collisions.length > 1){
+				//~ continue;
+			//~ }
 
-			var smer1 = collisions[i][1].normal.getPerpendicular()[0].setLength(len);
-			var smer2 = collisions[i][1].normal.getPerpendicular()[1].setLength(len);
+			//~ var smer1 = collisions[i][1].normal.getPerpendicular()[0].setLength(len);
+			//~ var smer2 = collisions[i][1].normal.getPerpendicular()[1].setLength(len);
 
-			var angle1 = smer1.dot(this.velocity)/(len*this.speed);
-			var angle2 = smer2.dot(this.velocity)/(len*this.speed);
-			if(angle2 == angle1)
-				continue;
-			// console.log(angle1,angle2);
-			if(angle2 > angle1)
-				var smer = smer2;
-			else
-				var smer = smer1;
+			//~ var angle1 = smer1.dot(this.velocity)/(len*this.speed);
+			//~ var angle2 = smer2.dot(this.velocity)/(len*this.speed);
+			//~ if(angle2 == angle1)
+				//~ continue;
+			//~ console.log(angle1,angle2);
+			//~ if(angle2 > angle1)
+				//~ var smer = smer2;
+			//~ else
+				//~ var smer = smer1;
 
-			this.position.x += smer.x;
-			this.position.y += smer.y;
+			//~ this.position.x += smer.x;
+			//~ this.position.y += smer.y;
 		}
 	};
 	this.compare( newInfluence );
