@@ -3,6 +3,7 @@ function onStart( game ){
 		Zde je k umístěná kód, který se má spustit po spuštění enginu,
 		do argumentu je vrácen objekt game
 	*/
+	statistics.send("startGame");
 	jQuery.ajaxSetup( {
 		cache : false
 	} );

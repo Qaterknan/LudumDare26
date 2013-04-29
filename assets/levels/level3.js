@@ -4,6 +4,7 @@ new function level(){
 	this.scripts = {"ingame" : "assets/js/guis/ingame.js"};
 	this.afterLoad = function (){
 		game.gui.GUILoad(this.scripts.ingame);
+		statistics.send("level3");
 
 		var mainColor = "#9999ff";
 

@@ -4,6 +4,7 @@ new function level(){
 	this.scripts = {"ingame" : "assets/js/guis/ingame.js"};
 	this.afterLoad = function (){
 		game.gui.GUILoad(this.scripts.ingame);
+		statistics.send("level3");
 
 		var majorColor = "#F55D5D";
 		var minorColor = "#94ADF2";
@@ -137,10 +138,10 @@ new function level(){
 			color: majorColor,
 			points : [
 				new Vector2(-8,61),
-				new Vector2(-73,15),
-				new Vector2(121,-22),
+				new Vector2(-83,15),
+				new Vector2(90,-22),
 			],
-			oscilatePoints: [new Vector2(155,83), new Vector2(351,78)],
+			oscilatePoints: [new Vector2(165,83), new Vector2(321,78)],
 			oscilateEasing: "harmonic",
 			acceleration: 0.1,
 			opaque : true,
