@@ -4,7 +4,8 @@ new function level(){
 		"fire" : "assets/sounds/fire.wav",
 		"ticking" : "assets/sounds/ticking.wav",
 		"clink" : "assets/sounds/clink.wav",
-		"music" : "assets/sounds/shit.mp3",
+		"music" : jQuery.browser == "webkit" ? "assets/sounds/theme.mp3" : "assets/sounds/theme.ogg",
+		// "music" : "assets/sounds/theme.ogg"
 	};
 	this.scripts = {
 		"menu" : "assets/js/guis/menu.js",

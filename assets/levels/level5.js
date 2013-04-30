@@ -1,10 +1,10 @@
 new function level(){
 	this.textures = {};
-	this.sounds = {"theme" : "assets/sounds/theme.mp3"};
+	this.sounds = {};
 	this.scripts = {"ingame" : "assets/js/guis/ingame.js"};
 	this.afterLoad = function (){
 		game.gui.GUILoad(this.scripts.ingame);
-		statistics.send("level4");
+		statistics.send("level2");
 
 		var majorColor = "#F55D5D";
 		var minorColor = "#94ADF2";

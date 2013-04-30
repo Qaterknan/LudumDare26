@@ -12,9 +12,13 @@
 			height: game.height,
 			align: "center",
 			valign: "center",
-			value : "Programming: Jirka Balhar, Štěpán Marek                                                                 Level Design: Jiří Zbytovský, Martin Mach,                 Jiří Balhar, Štěpán Marek                                                                                     Music: wut     Sounds: sfxr",
-			color : "rgba(255,255,255,1)",
+			value : "Programming: Jirka Balhar, Štěpán Marek                                                                 Level Design: Jiří Zbytovský, Martin Mach,                   Jirka Balhar, Štěpán Marek                                                                                               Music: Jirka Balhar              Sounds: freesound.org",
+			color : "#FFF",
 			font : "Tahoma",
+			shadow : {
+					blur : 15,
+					color : "#333"
+				}
 		}));
 	},
 	afterload: function(){
